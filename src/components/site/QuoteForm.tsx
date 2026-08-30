@@ -38,7 +38,7 @@ export function QuoteForm({ lang }: { lang: Lang }) {
       <div className="sm:col-span-2">
         <button
           type="submit"
-          className="w-full rounded-sm bg-beige px-6 py-3.5 text-sm font-semibold tracking-wide text-brown transition-all duration-150 hover:bg-white md:hover:scale-[1.02] md:hover:shadow-lift"
+          className="w-full rounded-sm bg-beige px-6 py-3.5 text-sm font-semibold tracking-wide text-brown transition-all duration-150 hover:bg-surface md:hover:scale-[1.02] md:hover:shadow-lift"
         >
           {t.submit}
         </button>

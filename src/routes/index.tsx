@@ -61,7 +61,6 @@ const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench];
 
 function Index() {
   const [lang, setLang] = useState<Lang>("al");
-  const t = content[lang];
 
   return (
     <div className="min-h-screen bg-beige">
@@ -74,7 +73,7 @@ function Index() {
         <Process lang={lang} />
         <Quote lang={lang} />
       </main>
-      <Footer lang={lang} t={t} />
+      <Footer lang={lang} />
     </div>
   );
 }
@@ -225,7 +224,7 @@ function WhyUs({ lang }: { lang: Lang }) {
 
         <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {t.pillars.map((p, i) => {
-            const Icon = pillarIcons[i];
+            const Icon = pillarIcons[i] ?? Award;
             return (
               <Reveal as="li" key={p.t} delay={i * 90}>
                 <div className="h-full rounded-sm border border-brown/15 bg-surface p-6 transition-all duration-150 md:hover:scale-[1.02] md:hover:shadow-lift">
@@ -295,7 +294,7 @@ function Services({ lang }: { lang: Lang }) {
         <SectionHead label={t.label} title={t.title} />
         <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {t.items.map((s, i) => {
-            const Icon = serviceIcons[i];
+            const Icon = serviceIcons[i] ?? Wrench;
             return (
               <Reveal as="li" key={s.t} delay={i * 80}>
                 <div className="h-full rounded-sm border border-brown/15 bg-beige p-7 transition-all duration-150 md:hover:scale-[1.02] md:hover:shadow-lift">
@@ -324,7 +323,7 @@ function Process({ lang }: { lang: Lang }) {
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setDrawn(true);
           observer.disconnect();
         }
@@ -413,7 +412,8 @@ function Quote({ lang }: { lang: Lang }) {
 
 /* ---------- FOOTER ---------- */
 
-function Footer({ lang, t }: { lang: Lang; t: (typeof content)["al"] }) {
+function Footer({ lang }: { lang: Lang }) {
+  const t = content[lang];
   const nav = t.nav;
   const f = t.footer;
   const year = new Date().getFullYear();
