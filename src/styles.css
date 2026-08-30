@@ -47,7 +47,7 @@
 }
 
 :root {
-  --radius: 0.25rem;
+  --radius: 1rem;
 
   --beige: oklch(0.925 0.026 87);
   --beige-deep: oklch(0.843 0.038 89);

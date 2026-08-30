@@ -40,7 +40,10 @@ export const content = {
       label: "Pse Ne",
       title: "Pse na zgjedhin klientët",
       pillars: [
-        { t: "Cilësi Materialesh", d: "Profile alumini të klasit të lartë, me standarde evropiane." },
+        {
+          t: "Cilësi Materialesh",
+          d: "Profile alumini të klasit të lartë, me standarde evropiane.",
+        },
         { t: "Korrektësi në Punë", d: "Afate të respektuara dhe komunikim i drejtpërdrejtë." },
         { t: "Çmime Konkurruese", d: "Oferta transparente, pa kosto të fshehura." },
         { t: "Përvojë e Provuar", d: "Projekte rezidenciale dhe komerciale në Tiranë." },
@@ -65,10 +68,19 @@ export const content = {
       title: "Si punojmë",
       steps: [
         { t: "Konsultim", d: "Na kontaktoni, diskutojmë nevojat tuaja dhe marrim masat." },
-        { t: "Ofertë", d: "Ju dërgojmë një ofertë të detajuar dhe transparente, pa kosto të fshehura." },
-        { t: "Prodhim", d: "Prodhojmë dritaret/dyert sipas specifikimeve tuaja me materiale cilësore." },
+        {
+          t: "Ofertë",
+          d: "Ju dërgojmë një ofertë të detajuar dhe transparente, pa kosto të fshehura.",
+        },
+        {
+          t: "Prodhim",
+          d: "Prodhojmë dritaret/dyert sipas specifikimeve tuaja me materiale cilësore.",
+        },
         { t: "Montim", d: "Ekipi ynë kryen montimin me precizion dhe pastërti në ambientin tuaj." },
-        { t: "Garanci & Mbështetje", d: "Ofrojmë garanci dhe jemi të disponueshëm për çdo nevojë të mëvonshme." },
+        {
+          t: "Garanci & Mbështetje",
+          d: "Ofrojmë garanci dhe jemi të disponueshëm për çdo nevojë të mëvonshme.",
+        },
       ],
     },
     quote: {
@@ -136,10 +148,19 @@ export const content = {
       label: "Services",
       title: "What we build",
       items: [
-        { t: "Aluminum Windows", d: "European-standard fabrication with thermal and acoustic insulation." },
+        {
+          t: "Aluminum Windows",
+          d: "European-standard fabrication with thermal and acoustic insulation.",
+        },
         { t: "Aluminum Doors", d: "Entrance and balcony doors, modern and functional design." },
-        { t: "Façades & Balconies", d: "Aluminum solutions for residential and commercial projects." },
-        { t: "Professional Installation", d: "A specialised team for fast, accurate installation." },
+        {
+          t: "Façades & Balconies",
+          d: "Aluminum solutions for residential and commercial projects.",
+        },
+        {
+          t: "Professional Installation",
+          d: "A specialised team for fast, accurate installation.",
+        },
         { t: "Repairs & Maintenance", d: "After-sales service for any issue or adjustment." },
       ],
     },
@@ -149,9 +170,15 @@ export const content = {
       steps: [
         { t: "Consultation", d: "Get in touch, we discuss your needs and take measurements." },
         { t: "Quote", d: "We send a detailed, transparent quote with no hidden costs." },
-        { t: "Fabrication", d: "We fabricate your windows and doors to spec with quality materials." },
+        {
+          t: "Fabrication",
+          d: "We fabricate your windows and doors to spec with quality materials.",
+        },
         { t: "Installation", d: "Our team installs with precision and leaves your space clean." },
-        { t: "Warranty & Support", d: "We provide a warranty and stay available for anything later on." },
+        {
+          t: "Warranty & Support",
+          d: "We provide a warranty and stay available for anything later on.",
+        },
       ],
     },
     quote: {
