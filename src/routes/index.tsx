@@ -308,11 +308,16 @@ function WhyUs({ lang }: { lang: Lang }) {
             const Icon = proofIcons[i] ?? Layers;
             return (
               <Reveal as="article" key={p.t} delay={i * 80} className="lg:flex-1">
-                <div className="flex h-full min-h-52 flex-col justify-between rounded-2xl border border-brown/15 bg-surface p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_18px_40px_-18px_rgba(58,44,30,0.35)]">
-                  <Icon className="size-9 text-brown" strokeWidth={1.2} />
+                <div className="group/card flex h-full min-h-52 flex-col justify-between rounded-2xl border border-brown/15 bg-surface p-6 transition-all duration-200 ease-out hover:scale-105 hover:border-brown hover:bg-brown hover:shadow-[0_18px_40px_-18px_rgba(58,44,30,0.35)]">
+                  <Icon
+                    className="size-9 text-brown transition-colors duration-200 ease-out group-hover/card:text-beige"
+                    strokeWidth={1.2}
+                  />
                   <div>
-                    <p className="font-display text-2xl text-brown-deep">{p.t}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-foreground/70">
+                    <p className="font-display text-2xl text-brown-deep transition-colors duration-200 ease-out group-hover/card:text-beige">
+                      {p.t}
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-foreground/70 transition-colors duration-200 ease-out group-hover/card:text-beige/85">
                       {i === 2 ? "Pa kosto të fshehura." : p.d}
                     </p>
                   </div>
