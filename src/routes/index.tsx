@@ -193,20 +193,30 @@ function About({ lang }: { lang: Lang }) {
           </span>
         </Reveal>
         <div className="border-l border-brown/30 pl-7 sm:pl-10">
-          <SectionHead label={t.label} title={t.title} />
+          <SectionHead label={t.label} title={t.title} size="lg" />
           <Reveal delay={100}>
-            <p className="mt-7 text-base leading-relaxed text-foreground/80">{t.body}</p>
+            <p className="mt-7 text-lg leading-relaxed text-foreground/80 sm:text-xl">{t.body}</p>
           </Reveal>
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+          <div className="mt-12 grid gap-8 sm:grid-cols-3">
             {[
-              ["4.9", "Vlerësim në Google"],
-              ["28", "Vlerësime në Google"],
-              ["150+", "Klientë të Kënaqur"],
-            ].map(([n, label], i) => (
-              <Reveal key={label} delay={i * 90}>
-                <div className="border-t border-brown/20 pt-4">
-                  <strong className="font-display text-2xl text-brown-deep">{n}</strong>
-                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{label}</p>
+              { to: 4.9, decimals: 1, suffix: "", label: "Vlerësim në Google", star: true },
+              { to: 10, decimals: 0, suffix: "+", label: "Vjet Në Treg", star: false },
+              { to: 150, decimals: 0, suffix: "+", label: "Klientë të Kënaqur", star: false },
+            ].map((s, i) => (
+              <Reveal key={s.label} delay={i * 90}>
+                <div className="border-t border-brown/20 pt-5">
+                  <strong className="flex items-baseline gap-2 font-display text-4xl text-brown-deep sm:text-5xl">
+                    <CountUp to={s.to} decimals={s.decimals} suffix={s.suffix} />
+                    {s.star && (
+                      <Star
+                        className="size-6 shrink-0 translate-y-[-0.15em] fill-current text-brown sm:size-7"
+                        aria-hidden
+                      />
+                    )}
+                  </strong>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                    {s.label}
+                  </p>
                 </div>
               </Reveal>
             ))}
