@@ -34,7 +34,7 @@ export const content = {
       label: "Rreth Nesh",
       title: "Zeje e ndërtuar mbi besim",
       body: "Ermal Met'hoxha dhe ekipi i tij prodhojnë dhe montojnë dritare e dyer alumini në Tiranë prej vitesh, me një reputacion të ndërtuar mbi cilësinë e materialeve dhe korrektësinë në çdo projekt. Nga apartamente familjare deri te fasada komerciale, çdo punë kryhet me precizion dhe përkushtim ndaj detajit.",
-      badges: ["4.9★ Vlerësim në Google", "28+ Klientë të Kënaqur", "Çmimet Më Konkurruese"],
+      badges: ["4.9 Vlerësim në Google", "28 Vlerësime në Google", "150+ Klientë të Kënaqur"],
     },
     why: {
       label: "Pse Ne",
@@ -56,11 +56,22 @@ export const content = {
       label: "Shërbimet",
       title: "Çfarë punojmë",
       items: [
-        { t: "Dritare Alumini", d: "Prodhim me standarde evropiane, izolim termik dhe akustik." },
-        { t: "Dyer Alumini", d: "Dyer hyrëse dhe ballkoni, dizajn modern dhe funksional." },
-        { t: "Fasada & Ballkone", d: "Zgjidhje alumini për projekte rezidenciale dhe komerciale." },
-        { t: "Montim Profesional", d: "Ekip i specializuar për montim të shpejtë e të saktë." },
-        { t: "Riparime & Mirëmbajtje", d: "Shërbim pas-shitje për çdo problem apo rregullim." },
+        {
+          t: "Dritare Alumini",
+          d: "Zgjidhje të menduara për dritare rezidenciale dhe komerciale.",
+        },
+        { t: "Dyer Alumini", d: "Dyer hyrëse dhe ballkoni me dizajn modern e funksional." },
+        { t: "Vetrata", d: "Sipërfaqe të mëdha xhami për ambiente të ndriçuara." },
+        { t: "Fasada Alumini", d: "Zgjidhje alumini për fasada rezidenciale dhe komerciale." },
+        { t: "Punime PVC", d: "Punime PVC për nevoja të ndryshme të hapësirës suaj." },
+        {
+          t: "Grila të të gjitha llojeve",
+          d: "Grila praktike për privatësi, siguri dhe kontroll drite.",
+        },
+        {
+          t: "Kangjella Inoksi",
+          d: "Kangjella të pastra dhe të qëndrueshme për ambiente moderne.",
+        },
       ],
     },
     process: {
@@ -100,7 +111,7 @@ export const content = {
     },
     footer: {
       tagline: "Punime Duralumini · Ermal Met'hoxha",
-      hours: "Hapur: E Hënë – E Premte, nga 8:00 (orari i plotë për konfirmim)",
+      hours: "E Hënë – E Shtunë: 08:00–18:00 · E Diel: Mbyllur",
       quick: "Lidhje të shpejta",
       contact: "Kontakt",
       rights: "Të gjitha të drejtat e rezervuara.",
@@ -129,7 +140,7 @@ export const content = {
       label: "About",
       title: "A craft built on trust",
       body: "Ermal Met'hoxha and his team have been fabricating and installing aluminum windows and doors in Tiranë for years, building a reputation on material quality and honest work on every project. From family apartments to commercial façades, every job is carried out with precision and attention to detail.",
-      badges: ["4.9★ Google Rating", "28+ Happy Clients", "Most Competitive Pricing"],
+      badges: ["4.9 Google Rating", "28 Google Reviews", "150+ Happy Clients"],
     },
     why: {
       label: "Why Us",
@@ -150,18 +161,17 @@ export const content = {
       items: [
         {
           t: "Aluminum Windows",
-          d: "European-standard fabrication with thermal and acoustic insulation.",
+          d: "Thoughtful solutions for residential and commercial windows.",
         },
-        { t: "Aluminum Doors", d: "Entrance and balcony doors, modern and functional design." },
+        { t: "Aluminum Doors", d: "Entrance and balcony doors with modern, functional design." },
+        { t: "Glazing", d: "Large glass surfaces for bright, open interiors." },
+        { t: "Aluminum Façades", d: "Aluminum solutions for residential and commercial façades." },
+        { t: "PVC Works", d: "PVC work for a range of practical space requirements." },
         {
-          t: "Façades & Balconies",
-          d: "Aluminum solutions for residential and commercial projects.",
+          t: "All Types of Shutters",
+          d: "Practical shutters for privacy, security and light control.",
         },
-        {
-          t: "Professional Installation",
-          d: "A specialised team for fast, accurate installation.",
-        },
-        { t: "Repairs & Maintenance", d: "After-sales service for any issue or adjustment." },
+        { t: "Stainless Steel Railings", d: "Clean, durable railings for contemporary spaces." },
       ],
     },
     process: {
@@ -198,7 +208,7 @@ export const content = {
     },
     footer: {
       tagline: "Aluminum Works · Ermal Met'hoxha",
-      hours: "Open: Monday – Friday from 8:00 AM (full schedule to be confirmed)",
+      hours: "Monday – Saturday: 08:00–18:00 · Sunday: Closed",
       quick: "Quick links",
       contact: "Contact",
       rights: "All rights reserved.",
@@ -232,4 +242,10 @@ export const reviews = [
     stars: 5,
     text: { al: "🥳🤩🤩", en: "🥳🤩🤩" },
   },
+  ...["Erik Halilaj", "Seldi L", "Mocha", "Fran Kola", "Neta Shyti", "Ermal Jahaj"].map((name) => ({
+    name,
+    meta: "",
+    stars: 5,
+    text: { al: "Vlerësim me 5 yje në Google", en: "5-star rating on Google" },
+  })),
 ] as const;

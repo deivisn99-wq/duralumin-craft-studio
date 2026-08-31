@@ -54,9 +54,9 @@ export const Route = createFileRoute("/")({
 });
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const servicesImages = [heroImg, workshopImg, heroImg, workshopImg, heroImg];
+const servicesImages = [heroImg, workshopImg, heroImg, workshopImg, heroImg, workshopImg, heroImg];
 const proofIcons = [Layers, Ruler, ReceiptText, Building2];
-const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench];
+const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench, Layers, Ruler];
 
 function Index() {
   const [lang, setLang] = useState<Lang>("al");
@@ -72,6 +72,7 @@ function Index() {
         <Quote lang={lang} />
       </main>
       <Footer lang={lang} />
+      <MobileContactBar lang={lang} />
     </div>
   );
 }
@@ -196,13 +197,15 @@ function About({ lang }: { lang: Lang }) {
             <p className="mt-7 text-base leading-relaxed text-foreground/80">{t.body}</p>
           </Reveal>
           <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            {["4.9★", "28+", "Pa kosto"].map((n, i) => (
-              <Reveal key={n} delay={i * 90}>
+            {[
+              ["4.9", "Vlerësim në Google"],
+              ["28", "Vlerësime në Google"],
+              ["150+", "Klientë të Kënaqur"],
+            ].map(([n, label], i) => (
+              <Reveal key={label} delay={i * 90}>
                 <div className="border-t border-brown/20 pt-4">
                   <strong className="font-display text-2xl text-brown-deep">{n}</strong>
-                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                    {["Vlerësim në Google", "Klientë të Kënaqur", "Oferta transparente"][i]}
-                  </p>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{label}</p>
                 </div>
               </Reveal>
             ))}
@@ -228,16 +231,11 @@ function WhyUs({ lang }: { lang: Lang }) {
     <section id="why" className="bg-beige-deep py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHead label={t.label} title={t.title} />
-        <div className="mt-14 grid auto-rows-fr gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid gap-4 md:grid-cols-2 lg:flex lg:items-stretch">
           {t.pillars.map((p, i) => {
             const Icon = proofIcons[i];
             return (
-              <Reveal
-                as="article"
-                key={p.t}
-                delay={i * 80}
-                className={i === 1 ? "lg:row-span-2" : ""}
-              >
+              <Reveal as="article" key={p.t} delay={i * 80} className="lg:flex-1">
                 <div
                   className={`flex h-full min-h-52 flex-col justify-between rounded-2xl border p-6 ${i === 1 ? "bg-brown text-beige" : "border-brown/15 bg-surface"}`}
                 >
@@ -279,8 +277,8 @@ function WhyUs({ lang }: { lang: Lang }) {
               Shiko të gjitha në Google Maps <ArrowUpRight className="size-4" />
             </a>
           </div>
-          <div className="flex snap-x gap-4 overflow-x-auto pb-3">
-            {reviews.map((r, i) => (
+          <div className="review-marquee flex snap-x gap-4 overflow-x-auto pb-3" tabIndex={0} aria-label="Selected Google reviews">
+            {[...reviews, ...reviews].map((r, i) => (
               <Reveal
                 as="article"
                 key={r.name}
@@ -439,6 +437,55 @@ function Quote({ lang }: { lang: Lang }) {
         </Reveal>
       </div>
     </section>
+  );
+}
+
+function MobileContactBar({ lang }: { lang: Lang }) {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const hero = document.getElementById("home");
+    const quote = document.getElementById("quote");
+    const footer = document.querySelector("footer");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const hidden = entries.some((entry) => entry.isIntersecting);
+        setVisible(window.scrollY > (hero?.clientHeight ?? 500) - 80 && !hidden);
+      },
+      { threshold: 0.08 },
+    );
+    [quote, footer].forEach((el) => el && observer.observe(el));
+    const onScroll = () => setVisible(window.scrollY > (hero?.clientHeight ?? 500) - 80);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+  const t = content[lang].quote;
+  return (
+    <div
+      className={cn(
+        "fixed inset-x-4 bottom-4 z-40 grid grid-cols-2 gap-2 rounded-full bg-brown p-2 text-beige shadow-lift transition-all duration-300 md:hidden",
+        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-20 opacity-0",
+      )}
+    >
+      <a
+        href={PHONE_TEL}
+        className="flex items-center justify-center gap-2 rounded-full bg-beige px-4 py-3 text-sm font-semibold text-brown"
+      >
+        <Phone className="size-4" />
+        {t.callLabel}
+      </a>
+      <a
+        href={WHATSAPP}
+        target="_blank"
+        rel="noreferrer"
+        className="flex items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-semibold"
+      >
+        <MessageCircle className="size-4" />
+        WhatsApp
+      </a>
+    </div>
   );
 }
 
