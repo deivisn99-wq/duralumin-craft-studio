@@ -247,7 +247,7 @@ function WhyUs({ lang }: { lang: Lang }) {
         <SectionHead label={t.label} title={t.title} />
         <div className="mt-14 grid gap-4 md:grid-cols-2 lg:flex lg:items-stretch">
           {t.pillars.map((p, i) => {
-            const Icon = proofIcons[i];
+            const Icon = proofIcons[i] ?? Layers;
             return (
               <Reveal as="article" key={p.t} delay={i * 80} className="lg:flex-1">
                 <div
@@ -351,7 +351,7 @@ function Services({ lang }: { lang: Lang }) {
         </div>
         <div className="grid gap-4">
           {t.items.map((s, i) => {
-            const Icon = serviceIcons[i];
+            const Icon = serviceIcons[i] ?? Layers;
             return (
               <Reveal as="article" key={s.t} delay={i * 70}>
                 <div className="group grid overflow-hidden rounded-2xl border border-brown/15 bg-beige sm:grid-cols-[.75fr_1.25fr]">
