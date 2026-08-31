@@ -136,11 +136,26 @@
   scrollbar-width: none;
   animation: review-drift 42s linear infinite;
 }
-.review-marquee::-webkit-scrollbar { display: none; }
+.review-marquee::-webkit-scrollbar {
+  display: none;
+}
 .review-marquee:hover,
-.review-marquee:focus-within { animation-play-state: paused; }
-@keyframes review-drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@media (max-width: 767px) { .review-marquee { animation-duration: 58s; } }
+.review-marquee:focus-within {
+  animation-play-state: paused;
+}
+@keyframes review-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (max-width: 767px) {
+  .review-marquee {
+    animation-duration: 58s;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

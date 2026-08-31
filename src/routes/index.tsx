@@ -20,6 +20,7 @@ import {
 import { Nav } from "@/components/site/Nav";
 import { QuoteForm } from "@/components/site/QuoteForm";
 import { Reveal } from "@/components/Reveal";
+import { cn } from "@/lib/utils";
 import {
   ADDRESS,
   GOOGLE_REVIEWS_URL,
@@ -277,11 +278,15 @@ function WhyUs({ lang }: { lang: Lang }) {
               Shiko të gjitha në Google Maps <ArrowUpRight className="size-4" />
             </a>
           </div>
-          <div className="review-marquee flex snap-x gap-4 overflow-x-auto pb-3" tabIndex={0} aria-label="Selected Google reviews">
+          <div
+            className="review-marquee flex snap-x gap-4 overflow-x-auto pb-3"
+            tabIndex={0}
+            aria-label="Selected Google reviews"
+          >
             {[...reviews, ...reviews].map((r, i) => (
               <Reveal
                 as="article"
-                key={r.name}
+                key={`${r.name}-${i}`}
                 delay={i * 80}
                 className="min-w-[82%] snap-start sm:min-w-[48%]"
               >
