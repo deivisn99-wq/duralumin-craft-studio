@@ -239,60 +239,63 @@ function Stars() {
     </span>
   );
 }
-/** Auto-rotating, non-interactive review carousel (cross-fade + slide, ~4.5s). */
+/** Auto-rotating, non-interactive review carousel (cross-fade + slide, 2.5s, pauses on hover). */
 function ReviewCarousel({ lang }: { lang: Lang }) {
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
   useEffect(() => {
     const reduced =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced || reviews.length < 2) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % reviews.length), 4500);
+    if (reduced || paused || reviews.length < 2) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % reviews.length), 2500);
     return () => clearInterval(id);
-  }, []);
+  }, [paused]);
 
   return (
-    <div>
-      <div className="relative min-h-56" aria-live="off">
-        {reviews.map((r, i) => (
-          <figure
-            key={r.name + i}
-            aria-hidden={i !== index}
-            className={cn(
-              "flex min-h-56 flex-col rounded-2xl border border-brown/15 bg-surface p-6 transition-all duration-700 ease-out",
-              i === index
-                ? "relative opacity-100 translate-y-0"
-                : "pointer-events-none absolute inset-0 translate-y-2 opacity-0",
-            )}
-          >
-            <span className="flex gap-1 text-brown" aria-label="5 nga 5 yje">
-              {Array.from({ length: 5 }).map((_, s) => (
-                <Star key={s} className="size-4 fill-current" />
-              ))}
+    <div
+      className="relative min-h-72"
+      aria-live="off"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {reviews.map((r, i) => (
+        <figure
+          key={r.name + i}
+          aria-hidden={i !== index}
+          className={cn(
+            "relative flex min-h-72 flex-col overflow-hidden rounded-2xl border border-brown/15 bg-beige p-8 transition-all duration-700 ease-out sm:p-10",
+            i === index
+              ? "relative translate-y-0 opacity-100"
+              : "pointer-events-none absolute inset-0 translate-y-3 opacity-0",
+          )}
+        >
+          <Quote
+            className="pointer-events-none absolute -right-2 -top-3 size-28 text-brown/10"
+            strokeWidth={1}
+            aria-hidden
+          />
+          <span className="flex gap-1 text-brown" aria-label="5 nga 5 yje">
+            {Array.from({ length: 5 }).map((_, s) => (
+              <Star key={s} className="size-4 fill-current" />
+            ))}
+          </span>
+          <blockquote className="mt-6 grow text-base leading-8 text-foreground/80">
+            {r.text[lang]}
+          </blockquote>
+          <figcaption className="mt-8 flex items-center gap-4 border-t border-brown/15 pt-6">
+            <span className="grid size-12 shrink-0 place-items-center rounded-full bg-brown font-display text-lg text-beige">
+              {r.name.trim().charAt(0).toUpperCase()}
             </span>
-            <blockquote className="mt-5 grow text-sm leading-relaxed text-foreground/75">
-              {r.text[lang]}
-            </blockquote>
-            <figcaption className="mt-6 border-t border-brown/15 pt-4 text-sm font-semibold text-brown-deep">
-              {r.name}
-              <span className="ml-2 font-normal text-foreground/60">
+            <span className="grid">
+              <span className="font-semibold text-brown-deep">{r.name}</span>
+              <span className="text-sm font-semibold text-foreground/60">
                 {r.meta || "Google reviewer"}
               </span>
-            </figcaption>
-          </figure>
-        ))}
-      </div>
-      <div className="mt-5 flex gap-2" aria-hidden="true">
-        {reviews.map((r, i) => (
-          <span
-            key={r.name + i}
-            className={cn(
-              "h-1 rounded-full transition-all duration-500",
-              i === index ? "w-8 bg-brown" : "w-4 bg-brown/25",
-            )}
-          />
-        ))}
-      </div>
+            </span>
+          </figcaption>
+        </figure>
+      ))}
     </div>
   );
 }
