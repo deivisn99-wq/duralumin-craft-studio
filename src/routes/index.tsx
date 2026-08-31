@@ -232,7 +232,7 @@ function About({ lang }: { lang: Lang }) {
 
 function Stars() {
   return (
-    <span className="flex gap-1 text-beige" aria-label="5 nga 5 yje">
+    <span className="mt-3 flex gap-1 text-brown" aria-label="5 nga 5 yje">
       {Array.from({ length: 5 }).map((_, i) => (
         <Star key={i} className="size-4 fill-current" />
       ))}
