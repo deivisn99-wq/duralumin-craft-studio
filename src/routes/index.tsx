@@ -232,13 +232,71 @@ function About({ lang }: { lang: Lang }) {
 
 function Stars() {
   return (
-    <span className="flex gap-1 text-beige" aria-label="5 nga 5 yje">
+    <span className="mt-3 flex gap-1 text-brown" aria-label="5 nga 5 yje">
       {Array.from({ length: 5 }).map((_, i) => (
         <Star key={i} className="size-4 fill-current" />
       ))}
     </span>
   );
 }
+/** Auto-rotating, non-interactive review carousel (cross-fade + slide, ~4.5s). */
+function ReviewCarousel({ lang }: { lang: Lang }) {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const reduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || reviews.length < 2) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % reviews.length), 4500);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div>
+      <div className="relative min-h-56" aria-live="off">
+        {reviews.map((r, i) => (
+          <figure
+            key={r.name + i}
+            aria-hidden={i !== index}
+            className={cn(
+              "flex min-h-56 flex-col rounded-2xl border border-brown/15 bg-surface p-6 transition-all duration-700 ease-out",
+              i === index
+                ? "relative opacity-100 translate-y-0"
+                : "pointer-events-none absolute inset-0 translate-y-2 opacity-0",
+            )}
+          >
+            <span className="flex gap-1 text-brown" aria-label="5 nga 5 yje">
+              {Array.from({ length: 5 }).map((_, s) => (
+                <Star key={s} className="size-4 fill-current" />
+              ))}
+            </span>
+            <blockquote className="mt-5 grow text-sm leading-relaxed text-foreground/75">
+              {r.text[lang]}
+            </blockquote>
+            <figcaption className="mt-6 border-t border-brown/15 pt-4 text-sm font-semibold text-brown-deep">
+              {r.name}
+              <span className="ml-2 font-normal text-foreground/60">
+                {r.meta || "Google reviewer"}
+              </span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+      <div className="mt-5 flex gap-2" aria-hidden="true">
+        {reviews.map((r, i) => (
+          <span
+            key={r.name + i}
+            className={cn(
+              "h-1 rounded-full transition-all duration-500",
+              i === index ? "w-8 bg-brown" : "w-4 bg-brown/25",
+            )}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function WhyUs({ lang }: { lang: Lang }) {
   const t = content[lang].why;
   return (
@@ -250,22 +308,11 @@ function WhyUs({ lang }: { lang: Lang }) {
             const Icon = proofIcons[i] ?? Layers;
             return (
               <Reveal as="article" key={p.t} delay={i * 80} className="lg:flex-1">
-                <div
-                  className={`flex h-full min-h-52 flex-col justify-between rounded-2xl border p-6 ${i === 1 ? "bg-brown text-beige" : "border-brown/15 bg-surface"}`}
-                >
-                  <Icon
-                    className={`size-9 ${i === 1 ? "text-beige-deep" : "text-brown"}`}
-                    strokeWidth={1.2}
-                  />
+                <div className="flex h-full min-h-52 flex-col justify-between rounded-2xl border border-brown/15 bg-surface p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_18px_40px_-18px_rgba(58,44,30,0.35)]">
+                  <Icon className="size-9 text-brown" strokeWidth={1.2} />
                   <div>
-                    <p
-                      className={`font-display text-2xl ${i === 1 ? "text-beige" : "text-brown-deep"}`}
-                    >
-                      {p.t}
-                    </p>
-                    <p
-                      className={`mt-2 text-sm leading-relaxed ${i === 1 ? "text-beige/75" : "text-foreground/70"}`}
-                    >
+                    <p className="font-display text-2xl text-brown-deep">{p.t}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-foreground/70">
                       {i === 2 ? "Pa kosto të fshehura." : p.d}
                     </p>
                   </div>
@@ -274,11 +321,12 @@ function WhyUs({ lang }: { lang: Lang }) {
             );
           })}
         </div>
-        <div className="mt-28 grid gap-10 lg:grid-cols-[.65fr_1.35fr] lg:items-end">
+        <div className="mt-20 grid gap-10 lg:grid-cols-[.65fr_1.35fr] lg:items-center">
           <div>
             <p className="label-caps text-brown/70">{t.reviewsTitle}</p>
             <p className="mt-5 font-display text-7xl text-brown-deep">
-              4.9<span className="text-3xl">/5</span>
+              <CountUp to={4.9} decimals={1} />
+              <span className="text-3xl">/5</span>
             </p>
             <Stars />
             <p className="mt-4 text-sm text-foreground/70">28 vlerësime · Google Maps</p>
@@ -286,46 +334,12 @@ function WhyUs({ lang }: { lang: Lang }) {
               href={GOOGLE_REVIEWS_URL}
               target="_blank"
               rel="noreferrer"
-              className="mt-7 inline-flex items-center gap-2 rounded-full border border-brown px-5 py-3 text-sm font-semibold text-brown hover:bg-brown hover:text-beige"
+              className="mt-7 inline-flex items-center gap-2 rounded-full border border-brown px-5 py-3 text-sm font-semibold text-brown transition-colors hover:bg-brown hover:text-beige"
             >
               Shiko të gjitha në Google Maps <ArrowUpRight className="size-4" />
             </a>
           </div>
-          <div
-            className="review-marquee flex snap-x gap-4 overflow-x-auto pb-3"
-            tabIndex={0}
-            aria-label="Selected Google reviews"
-          >
-            {[...reviews, ...reviews].map((r, i) => (
-              <Reveal
-                as="article"
-                key={`${r.name}-${i}`}
-                delay={i * 80}
-                className="min-w-[82%] snap-start sm:min-w-[48%]"
-              >
-                <figure className="flex min-h-52 flex-col rounded-2xl bg-brown p-6 text-beige">
-                  <Stars />
-                  <blockquote className="mt-5 grow text-sm leading-relaxed text-beige/85">
-                    {r.text[lang]}
-                  </blockquote>
-                  <figcaption className="mt-6 border-t border-beige/20 pt-4 text-sm font-semibold">
-                    {r.name}
-                    <span className="ml-2 font-normal text-beige/60">
-                      {r.meta || "Google reviewer"}
-                    </span>
-                  </figcaption>
-                  <a
-                    href={GOOGLE_REVIEWS_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-3 text-xs text-beige-deep underline"
-                  >
-                    Shiko në Google Maps
-                  </a>
-                </figure>
-              </Reveal>
-            ))}
-          </div>
+          <ReviewCarousel lang={lang} />
         </div>
       </div>
     </section>
