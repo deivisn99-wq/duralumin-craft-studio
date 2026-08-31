@@ -1,23 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
-  Layers,
-  Handshake,
-  BadgeEuro,
-  Award,
   AppWindow,
-  DoorOpen,
+  ArrowUpRight,
   Building2,
-  Wrench,
+  ChevronRight,
+  DoorOpen,
   Hammer,
-  Star,
-  Phone,
-  MessageCircle,
+  Layers,
   MapPin,
+  MessageCircle,
+  Phone,
+  ReceiptText,
+  Ruler,
+  Star,
+  Wrench,
 } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
 import { QuoteForm } from "@/components/site/QuoteForm";
 import { Reveal } from "@/components/Reveal";
+import { cn } from "@/lib/utils";
 import {
   ADDRESS,
   GOOGLE_REVIEWS_URL,
@@ -29,9 +32,7 @@ import {
   reviews,
   type Lang,
 } from "@/lib/content";
-/* PLACEHOLDER — replace with real project photography */
 import heroImg from "@/assets/hero-facade.jpg";
-/* PLACEHOLDER — replace with real project photography */
 import workshopImg from "@/assets/workshop.jpg";
 
 export const Route = createFileRoute("/")({
@@ -41,29 +42,27 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Prodhim dhe montim dritareve e dyerve prej alumini në Tiranë. Cilësi e lartë, korrektësi dhe çmime konkurruese. 4.9★ në Google. Kërko ofertë falas.",
+          "Prodhim dhe montim dritareve e dyerve prej alumini në Tiranë. Cilësi e lartë, korrektësi dhe çmime konkurruese. 4.9★ në Google.",
       },
       { property: "og:title", content: "Duralumin Methoxha — Dritare & Dyer Alumini në Tiranë" },
       {
         property: "og:description",
-        content:
-          "Punime duralumini nga Ermal Met'hoxha: dritare, dyer, fasada dhe montim profesional në Tiranë.",
+        content: "Dritare, dyer, fasada dhe montim profesional në Tiranë.",
       },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
 });
 
-const pillarIcons = [Layers, Handshake, BadgeEuro, Award];
-const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench];
+const ease = [0.22, 1, 0.36, 1] as const;
+const servicesImages = [heroImg, workshopImg, heroImg, workshopImg, heroImg, workshopImg, heroImg];
+const proofIcons = [Layers, Ruler, ReceiptText, Building2];
+const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench, Layers, Ruler];
 
 function Index() {
   const [lang, setLang] = useState<Lang>("al");
-
   return (
-    <div className="min-h-screen bg-beige">
+    <div className="min-h-screen overflow-x-clip bg-beige">
       <Nav lang={lang} setLang={setLang} />
       <main>
         <Hero lang={lang} />
@@ -74,74 +73,85 @@ function Index() {
         <Quote lang={lang} />
       </main>
       <Footer lang={lang} />
+      <MobileContactBar lang={lang} />
     </div>
   );
 }
 
-/* ---------- HERO ---------- */
-
 function Hero({ lang }: { lang: Lang }) {
   const t = content[lang].hero;
-  const [offset, setOffset] = useState(0);
-
-  useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const desktop = window.matchMedia("(min-width: 768px)").matches;
-    if (reduced || !desktop) return; // no parallax on mobile or reduced motion
-    let frame = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => setOffset(Math.min(window.scrollY * 0.12, 110)));
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(frame);
-    };
-  }, []);
-
+  const ref = useRef<HTMLElement>(null);
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 700], [0, 95]);
   return (
-    <section id="home" className="relative isolate flex min-h-[92svh] items-end overflow-hidden">
-      {/* PLACEHOLDER — replace with real project photography */}
-      <img
+    <section
+      id="home"
+      ref={ref}
+      className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-brown-deep"
+    >
+      <motion.img
         src={heroImg}
-        alt="Fasadë moderne me dritare alumini me profil të hollë në Tiranë"
+        alt="Fasadë moderne me dritare alumini në Tiranë"
         width={1920}
         height={1280}
         className="absolute inset-0 -z-10 h-[115%] w-full object-cover"
-        style={{ transform: `translateY(-${offset}px)` }}
+        initial={{ scale: 1.05 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1.5, ease }}
+        style={{ y }}
       />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-brown-deep/92 via-brown-deep/55 to-brown-deep/15" />
-
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-brown-deep/95 via-brown-deep/60 to-brown-deep/15" />
       <div className="mx-auto w-full max-w-7xl px-5 pb-16 pt-36 sm:pb-24 lg:px-8">
-        <p className="label-caps text-beige-deep">{t.eyebrow}</p>
-        <h1 className="mt-5 max-w-3xl font-display text-4xl text-beige sm:text-5xl lg:text-6xl">
+        <motion.p
+          className="label-caps text-beige-deep"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.7, ease }}
+        >
+          {t.eyebrow}
+        </motion.p>
+        <motion.h1
+          className="mt-5 max-w-3xl font-display text-4xl text-beige sm:text-5xl lg:text-7xl"
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.8, ease }}
+        >
           {t.title}
-        </h1>
-        <p className="mt-6 max-w-xl text-base text-beige/85 sm:text-lg">{t.sub}</p>
-
-        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+        </motion.h1>
+        <motion.p
+          className="mt-6 max-w-xl text-base leading-relaxed text-beige/85 sm:text-lg"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.42, duration: 0.7, ease }}
+        >
+          {
+            "Prodhim dhe montim profesional i dritareve dhe dyerve prej alumini në Tiranë — cilësi e lartë, korrektësi në punë dhe oferta transparente."
+          }
+        </motion.p>
+        <motion.div
+          className="mt-9 flex flex-col gap-3 sm:flex-row"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55, duration: 0.7, ease }}
+        >
           <a
             href="#quote"
-            className="inline-flex items-center justify-center rounded-sm bg-brown px-7 py-4 text-sm font-semibold tracking-wide text-primary-foreground transition-all duration-150 hover:bg-brown-deep md:hover:scale-[1.02] md:hover:shadow-lift"
+            className="group inline-flex items-center justify-center gap-2 rounded-full bg-beige px-7 py-4 text-sm font-semibold text-brown-deep transition-transform hover:-translate-y-0.5"
           >
             {t.cta1}
+            <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </a>
           <a
             href="#why"
-            className="inline-flex items-center justify-center rounded-sm border border-beige/60 px-7 py-4 text-sm font-semibold tracking-wide text-beige transition-all duration-150 hover:border-beige hover:bg-beige/10"
+            className="inline-flex items-center justify-center rounded-full border border-beige/60 px-7 py-4 text-sm font-semibold text-beige transition-colors hover:bg-beige/10"
           >
             {t.cta2}
           </a>
-        </div>
-
-        <p className="mt-7 text-sm tracking-wide text-beige-deep">{t.trust}</p>
+        </motion.div>
       </div>
     </section>
   );
 }
-
-/* ---------- ABOUT ---------- */
 
 function SectionHead({
   label,
@@ -156,7 +166,7 @@ function SectionHead({
     <Reveal>
       <p className={`label-caps ${invert ? "text-beige-deep/80" : "text-brown/70"}`}>{label}</p>
       <h2
-        className={`mt-4 max-w-2xl text-3xl sm:text-4xl ${invert ? "text-beige" : "text-brown-deep"}`}
+        className={`mt-4 max-w-2xl font-display text-3xl sm:text-5xl ${invert ? "text-beige" : "text-brown-deep"}`}
       >
         {title}
       </h2>
@@ -167,196 +177,229 @@ function SectionHead({
 function About({ lang }: { lang: Lang }) {
   const t = content[lang].about;
   return (
-    <section id="about" className="bg-surface py-20 sm:py-28">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 lg:grid-cols-2 lg:gap-16 lg:px-8">
-        <Reveal>
-          {/* PLACEHOLDER — replace with real project photography */}
+    <section id="about" className="bg-surface py-24 sm:py-32">
+      <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 lg:grid-cols-[1.1fr_.9fr] lg:gap-24 lg:px-8">
+        <Reveal className="relative">
           <img
             src={workshopImg}
             alt="Mjeshtri duke matur një kornizë alumini në punishte"
             width={1280}
             height={1280}
             loading="lazy"
-            className="aspect-4/5 w-full rounded-sm object-cover shadow-soft"
+            className="aspect-[4/5] w-full rounded-2xl object-cover"
           />
+          <span className="absolute -right-3 top-10 hidden -rotate-90 font-display text-sm italic text-brown/60 sm:block">
+            Precizion në çdo detaj.
+          </span>
         </Reveal>
-        <div>
+        <div className="border-l border-brown/30 pl-7 sm:pl-10">
           <SectionHead label={t.label} title={t.title} />
-          <Reveal delay={80}>
-            <p className="mt-6 text-base leading-relaxed text-foreground/85">{t.body}</p>
+          <Reveal delay={100}>
+            <p className="mt-7 text-base leading-relaxed text-foreground/80">{t.body}</p>
           </Reveal>
-          <Reveal delay={140}>
-            <ul className="mt-9 grid gap-3 sm:grid-cols-3">
-              {t.badges.map((b) => (
-                <li
-                  key={b}
-                  className="rounded-sm border border-brown/15 bg-beige px-4 py-3 text-sm font-semibold text-brown"
-                >
-                  {b}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+            {[
+              ["4.9", "Vlerësim në Google"],
+              ["28", "Vlerësime në Google"],
+              ["150+", "Klientë të Kënaqur"],
+            ].map(([n, label], i) => (
+              <Reveal key={label} delay={i * 90}>
+                <div className="border-t border-brown/20 pt-4">
+                  <strong className="font-display text-2xl text-brown-deep">{n}</strong>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{label}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-/* ---------- WHY US ---------- */
-
-function Stars({ n = 5 }: { n?: number }) {
+function Stars() {
   return (
-    <span className="flex gap-0.5" aria-label={`${n} / 5`}>
-      {Array.from({ length: n }).map((_, i) => (
-        <Star key={i} className="h-4 w-4 fill-brown text-brown" strokeWidth={1} />
+    <span className="flex gap-1 text-beige" aria-label="5 nga 5 yje">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star key={i} className="size-4 fill-current" />
       ))}
     </span>
   );
 }
-
 function WhyUs({ lang }: { lang: Lang }) {
   const t = content[lang].why;
   return (
-    <section id="why" className="bg-beige-deep py-20 sm:py-28">
+    <section id="why" className="bg-beige-deep py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHead label={t.label} title={t.title} />
-
-        <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid gap-4 md:grid-cols-2 lg:flex lg:items-stretch">
           {t.pillars.map((p, i) => {
-            const Icon = pillarIcons[i] ?? Award;
+            const Icon = proofIcons[i];
             return (
-              <Reveal as="li" key={p.t} delay={i * 90}>
-                <div className="h-full rounded-sm border border-brown/15 bg-surface p-6 transition-all duration-150 md:hover:scale-[1.02] md:hover:shadow-lift">
-                  <Icon className="h-7 w-7 text-brown" strokeWidth={1.25} />
-                  <h3 className="mt-5 text-base font-semibold text-brown-deep">{p.t}</h3>
-                  <p className="mt-2 text-sm text-foreground/75">{p.d}</p>
+              <Reveal as="article" key={p.t} delay={i * 80} className="lg:flex-1">
+                <div
+                  className={`flex h-full min-h-52 flex-col justify-between rounded-2xl border p-6 ${i === 1 ? "bg-brown text-beige" : "border-brown/15 bg-surface"}`}
+                >
+                  <Icon
+                    className={`size-9 ${i === 1 ? "text-beige-deep" : "text-brown"}`}
+                    strokeWidth={1.2}
+                  />
+                  <div>
+                    <p
+                      className={`font-display text-2xl ${i === 1 ? "text-beige" : "text-brown-deep"}`}
+                    >
+                      {p.t}
+                    </p>
+                    <p
+                      className={`mt-2 text-sm leading-relaxed ${i === 1 ? "text-beige/75" : "text-foreground/70"}`}
+                    >
+                      {i === 2 ? "Pa kosto të fshehura." : p.d}
+                    </p>
+                  </div>
                 </div>
               </Reveal>
             );
           })}
-        </ul>
-
-        <Reveal className="mt-16">
-          <h3 className="label-caps text-brown/70">{t.reviewsTitle}</h3>
-        </Reveal>
-
-        {/* Built to accept more reviews later — only real reviews are listed. */}
-        <ul className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-3 lg:overflow-visible">
-          {reviews.map((r, i) => (
-            <Reveal
-              as="li"
-              key={r.name}
-              delay={i * 90}
-              className="min-w-[80%] snap-start sm:min-w-[48%] lg:min-w-0"
+        </div>
+        <div className="mt-28 grid gap-10 lg:grid-cols-[.65fr_1.35fr] lg:items-end">
+          <div>
+            <p className="label-caps text-brown/70">{t.reviewsTitle}</p>
+            <p className="mt-5 font-display text-7xl text-brown-deep">
+              4.9<span className="text-3xl">/5</span>
+            </p>
+            <Stars />
+            <p className="mt-4 text-sm text-foreground/70">28 vlerësime · Google Maps</p>
+            <a
+              href={GOOGLE_REVIEWS_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-7 inline-flex items-center gap-2 rounded-full border border-brown px-5 py-3 text-sm font-semibold text-brown hover:bg-brown hover:text-beige"
             >
-              <figure className="flex h-full flex-col rounded-sm border border-brown/15 bg-surface p-6">
-                <Stars n={r.stars} />
-                <blockquote className="mt-4 grow text-sm leading-relaxed text-foreground/85">
-                  {r.text[lang]}
-                </blockquote>
-                <figcaption className="mt-5 text-sm font-semibold text-brown-deep">
-                  {r.name}
-                  {r.meta && (
-                    <span className="ml-2 font-normal text-muted-foreground">{r.meta}</span>
-                  )}
-                </figcaption>
-              </figure>
-            </Reveal>
-          ))}
-        </ul>
-
-        <Reveal className="mt-10 grid gap-4 sm:flex sm:items-center sm:justify-between">
-          <p className="flex items-center gap-3 text-sm font-semibold text-brown-deep">
-            <Stars /> {t.ratingBadge}
-          </p>
-          <a
-            href={GOOGLE_REVIEWS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-sm border border-brown px-6 py-3 text-sm font-semibold text-brown transition-all duration-150 hover:bg-brown hover:text-primary-foreground"
+              Shiko të gjitha në Google Maps <ArrowUpRight className="size-4" />
+            </a>
+          </div>
+          <div
+            className="review-marquee flex snap-x gap-4 overflow-x-auto pb-3"
+            tabIndex={0}
+            aria-label="Selected Google reviews"
           >
-            {t.reviewsCta}
-          </a>
-        </Reveal>
+            {[...reviews, ...reviews].map((r, i) => (
+              <Reveal
+                as="article"
+                key={`${r.name}-${i}`}
+                delay={i * 80}
+                className="min-w-[82%] snap-start sm:min-w-[48%]"
+              >
+                <figure className="flex min-h-52 flex-col rounded-2xl bg-brown p-6 text-beige">
+                  <Stars />
+                  <blockquote className="mt-5 grow text-sm leading-relaxed text-beige/85">
+                    {r.text[lang]}
+                  </blockquote>
+                  <figcaption className="mt-6 border-t border-beige/20 pt-4 text-sm font-semibold">
+                    {r.name}
+                    <span className="ml-2 font-normal text-beige/60">
+                      {r.meta || "Google reviewer"}
+                    </span>
+                  </figcaption>
+                  <a
+                    href={GOOGLE_REVIEWS_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-3 text-xs text-beige-deep underline"
+                  >
+                    Shiko në Google Maps
+                  </a>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
 }
-
-/* ---------- SERVICES ---------- */
 
 function Services({ lang }: { lang: Lang }) {
   const t = content[lang].services;
   return (
-    <section id="services" className="bg-surface py-20 sm:py-28">
-      <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <SectionHead label={t.label} title={t.title} />
-        <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <section id="services" className="bg-surface py-24 sm:py-32">
+      <div className="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-[.7fr_1.3fr] lg:px-8">
+        <div className="lg:sticky lg:top-28 lg:h-fit">
+          <SectionHead label={t.label} title={t.title} />
+          <p className="mt-6 max-w-sm text-base leading-relaxed text-foreground/75">
+            Zgjidhje të menduara për hapësira që zgjasin.
+          </p>
+          <a
+            href="#quote"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-brown px-6 py-3.5 text-sm font-semibold text-beige"
+          >
+            Kërko ofertë <ChevronRight className="size-4" />
+          </a>
+        </div>
+        <div className="grid gap-4">
           {t.items.map((s, i) => {
-            const Icon = serviceIcons[i] ?? Wrench;
+            const Icon = serviceIcons[i];
             return (
-              <Reveal as="li" key={s.t} delay={i * 80}>
-                <div className="h-full rounded-sm border border-brown/15 bg-beige p-7 transition-all duration-150 md:hover:scale-[1.02] md:hover:shadow-lift">
-                  <Icon className="h-7 w-7 text-brown" strokeWidth={1.25} />
-                  <h3 className="mt-5 text-lg font-semibold text-brown-deep">{s.t}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/75">{s.d}</p>
+              <Reveal as="article" key={s.t} delay={i * 70}>
+                <div className="group grid overflow-hidden rounded-2xl border border-brown/15 bg-beige sm:grid-cols-[.75fr_1.25fr]">
+                  <img
+                    src={servicesImages[i]}
+                    alt=""
+                    loading="lazy"
+                    className="h-52 w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:h-full"
+                  />
+                  <div className="flex min-h-56 flex-col justify-between p-6 sm:p-8">
+                    <div className="flex items-start justify-between">
+                      <span className="font-display text-4xl text-brown/30">0{i + 1}</span>
+                      <Icon className="size-7 text-brown" strokeWidth={1.2} />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-2xl text-brown-deep">{s.t}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground/70">{s.d}</p>
+                    </div>
+                  </div>
                 </div>
               </Reveal>
             );
           })}
-        </ul>
+        </div>
       </div>
     </section>
   );
 }
 
-/* ---------- PROCESS ---------- */
-
 function Process({ lang }: { lang: Lang }) {
   const t = content[lang].process;
-  const lineRef = useRef<HTMLDivElement | null>(null);
-  const [drawn, setDrawn] = useState(false);
-
-  useEffect(() => {
-    const el = lineRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setDrawn(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start .7", "end .7"] });
+  const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   return (
-    <section id="process" className="bg-beige py-20 sm:py-28">
-      <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <SectionHead label={t.label} title={t.title} />
-
-        <div ref={lineRef} className="relative mt-14">
-          {/* connecting line: vertical on mobile, horizontal on desktop */}
-          <div
-            className="absolute left-5 top-2 w-px bg-brown/40 transition-transform duration-1000 ease-out lg:left-0 lg:right-0 lg:top-5 lg:h-px lg:w-full"
-            style={{
-              height: "calc(100% - 2rem)",
-              transform: drawn ? "scale(1)" : "scaleY(0)",
-              transformOrigin: "top left",
-            }}
-          />
-          <ol className="relative grid gap-10 lg:grid-cols-5 lg:gap-6">
+    <section id="process" className="bg-beige py-24 sm:py-32">
+      <div className="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-[.7fr_1.3fr] lg:px-8">
+        <div className="lg:sticky lg:top-28 lg:h-fit">
+          <SectionHead label={t.label} title={t.title} />
+          <p className="mt-6 max-w-sm leading-relaxed text-foreground/70">
+            Nga ideja e parë deri te montimi, çdo hap është i qartë.
+          </p>
+        </div>
+        <div ref={ref} className="relative">
+          <div className="absolute bottom-0 left-4 top-0 w-px bg-brown/15">
+            <motion.div className="w-full origin-top bg-brown" style={{ height }} />
+          </div>
+          <ol className="grid gap-4">
             {t.steps.map((s, i) => (
-              <Reveal as="li" key={s.t} delay={i * 110} className="pl-14 lg:pl-0">
-                <span className="absolute left-0 grid h-10 w-10 place-items-center rounded-full bg-brown font-display text-sm text-primary-foreground lg:static">
-                  {i + 1}
-                </span>
-                <h3 className="mt-0 text-base font-semibold text-brown-deep lg:mt-6">{s.t}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/75">{s.d}</p>
+              <Reveal as="li" key={s.t}>
+                <div className="grid grid-cols-[2rem_1fr] gap-5 pb-10">
+                  <span className="relative z-10 grid size-8 place-items-center rounded-full border border-brown bg-beige font-display text-sm text-brown">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="font-display text-2xl text-brown-deep">{s.t}</h3>
+                    <p className="mt-2 max-w-lg text-sm leading-relaxed text-foreground/70">
+                      {s.d}
+                    </p>
+                  </div>
+                </div>
               </Reveal>
             ))}
           </ol>
@@ -366,106 +409,133 @@ function Process({ lang }: { lang: Lang }) {
   );
 }
 
-/* ---------- QUOTE ---------- */
-
 function Quote({ lang }: { lang: Lang }) {
   const t = content[lang].quote;
   return (
-    <section id="quote" className="bg-brown py-20 text-beige sm:py-28">
-      <div className="mx-auto max-w-3xl px-5 lg:px-8">
-        <SectionHead label={t.label} title={t.title} invert />
-        <Reveal delay={80}>
-          <p className="mt-5 text-base text-beige/85">{t.sub}</p>
-        </Reveal>
-
-        <Reveal delay={140} className="mt-10">
-          <QuoteForm lang={lang} />
-        </Reveal>
-
-        <Reveal delay={160} className="mt-10">
-          <p className="label-caps text-beige-deep/70">{t.or}</p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <a
-              href={PHONE_TEL}
-              className="flex items-center gap-3 rounded-sm border border-beige/40 px-5 py-4 text-sm font-semibold transition-colors hover:bg-beige/10"
-            >
-              <Phone className="h-5 w-5 shrink-0" strokeWidth={1.5} />
-              <span className="min-w-0 truncate">
-                {t.callLabel}: {PHONE_DISPLAY}
-              </span>
+    <section id="quote" className="bg-brown py-24 text-beige sm:py-32">
+      <div className="mx-auto grid max-w-7xl gap-14 px-5 lg:grid-cols-[.85fr_1.15fr] lg:px-8">
+        <div>
+          <SectionHead label={t.label} title={t.title} invert />
+          <p className="mt-6 max-w-md leading-relaxed text-beige/75">{t.sub}</p>
+          <div className="mt-12 grid gap-4 text-sm">
+            <a href={PHONE_TEL} className="flex items-center gap-3 hover:text-beige-deep">
+              <Phone className="size-5" />
+              {PHONE_DISPLAY}
             </a>
             <a
               href={WHATSAPP}
               target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 rounded-sm border border-beige/40 px-5 py-4 text-sm font-semibold transition-colors hover:bg-beige/10"
+              rel="noreferrer"
+              className="flex items-center gap-3 hover:text-beige-deep"
             >
-              <MessageCircle className="h-5 w-5 shrink-0" strokeWidth={1.5} />
+              <MessageCircle className="size-5" />
               WhatsApp
             </a>
+            <p className="flex items-start gap-3">
+              <MapPin className="mt-0.5 size-5" />
+              {ADDRESS}
+            </p>
           </div>
+        </div>
+        <Reveal className="rounded-2xl border border-beige/20 bg-brown-deep/30 p-6 sm:p-9">
+          <QuoteForm lang={lang} />
         </Reveal>
       </div>
     </section>
   );
 }
 
-/* ---------- FOOTER ---------- */
+function MobileContactBar({ lang }: { lang: Lang }) {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const hero = document.getElementById("home");
+    const quote = document.getElementById("quote");
+    const footer = document.querySelector("footer");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const hidden = entries.some((entry) => entry.isIntersecting);
+        setVisible(window.scrollY > (hero?.clientHeight ?? 500) - 80 && !hidden);
+      },
+      { threshold: 0.08 },
+    );
+    [quote, footer].forEach((el) => el && observer.observe(el));
+    const onScroll = () => setVisible(window.scrollY > (hero?.clientHeight ?? 500) - 80);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+  const t = content[lang].quote;
+  return (
+    <div
+      className={cn(
+        "fixed inset-x-4 bottom-4 z-40 grid grid-cols-2 gap-2 rounded-full bg-brown p-2 text-beige shadow-lift transition-all duration-300 md:hidden",
+        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-20 opacity-0",
+      )}
+    >
+      <a
+        href={PHONE_TEL}
+        className="flex items-center justify-center gap-2 rounded-full bg-beige px-4 py-3 text-sm font-semibold text-brown"
+      >
+        <Phone className="size-4" />
+        {t.callLabel}
+      </a>
+      <a
+        href={WHATSAPP}
+        target="_blank"
+        rel="noreferrer"
+        className="flex items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-semibold"
+      >
+        <MessageCircle className="size-4" />
+        WhatsApp
+      </a>
+    </div>
+  );
+}
 
 function Footer({ lang }: { lang: Lang }) {
   const t = content[lang];
-  const nav = t.nav;
-  const f = t.footer;
-  const year = new Date().getFullYear();
-  const links = ["home", "about", "why", "services", "process", "quote"] as const;
-
   return (
-    <footer className="bg-beige py-16">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-4 lg:px-8">
+    <footer className="bg-beige px-5 py-14 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
-          <p className="font-display text-xl text-brown">Duralumin Methoxha</p>
-          <p className="mt-2 text-sm text-muted-foreground">{f.tagline}</p>
-          <p className="mt-5 flex items-start gap-2 text-sm text-foreground/80">
-            <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brown" strokeWidth={1.5} />
+          <p className="font-display text-2xl text-brown">Duralumin Methoxha</p>
+          <p className="mt-4 flex gap-2 text-sm text-foreground/70">
+            <MapPin className="size-4 shrink-0 text-brown" />
             {ADDRESS}
           </p>
-          <p className="mt-2 text-sm text-foreground/80">
-            <a href={PHONE_TEL} className="hover:text-brown">
-              {PHONE_DISPLAY}
-            </a>
-          </p>
-          <p className="mt-2 text-sm text-muted-foreground">{f.hours}</p>
+          <a href={PHONE_TEL} className="mt-2 block text-sm text-foreground/70">
+            {PHONE_DISPLAY}
+          </a>
+          <p className="mt-2 text-sm text-muted-foreground">{t.footer.hours}</p>
         </div>
-
         <div>
-          <p className="label-caps text-brown/70">{f.quick}</p>
-          <ul className="mt-4 grid gap-2">
-            {links.map((l) => (
-              <li key={l}>
-                <a href={`#${l}`} className="text-sm text-foreground/80 hover:text-brown">
-                  {nav[l]}
-                </a>
-              </li>
+          <p className="label-caps text-brown/70">{t.footer.quick}</p>
+          <div className="mt-4 grid gap-2 text-sm">
+            {["Shërbimet", "Pse Ne", "Procesi", "Kontakt"].map((x, i) => (
+              <a
+                key={x}
+                href={["#services", "#why", "#process", "#quote"][i]}
+                className="text-foreground/70 hover:text-brown"
+              >
+                {x}
+              </a>
             ))}
-          </ul>
+          </div>
         </div>
-
         <div>
-          <p className="label-caps text-brown/70">{f.contact}</p>
+          <p className="label-caps text-brown/70">Kontakt</p>
           <iframe
-            title={lang === "al" ? "Harta e lokacionit" : "Location map"}
+            title="Harta e lokacionit"
             src={MAP_EMBED}
             loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="mt-4 h-40 w-full rounded-sm border border-brown/20"
+            className="mt-4 h-32 w-full rounded-xl border border-brown/15"
           />
         </div>
       </div>
-
-      <div className="mx-auto mt-12 max-w-7xl border-t border-brown/15 px-5 pt-6 lg:px-8">
-        <p className="text-xs text-muted-foreground">
-          © {year} Duralumin Methoxha. {f.rights}
-        </p>
+      <div className="mx-auto mt-12 max-w-7xl border-t border-brown/15 pt-6 text-xs text-muted-foreground">
+        © {new Date().getFullYear()} Duralumin Methoxha. {t.footer.rights}
       </div>
     </footer>
   );
