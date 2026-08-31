@@ -20,6 +20,7 @@ import {
 import { Nav } from "@/components/site/Nav";
 import { QuoteForm } from "@/components/site/QuoteForm";
 import { Reveal } from "@/components/Reveal";
+import { CountUp } from "@/components/CountUp";
 import { cn } from "@/lib/utils";
 import {
   ADDRESS,

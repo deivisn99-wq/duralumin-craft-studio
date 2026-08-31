@@ -13,9 +13,10 @@ export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
-      const current = ["home", ...links].findLast((id) => {
+      const ids: string[] = ["home", ...links];
+      const current = [...ids].reverse().find((id: string) => {
         const el = document.getElementById(id);
-        return el && el.getBoundingClientRect().top <= 140;
+        return !!el && el.getBoundingClientRect().top <= 140;
       });
       if (current) setActive(current);
     };
