@@ -3,7 +3,7 @@ import { Menu, Phone, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { content, PHONE_TEL, type Lang } from "@/lib/content";
 
-const links = ["about", "why", "services", "process", "quote"] as const;
+const links = ["about", "why", "services", "process"] as const;
 
 export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   const t = content[lang].nav;
@@ -47,9 +47,6 @@ export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void 
         </a>
         <div className="flex items-center gap-3">
           <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary navigation">
-            <a href="#home" className={cn("nav-link", active === "home" && "nav-link-active")}>
-              {t.home}
-            </a>
             {links.map((key) => (
               <a
                 key={key}
@@ -62,7 +59,7 @@ export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void 
           </nav>
           <div
             className={cn(
-              "flex rounded-full border p-0.5 text-[10px] font-bold tracking-widest",
+              "flex rounded-full border p-0.5 text-[10px] font-bold tracking-widest transition-transform duration-200 ease-out hover:scale-105",
               scrolled ? "border-brown/25" : "border-beige/50",
             )}
           >
@@ -83,7 +80,7 @@ export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void 
           </div>
           <a
             href={PHONE_TEL}
-            className="hidden items-center gap-2 rounded-full bg-brown px-4 py-2.5 text-sm font-semibold text-beige transition-transform hover:-translate-y-0.5 sm:inline-flex"
+            className="hidden items-center gap-2 rounded-full bg-brown px-4 py-2.5 text-sm font-semibold text-beige transition-transform duration-200 ease-out hover:scale-105 sm:inline-flex"
           >
             <Phone className="size-4" />
             {t.quote}
@@ -107,7 +104,7 @@ export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void 
           className="absolute inset-x-0 top-full grid gap-1 border-t border-brown/10 bg-beige px-5 pb-5 pt-3 text-brown shadow-lg lg:hidden"
           aria-label="Mobile navigation"
         >
-          {["home", ...links].map((key) => (
+          {links.map((key) => (
             <a
               key={key}
               href={`#${key}`}
