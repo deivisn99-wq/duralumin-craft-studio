@@ -158,16 +158,18 @@ function SectionHead({
   label,
   title,
   invert = false,
+  size = "md",
 }: {
   label: string;
   title: string;
   invert?: boolean;
+  size?: "md" | "lg";
 }) {
   return (
     <Reveal>
       <p className={`label-caps ${invert ? "text-beige-deep/80" : "text-brown/70"}`}>{label}</p>
       <h2
-        className={`mt-4 max-w-2xl font-display text-3xl sm:text-5xl ${invert ? "text-beige" : "text-brown-deep"}`}
+        className={`mt-4 max-w-2xl font-display ${size === "lg" ? "text-4xl sm:text-6xl" : "text-3xl sm:text-5xl"} ${invert ? "text-beige" : "text-brown-deep"}`}
       >
         {title}
       </h2>
