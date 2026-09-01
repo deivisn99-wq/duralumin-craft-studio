@@ -208,9 +208,6 @@ function About({ lang }: { lang: Lang }) {
             loading="lazy"
             className="aspect-[4/5] w-full rounded-2xl object-cover"
           />
-          <span className="absolute -right-3 top-10 hidden -rotate-90 font-display text-sm italic text-brown/60 sm:block">
-            Precizion në çdo detaj.
-          </span>
         </Reveal>
         <div className="border-l border-brown/30 pl-7 sm:pl-10">
           <SectionHead label={t.label} title={t.title} size="lg" />
