@@ -65,7 +65,15 @@ export const Route = createFileRoute("/")({
 });
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const servicesImages = [heroImg, workshopImg, heroImg, workshopImg, heroImg, workshopImg, heroImg];
+const servicesImages = [
+  svcWindows,
+  svcDoors,
+  svcGlazing,
+  svcFacade,
+  svcPvc,
+  svcShutters,
+  svcRailings,
+];
 const proofIcons = [Layers, Ruler, ReceiptText, Building2];
 const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench, Layers, Ruler];
 
