@@ -15,6 +15,7 @@ import {
   Quote as QuoteIcon,
   ReceiptText,
   Ruler,
+  ShieldCheck,
   Star,
   Wrench,
 } from "lucide-react";
@@ -99,6 +100,7 @@ const servicesImages = [
 ];
 const proofIcons = [Layers, Ruler, ReceiptText, Building2];
 const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench, Layers, Ruler];
+const processIcons = [MessageCircle, ReceiptText, Hammer, Wrench, ShieldCheck];
 
 function Index() {
   const [lang, setLang] = useState<Lang>("al");
@@ -473,25 +475,31 @@ function Process({ lang }: { lang: Lang }) {
           </p>
         </div>
         <div ref={ref} className="relative">
-          <div className="absolute bottom-0 left-4 top-0 w-px bg-brown/15">
+          <div className="absolute bottom-0 left-4 top-0 z-0 w-px bg-brown/15">
             <motion.div className="w-full origin-top bg-brown" style={{ height }} />
           </div>
-          <ol className="grid gap-4">
-            {t.steps.map((s, i) => (
-              <Reveal as="li" key={s.t}>
-                <div className="grid grid-cols-[2rem_1fr] gap-5 pb-10">
-                  <span className="relative z-10 grid size-8 place-items-center rounded-full border border-brown bg-beige font-display text-sm text-brown">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div>
-                    <h3 className="font-display text-2xl text-brown-deep">{s.t}</h3>
-                    <p className="mt-2 max-w-lg text-sm leading-relaxed text-foreground/70">
-                      {s.d}
-                    </p>
+          <ol className="relative grid gap-4">
+            {t.steps.map((s, i) => {
+              const Icon = processIcons[i] ?? MessageCircle;
+              return (
+                <li key={s.t}>
+                  <div className="grid grid-cols-[2rem_1fr] gap-5 pb-10">
+                    <span className="relative z-10 grid size-8 place-items-center rounded-full border border-brown bg-beige font-display text-sm text-brown">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <div className="flex items-center gap-3">
+                        <Icon className="size-6 shrink-0 text-brown" strokeWidth={1.2} />
+                        <h3 className="font-display text-2xl text-brown-deep">{s.t}</h3>
+                      </div>
+                      <p className="mt-2 max-w-lg text-sm leading-relaxed text-foreground/70">
+                        {s.d}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Reveal>
-            ))}
+                </li>
+              );
+            })}
           </ol>
         </div>
       </div>
