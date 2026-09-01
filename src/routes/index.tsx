@@ -36,6 +36,14 @@ import {
 } from "@/lib/content";
 import heroImg from "@/assets/hero-facade.jpg";
 import workshopImg from "@/assets/workshop.jpg";
+// Placeholder stock imagery — one distinct photo per service card
+import svcWindows from "@/assets/svc-windows.jpg";
+import svcDoors from "@/assets/svc-doors.jpg";
+import svcGlazing from "@/assets/svc-glazing.jpg";
+import svcFacade from "@/assets/svc-facade.jpg";
+import svcPvc from "@/assets/svc-pvc.jpg";
+import svcShutters from "@/assets/svc-shutters.jpg";
+import svcRailings from "@/assets/svc-railings.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -57,7 +65,15 @@ export const Route = createFileRoute("/")({
 });
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const servicesImages = [heroImg, workshopImg, heroImg, workshopImg, heroImg, workshopImg, heroImg];
+const servicesImages = [
+  svcWindows,
+  svcDoors,
+  svcGlazing,
+  svcFacade,
+  svcPvc,
+  svcShutters,
+  svcRailings,
+];
 const proofIcons = [Layers, Ruler, ReceiptText, Building2];
 const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench, Layers, Ruler];
 
@@ -372,26 +388,28 @@ function Services({ lang }: { lang: Lang }) {
             Kërko ofertë <ChevronRight className="size-4" />
           </a>
         </div>
-        <div className="grid gap-4">
+        <div className="grid gap-5">
           {t.items.map((s, i) => {
             const Icon = serviceIcons[i] ?? Layers;
             return (
               <Reveal as="article" key={s.t} delay={i * 70}>
-                <div className="group grid overflow-hidden rounded-2xl border border-brown/15 bg-beige sm:grid-cols-[.75fr_1.25fr]">
+                <div className="group grid overflow-hidden rounded-2xl border border-brown/10 bg-beige shadow-[0_1px_2px_rgba(58,44,30,0.04)] sm:grid-cols-[.75fr_1.25fr]">
                   <img
                     src={servicesImages[i]}
-                    alt=""
+                    alt={s.t}
+                    width={1024}
+                    height={768}
                     loading="lazy"
                     className="h-52 w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:h-full"
                   />
-                  <div className="flex min-h-56 flex-col justify-between p-6 sm:p-8">
+                  <div className="flex min-h-56 flex-col justify-between gap-6 p-7 sm:p-9">
                     <div className="flex items-start justify-between">
                       <span className="font-display text-4xl text-brown/30">0{i + 1}</span>
                       <Icon className="size-7 text-brown" strokeWidth={1.2} />
                     </div>
                     <div>
                       <h3 className="font-display text-2xl text-brown-deep">{s.t}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-foreground/70">{s.d}</p>
+                      <p className="mt-2.5 text-sm leading-relaxed text-foreground/70">{s.d}</p>
                     </div>
                   </div>
                 </div>
