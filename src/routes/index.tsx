@@ -393,7 +393,7 @@ function Services({ lang }: { lang: Lang }) {
             const Icon = serviceIcons[i] ?? Layers;
             return (
               <Reveal as="article" key={s.t} delay={i * 70}>
-                <div className="group grid overflow-hidden rounded-2xl border border-brown/10 bg-beige shadow-[0_1px_2px_rgba(58,44,30,0.04)] sm:grid-cols-[.75fr_1.25fr]">
+                <div className="group grid overflow-hidden rounded-2xl border border-brown/10 bg-beige shadow-[0_4px_18px_-4px_rgba(58,44,30,0.08)] sm:grid-cols-[.75fr_1.25fr]">
                   <img
                     src={servicesImages[i]}
                     alt={s.t}
@@ -402,14 +402,18 @@ function Services({ lang }: { lang: Lang }) {
                     loading="lazy"
                     className="h-52 w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:h-full"
                   />
-                  <div className="flex min-h-56 flex-col justify-between gap-6 p-7 sm:p-9">
+                  <div className="flex min-h-56 flex-col justify-between gap-8 p-8 sm:p-10">
                     <div className="flex items-start justify-between">
-                      <span className="font-display text-4xl text-brown/30">0{i + 1}</span>
-                      <Icon className="size-7 text-brown" strokeWidth={1.2} />
+                      <span className="label-caps text-brown/40">0{i + 1}</span>
+                      <Icon className="size-6 text-brown" strokeWidth={1.2} />
                     </div>
                     <div>
-                      <h3 className="font-display text-2xl text-brown-deep">{s.t}</h3>
-                      <p className="mt-2.5 text-sm leading-relaxed text-foreground/70">{s.d}</p>
+                      <h3 className="font-display text-[1.65rem] font-semibold leading-tight text-brown-deep sm:text-[1.75rem]">
+                        {s.t}
+                      </h3>
+                      <p className="mt-3 text-[0.95rem] leading-[1.75] text-foreground/65">
+                        {s.d}
+                      </p>
                     </div>
                   </div>
                 </div>
