@@ -7,18 +7,14 @@ import {
   Building2,
   ChevronRight,
   DoorOpen,
-  FileText,
   Hammer,
   Layers,
   MapPin,
   MessageCircle,
-  MessageSquare,
   Phone,
   Quote as QuoteIcon,
   ReceiptText,
   Ruler,
-  Settings,
-  ShieldCheck,
   Star,
   Wrench,
 } from "lucide-react";
@@ -430,8 +426,6 @@ function Services({ lang }: { lang: Lang }) {
   );
 }
 
-const processIcons = [MessageSquare, FileText, Settings, Wrench, ShieldCheck];
-
 function Process({ lang }: { lang: Lang }) {
   const t = content[lang].process;
   const ref = useRef<HTMLDivElement>(null);
@@ -451,27 +445,21 @@ function Process({ lang }: { lang: Lang }) {
             <motion.div className="w-full origin-top bg-brown" style={{ height }} />
           </div>
           <ol className="grid gap-4">
-            {t.steps.map((s, i) => {
-              const StepIcon = processIcons[i] ?? Settings;
-              return (
-                <Reveal as="li" key={s.t} delay={i * 150}>
-                  <div className="grid grid-cols-[2rem_1fr] gap-5 rounded-2xl border border-transparent p-4 -ml-4 transition-all duration-200 hover:scale-[1.02] hover:border-brown/10 hover:bg-beige hover:shadow-soft pb-6">
-                    <span className="relative z-10 grid size-8 place-items-center rounded-full border border-brown/40 bg-brown/10 font-display text-sm text-brown-deep shadow-[0_0_12px_rgba(92,70,48,0.10)]">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <div>
-                      <h3 className="inline-flex items-center gap-2 font-display text-2xl text-brown-deep">
-                        {s.t}
-                        <StepIcon className="size-5 text-brown/70" strokeWidth={1.6} />
-                      </h3>
-                      <p className="mt-2 max-w-lg text-sm leading-relaxed text-foreground/70">
-                        {s.d}
-                      </p>
-                    </div>
+            {t.steps.map((s, i) => (
+              <Reveal as="li" key={s.t}>
+                <div className="grid grid-cols-[2rem_1fr] gap-5 pb-10">
+                  <span className="relative z-10 grid size-8 place-items-center rounded-full border border-brown bg-beige font-display text-sm text-brown">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="font-display text-2xl text-brown-deep">{s.t}</h3>
+                    <p className="mt-2 max-w-lg text-sm leading-relaxed text-foreground/70">
+                      {s.d}
+                    </p>
                   </div>
-                </Reveal>
-              );
-            })}
+                </div>
+              </Reveal>
+            ))}
           </ol>
         </div>
       </div>
