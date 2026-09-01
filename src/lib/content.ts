@@ -51,6 +51,11 @@ export const content = {
       reviewsTitle: "Vlerësime nga Google",
       ratingBadge: "4.9 · 28 vlerësime në Google",
       reviewsCta: "Shiko të Gjitha Vlerësimet",
+      reviewsLabel: "VLERËSIME NGA GOOGLE",
+      reviewsRating: "4.9/5",
+      reviewsStarsAria: "4.9 nga 5 yje",
+      reviewsSupport: "28 vlerësime të verifikuara në Google",
+      reviewsGoogleReview: "Vlerësim në Google",
     },
     services: {
       label: "Shërbimet",
@@ -166,6 +171,11 @@ export const content = {
       reviewsTitle: "Google Reviews",
       ratingBadge: "4.9 · 28 Google Reviews",
       reviewsCta: "See All Reviews",
+      reviewsLabel: "GOOGLE REVIEWS",
+      reviewsRating: "4.9/5",
+      reviewsStarsAria: "4.9 out of 5 stars",
+      reviewsSupport: "28 verified reviews on Google",
+      reviewsGoogleReview: "Google Review",
     },
     services: {
       label: "Services",

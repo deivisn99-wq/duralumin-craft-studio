@@ -12,7 +12,6 @@ import {
   MapPin,
   MessageCircle,
   Phone,
-  Quote as QuoteIcon,
   ReceiptText,
   Ruler,
   ShieldCheck,
@@ -269,79 +268,47 @@ function About({ lang }: { lang: Lang }) {
   );
 }
 
-function Stars() {
+const reviewPickIndices = [0, 1, 3] as const;
+
+function GoldStars({ label }: { label: string }) {
   return (
-    <span className="mt-3 flex gap-1 text-brown" aria-label="5 nga 5 yje">
+    <span className="flex gap-1 text-amber-500" aria-label={label}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star key={i} className="size-4 fill-current" />
       ))}
     </span>
   );
 }
-/** Auto-rotating, non-interactive review carousel (cross-fade + slide, 2.5s, pauses on hover). */
-function ReviewCarousel({ lang }: { lang: Lang }) {
-  const [index, setIndex] = useState(0);
-  const [exiting, setExiting] = useState(false);
-  const [paused, setPaused] = useState(false);
-  useEffect(() => {
-    const reduced =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced || paused || reviews.length < 2) return;
-    const id = setInterval(() => {
-      setExiting(true);
-      setTimeout(() => {
-        setIndex((i) => (i + 1) % reviews.length);
-        setExiting(false);
-      }, 500);
-    }, 3000);
-    return () => clearInterval(id);
-  }, [paused]);
 
+function ReviewsGrid({ lang }: { lang: Lang }) {
+  const t = content[lang].why;
   return (
-    <div
-      className="relative min-h-72"
-      aria-live="off"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      {reviews.map((r, i) => {
-        const active = i === index;
-        const shown = active || (exiting && i === (index - 1 + reviews.length) % reviews.length);
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {reviewPickIndices.map((idx, i) => {
+        const r = reviews[idx];
         return (
-          <figure
-            key={r.name + i}
-            aria-hidden={!active}
-            className={cn(
-              "flex min-h-72 flex-col overflow-hidden rounded-2xl border border-brown/15 bg-beige p-8 transition-opacity duration-500 ease-out sm:p-10",
-              shown ? "relative opacity-100" : "pointer-events-none absolute inset-0 opacity-0",
-            )}
-          >
-          <QuoteIcon
-            className="pointer-events-none absolute right-6 top-5 size-16 text-brown/10"
-            strokeWidth={1}
-            aria-hidden
-          />
-          <span className="flex gap-1 text-brown" aria-label="5 nga 5 yje">
-            {Array.from({ length: 5 }).map((_, s) => (
-              <Star key={s} className="size-4 fill-current" />
-            ))}
-          </span>
-          <blockquote className="mt-6 grow text-base leading-8 text-foreground/80">
-            {r.text[lang]}
-          </blockquote>
-          <figcaption className="mt-8 flex items-center gap-4 border-t border-brown/15 pt-6">
-            <span className="grid size-12 shrink-0 place-items-center rounded-full bg-brown font-display text-lg text-beige">
-              {r.name.trim().charAt(0).toUpperCase()}
-            </span>
-            <span className="grid">
-              <span className="font-semibold text-brown-deep">{r.name}</span>
-              <span className="text-sm font-semibold text-foreground/60">
-                {r.meta || "Google reviewer"}
-              </span>
-            </span>
-          </figcaption>
-          </figure>
+          <Reveal as="figure" key={r.name + i} delay={i * 90}>
+            <figure className="group/card flex h-full flex-col rounded-2xl border border-brown/15 bg-surface p-7 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-brown/40 hover:shadow-[0_18px_40px_-18px_rgba(58,44,30,0.35)] sm:p-8">
+              <div className="flex items-center justify-between">
+                <GoldStars label={t.reviewsStarsAria} />
+                <GoogleLogo className="size-7 shrink-0" />
+              </div>
+              <blockquote className="mt-6 grow text-[0.95rem] leading-[1.75] text-foreground/80">
+                {r.text[lang]}
+              </blockquote>
+              <figcaption className="mt-8 flex items-center gap-4 border-t border-brown/12 pt-6">
+                <span className="grid size-12 shrink-0 place-items-center rounded-full bg-brown font-display text-lg text-beige">
+                  {r.name.trim().charAt(0).toUpperCase()}
+                </span>
+                <span className="grid">
+                  <span className="font-semibold text-brown-deep">{r.name}</span>
+                  <span className="text-sm text-foreground/55">
+                    {r.meta || (lang === "al" ? "Vlerësim në Google" : "Google Review")}
+                  </span>
+                </span>
+              </figcaption>
+            </figure>
+          </Reveal>
         );
       })}
     </div>
@@ -377,28 +344,30 @@ function WhyUs({ lang }: { lang: Lang }) {
             );
           })}
         </div>
-        <div className="mt-20 grid gap-10 lg:grid-cols-[.65fr_1.35fr] lg:items-center">
-          <div>
-            <p className="label-caps text-brown/70">{t.reviewsTitle}</p>
-            <div className="mt-5 flex items-center gap-3">
-              <p className="font-display text-7xl text-brown-deep">
-                <CountUp to={4.9} decimals={1} />
-                <span className="text-3xl">/5</span>
-              </p>
+        <div className="mt-20">
+          <Reveal className="mx-auto flex max-w-xl flex-col items-center text-center">
+            <p className="label-caps text-brown/70">{t.reviewsLabel}</p>
+            <div className="mt-4 flex items-center gap-3">
               <GoogleLogo className="size-9 shrink-0" />
+              <p className="font-display text-5xl text-brown-deep sm:text-6xl">{t.reviewsRating}</p>
             </div>
-            <Stars />
-            <p className="mt-4 text-sm text-foreground/70">28 vlerësime · Google Maps</p>
+            <div className="mt-3">
+              <GoldStars label={t.reviewsStarsAria} />
+            </div>
+            <p className="mt-3 text-sm text-foreground/70">{t.reviewsSupport}</p>
             <a
               href={GOOGLE_REVIEWS_URL}
               target="_blank"
               rel="noreferrer"
-              className="mt-7 inline-flex items-center gap-2 rounded-full border border-brown px-5 py-3 text-sm font-semibold text-brown transition-colors hover:bg-brown hover:text-beige"
+              className="mt-6 inline-flex items-center gap-2 rounded-full border border-brown px-5 py-3 text-sm font-semibold text-brown transition-colors hover:bg-brown hover:text-beige"
+              aria-label={t.reviewsCta}
             >
-              Shiko të gjitha në Google Maps <ArrowUpRight className="size-4" />
+              {t.reviewsCta} <ArrowUpRight className="size-4" />
             </a>
+          </Reveal>
+          <div className="mt-14">
+            <ReviewsGrid lang={lang} />
           </div>
-          <ReviewCarousel lang={lang} />
         </div>
       </div>
     </section>
