@@ -283,26 +283,35 @@ function GoldStars({ label }: { label: string }) {
 function ReviewsGrid({ lang }: { lang: Lang }) {
   const t = content[lang].why;
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="rounded-[2rem] border border-[#30444a] bg-[#0b1719] p-6 sm:p-8 lg:p-10">
+      <div className="mb-8 flex items-center justify-between gap-4 text-[#edf4f2]">
+        <div className="flex items-center gap-4">
+          <span className="grid size-10 place-items-center rounded-full bg-[#dff1ec] text-xl text-[#142427]">2</span>
+          <span className="font-sans text-xl sm:text-2xl">
+            {lang === "al" ? "Tre komente njëherësh" : "Three reviews at once"}
+          </span>
+        </div>
+        <span className="hidden text-base text-[#a9bcba] sm:block">
+          {lang === "al" ? "Më shumë prova sociale" : "More social proof"}
+        </span>
+      </div>
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {reviewPickIndices.map((idx, i) => {
         const r = reviews[idx];
         return (
           <Reveal as="figure" key={r.name + i} delay={i * 90}>
-            <figure className="group/card flex h-full flex-col rounded-2xl border border-brown/15 bg-surface p-7 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-brown/40 hover:shadow-[0_18px_40px_-18px_rgba(58,44,30,0.35)] sm:p-8">
-              <div className="flex items-center justify-between">
-                <GoldStars label={t.reviewsStarsAria} />
-                <GoogleLogo className="size-7 shrink-0" />
-              </div>
-              <blockquote className="mt-6 grow text-[0.95rem] leading-[1.75] text-foreground/80">
-                {r.text[lang]}
+            <figure className="group/card flex h-full min-h-[340px] flex-col rounded-[1.5rem] border border-[#30444a] bg-[#142427] p-8 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#466067] hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)] sm:p-9">
+              <GoldStars label={t.reviewsStarsAria} />
+              <blockquote className="mt-10 grow font-sans text-xl leading-[1.55] text-[#edf4f2] sm:text-2xl">
+                “{r.text[lang]}”
               </blockquote>
-              <figcaption className="mt-8 flex items-center gap-4 border-t border-brown/12 pt-6">
-                <span className="grid size-12 shrink-0 place-items-center rounded-full bg-brown font-display text-lg text-beige">
+              <figcaption className="mt-10 flex items-center gap-4">
+                <span className="grid size-14 shrink-0 place-items-center rounded-full bg-[#203d3b] font-display text-2xl text-[#cfe5df]">
                   {r.name.trim().charAt(0).toUpperCase()}
                 </span>
-                <span className="grid">
-                  <span className="font-semibold text-brown-deep">{r.name}</span>
-                  <span className="text-sm text-foreground/55">
+                <span className="grid gap-1">
+                  <span className="font-sans text-lg font-medium text-[#edf4f2]">{r.name}</span>
+                  <span className="text-base text-[#a9bcba]">
                     {r.meta || (lang === "al" ? "Vlerësim në Google" : "Google Review")}
                   </span>
                 </span>
@@ -311,6 +320,12 @@ function ReviewsGrid({ lang }: { lang: Lang }) {
           </Reveal>
         );
       })}
+      </div>
+      <p className="mt-8 text-center text-base text-[#a9bcba]">
+        {lang === "al"
+          ? "Të treja janë vlerësime të verifikuara në Google."
+          : "All three are verified reviews on Google."}
+      </p>
     </div>
   );
 }
