@@ -12,6 +12,7 @@ import {
   MapPin,
   MessageCircle,
   Phone,
+  Quote as QuoteIcon,
   ReceiptText,
   Ruler,
   Star,
@@ -270,7 +271,7 @@ function ReviewCarousel({ lang }: { lang: Lang }) {
               : "pointer-events-none absolute inset-0 translate-y-3 opacity-0",
           )}
         >
-          <Quote
+          <QuoteIcon
             className="pointer-events-none absolute -right-2 -top-3 size-28 text-brown/10"
             strokeWidth={1}
             aria-hidden
