@@ -36,6 +36,14 @@ import {
 } from "@/lib/content";
 import heroImg from "@/assets/hero-facade.jpg";
 import workshopImg from "@/assets/workshop.jpg";
+// Placeholder stock imagery — one distinct photo per service card
+import svcWindows from "@/assets/svc-windows.jpg";
+import svcDoors from "@/assets/svc-doors.jpg";
+import svcGlazing from "@/assets/svc-glazing.jpg";
+import svcFacade from "@/assets/svc-facade.jpg";
+import svcPvc from "@/assets/svc-pvc.jpg";
+import svcShutters from "@/assets/svc-shutters.jpg";
+import svcRailings from "@/assets/svc-railings.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
