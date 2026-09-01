@@ -64,6 +64,29 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+function GoogleLogo({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" aria-hidden role="img">
+      <path
+        fill="#4285F4"
+        d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"
+      />
+      <path
+        fill="#34A853"
+        d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.44v5.7C8.06 42.03 15.45 46 24 46z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.44C2.99 17.99 2.12 20.9 2.12 24s.87 6.01 2.32 8.18l7.25-5.7z"
+      />
+      <path
+        fill="#EA4335"
+        d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.45 2 8.06 5.97 4.44 12.12l7.25 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"
+      />
+    </svg>
+  );
+}
+
 const ease = [0.22, 1, 0.36, 1] as const;
 const servicesImages = [
   svcWindows,
@@ -256,13 +279,20 @@ function Stars() {
 /** Auto-rotating, non-interactive review carousel (cross-fade + slide, 2.5s, pauses on hover). */
 function ReviewCarousel({ lang }: { lang: Lang }) {
   const [index, setIndex] = useState(0);
+  const [exiting, setExiting] = useState(false);
   const [paused, setPaused] = useState(false);
   useEffect(() => {
     const reduced =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced || paused || reviews.length < 2) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % reviews.length), 2500);
+    const id = setInterval(() => {
+      setExiting(true);
+      setTimeout(() => {
+        setIndex((i) => (i + 1) % reviews.length);
+        setExiting(false);
+      }, 500);
+    }, 3000);
     return () => clearInterval(id);
   }, [paused]);
 
@@ -273,19 +303,20 @@ function ReviewCarousel({ lang }: { lang: Lang }) {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {reviews.map((r, i) => (
-        <figure
-          key={r.name + i}
-          aria-hidden={i !== index}
-          className={cn(
-            "relative flex min-h-72 flex-col overflow-hidden rounded-2xl border border-brown/15 bg-beige p-8 transition-all duration-700 ease-out sm:p-10",
-            i === index
-              ? "relative translate-y-0 opacity-100"
-              : "pointer-events-none absolute inset-0 translate-y-3 opacity-0",
-          )}
-        >
+      {reviews.map((r, i) => {
+        const active = i === index;
+        const shown = active || (exiting && i === (index - 1 + reviews.length) % reviews.length);
+        return (
+          <figure
+            key={r.name + i}
+            aria-hidden={!active}
+            className={cn(
+              "flex min-h-72 flex-col overflow-hidden rounded-2xl border border-brown/15 bg-beige p-8 transition-opacity duration-500 ease-out sm:p-10",
+              shown ? "relative opacity-100" : "pointer-events-none absolute inset-0 opacity-0",
+            )}
+          >
           <QuoteIcon
-            className="pointer-events-none absolute -right-2 -top-3 size-28 text-brown/10"
+            className="pointer-events-none absolute right-6 top-5 size-16 text-brown/10"
             strokeWidth={1}
             aria-hidden
           />
@@ -308,8 +339,9 @@ function ReviewCarousel({ lang }: { lang: Lang }) {
               </span>
             </span>
           </figcaption>
-        </figure>
-      ))}
+          </figure>
+        );
+      })}
     </div>
   );
 }
@@ -335,7 +367,7 @@ function WhyUs({ lang }: { lang: Lang }) {
                       {p.t}
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-foreground/70 transition-colors duration-200 ease-out group-hover/card:text-beige/85">
-                      {i === 2 ? "Pa kosto të fshehura." : p.d}
+                      {p.d}
                     </p>
                   </div>
                 </div>
@@ -346,10 +378,13 @@ function WhyUs({ lang }: { lang: Lang }) {
         <div className="mt-20 grid gap-10 lg:grid-cols-[.65fr_1.35fr] lg:items-center">
           <div>
             <p className="label-caps text-brown/70">{t.reviewsTitle}</p>
-            <p className="mt-5 font-display text-7xl text-brown-deep">
-              <CountUp to={4.9} decimals={1} />
-              <span className="text-3xl">/5</span>
-            </p>
+            <div className="mt-5 flex items-center gap-3">
+              <p className="font-display text-7xl text-brown-deep">
+                <CountUp to={4.9} decimals={1} />
+                <span className="text-3xl">/5</span>
+              </p>
+              <GoogleLogo className="size-9 shrink-0" />
+            </div>
             <Stars />
             <p className="mt-4 text-sm text-foreground/70">28 vlerësime · Google Maps</p>
             <a
