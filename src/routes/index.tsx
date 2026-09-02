@@ -40,16 +40,28 @@ import {
   reviews,
   type Lang,
 } from "@/lib/content";
-import heroImg from "@/assets/hero-facade.jpg";
-import workshopImg from "@/assets/workshop.jpg";
-// Placeholder stock imagery — one distinct photo per service card
-import svcWindows from "@/assets/svc-windows.jpg";
-import svcDoors from "@/assets/svc-doors.jpg";
-import svcGlazing from "@/assets/svc-glazing.jpg";
-import svcFacade from "@/assets/svc-facade.jpg";
-import svcPvc from "@/assets/svc-pvc.jpg";
-import svcShutters from "@/assets/svc-shutters.jpg";
-import svcRailings from "@/assets/svc-railings.jpg";
+const photo = (id: string) => `https://hebbkx1anhila5yf.public.blob.vercel-storage.com/${id}`;
+const heroImg = photo("01_Hero__IMG-20260902-WA0008-KG2LJR7iz2sElCWZbyNyhdZE8w1bu7.jpg");
+const workshopImg = photo("02_Rreth-Nesh__IMG-20260902-WA0066-hhfwbYeeVSCO4BPBd5ds4JeJsgjQKq.jpg");
+const svcWindows = photo(
+  "03_Sherbime-01_Dritare-Alumini__IMG-20260902-WA0096-HeJ18lnX8aBKLFR3T0yeWdC6ivbsFq.jpg",
+);
+const svcDoors = photo(
+  "04_Sherbime-02_Dyer-Alumini__IMG-20260902-WA0110-6BaAEs7VX4Tyiu12srtqaW2k7mQAyM.jpg",
+);
+const svcGlazing = photo(
+  "05_Sherbime-03_Vetrata__IMG-20260902-WA0020-dKY2jaZwWF9mOxnicN37Z1ebF7JKlc.jpg",
+);
+const svcFacade = photo(
+  "06_Sherbime-04_Fasada-Alumini__IMG-20260902-WA0081-jd1OhltX4FDR6tsHWFOSPELYpOVFXZ.jpg",
+);
+const svcPvc = photo(
+  "07_Sherbime-05_Punime-PVC__IMG-20260902-WA0027-BrjvvX4nuICgvvJm4LQ7oVHLHyVNq1.jpg",
+);
+const svcShutters = photo(
+  "08_Sherbime-06_Grila__IMG-20260902-WA0049-LRcr2u9tWmsMaOKM82Ec806IdzOa15.jpg",
+);
+const svcRailings = "@/assets/svc-railings.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -106,6 +118,18 @@ const servicesImages = [
 const proofIcons = [Layers, Ruler, ReceiptText, Building2];
 const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench, Layers, Ruler];
 const processIcons = [MessageCircle, ReceiptText, Hammer, Wrench, ShieldCheck];
+const projectImages = [
+  photo("10_Projekte-01_Dyer-me-hark-kafe__IMG-20260902-WA0112-UTZR8dwI1FfJEFvo178rx2ZDPnJNnR.jpg"),
+  photo(
+    "11_Projekte-02_Dyer-me-hark-te-bardha__IMG-20260902-WA0078-feyvAulYoVWNvr8ATQORWplXJ78yRQ.jpg",
+  ),
+  photo("12_Projekte-03_Grila-te-bardha__IMG-20260902-WA0097-wqZyOfNzEgTQ0VeTff4bfoALym3UQJ.jpg"),
+  photo("13_Projekte-04_Grila-kafe__IMG-20260902-WA0055-smWBpO31vjQCHKsuogixLyEOalijf8.jpg"),
+  photo("14_Projekte-05_Dere-me-grila__IMG-20260902-WA0088-FTA3TysEwPmpgoIJFEtIF4KLLQSbqP.jpg"),
+  photo(
+    "15_Projekte-06_Vetrate-komerciale__IMG-20260902-WA0107-ybCZwbiEylIzIhClMGTqEsAfep0eNG.jpg",
+  ),
+];
 
 function Index() {
   const [lang, setLang] = useState<Lang>("al");
@@ -143,7 +167,7 @@ function Hero({ lang }: { lang: Lang }) {
         alt="Fasadë moderne me dritare alumini në Tiranë"
         width={1920}
         height={1280}
-        className="absolute inset-0 -z-10 h-[115%] w-full object-cover"
+        className="absolute inset-0 -z-10 h-[115%] w-full object-cover object-[center_58%] sm:object-center"
         initial={{ scale: 1.05 }}
         animate={{ scale: 1 }}
         transition={{ duration: 1.5, ease }}
@@ -561,24 +585,42 @@ function Services({ lang }: { lang: Lang }) {
 
 function Projects({ lang }: { lang: Lang }) {
   const isAlbanian = lang === "al";
-  const projectImages = [heroImg, workshopImg, heroImg, workshopImg, heroImg, workshopImg];
-  const projectLabels = isAlbanian
+  const labels = isAlbanian
     ? [
-        "Rezidencë private",
-        "Punishte & detaje",
-        "Fasadë moderne",
-        "Hapësirë komerciale",
-        "Dritare alumini",
-        "Projekt në Tiranë",
+        "Dyer me hark",
+        "Dyer të brendshme me hark",
+        "Grila të bardha",
+        "Grila me efekt druri",
+        "Derë me grila",
+        "Vetratë komerciale",
       ]
     : [
-        "Private residence",
-        "Workshop details",
-        "Modern façade",
-        "Commercial space",
-        "Aluminum windows",
-        "Tirana project",
+        "Arched door",
+        "Arched interior doors",
+        "White shutters",
+        "Wood-effect shutters",
+        "Door with shutters",
+        "Commercial glazing",
       ];
+  const [active, setActive] = useState<number | null>(null);
+  useEffect(() => {
+    if (active === null) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActive(null);
+      if (event.key === "ArrowRight")
+        setActive((current) => (current === null ? 0 : (current + 1) % projectImages.length));
+      if (event.key === "ArrowLeft")
+        setActive((current) =>
+          current === null ? 0 : (current - 1 + projectImages.length) % projectImages.length,
+        );
+    };
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [active]);
 
   return (
     <section id="projects" className="bg-brown-deep py-24 text-beige sm:py-32">
@@ -591,32 +633,84 @@ function Projects({ lang }: { lang: Lang }) {
           />
           <p className="max-w-sm text-sm leading-relaxed text-beige/65">
             {isAlbanian
-              ? "Një përzgjedhje nga punimet dhe detajet që krijojmë çdo ditë."
-              : "A selection of the spaces, details, and finishes we create every day."}
+              ? "Një përzgjedhje nga punimet tona të përfunduara."
+              : "A selection of our completed work."}
           </p>
         </div>
         <div className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5">
           {projectImages.map((image, i) => (
             <Reveal
-              key={`${projectLabels[i]}-${i}`}
+              key={labels[i]}
               delay={i * 70}
               className={i === 1 || i === 4 ? "sm:translate-y-10" : ""}
             >
-              <figure className="group relative overflow-hidden rounded-2xl bg-brown">
+              <button
+                type="button"
+                onClick={() => setActive(i)}
+                className="group relative block w-full overflow-hidden rounded-2xl bg-brown text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beige"
+              >
                 <img
                   src={image}
-                  alt={`${projectLabels[i]} — Duralumin Methoxha`}
+                  alt={`${labels[i]} — Duralumin Methoxha`}
                   loading="lazy"
-                  className="aspect-[3/5] w-full object-cover transition duration-700 ease-out group-hover:scale-105 group-hover:opacity-75"
+                  width={900}
+                  height={1200}
+                  className="aspect-[3/5] w-full object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-75"
                 />
-                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brown-deep/90 to-transparent px-4 pb-4 pt-12 text-sm font-medium text-beige sm:px-5 sm:pb-5">
-                  {projectLabels[i]}
-                </figcaption>
-              </figure>
+                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brown-deep/90 to-transparent px-4 pb-4 pt-12 text-sm font-medium text-beige sm:px-5 sm:pb-5">
+                  {labels[i]}
+                </span>
+              </button>
             </Reveal>
           ))}
         </div>
       </div>
+      {active !== null && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={labels[active]}
+          className="fixed inset-0 z-50 grid place-items-center bg-brown-deep/95 p-4 sm:p-8"
+          onClick={() => setActive(null)}
+        >
+          <button
+            type="button"
+            aria-label={isAlbanian ? "Mbyll" : "Close"}
+            onClick={() => setActive(null)}
+            className="absolute right-5 top-5 rounded-full border border-beige/40 px-4 py-2 text-sm text-beige"
+          >
+            {isAlbanian ? "Mbyll" : "Close"}
+          </button>
+          <button
+            type="button"
+            aria-label={isAlbanian ? "Imazhi i mëparshëm" : "Previous image"}
+            onClick={(event) => {
+              event.stopPropagation();
+              setActive((active - 1 + projectImages.length) % projectImages.length);
+            }}
+            className="absolute left-3 rounded-full bg-beige px-4 py-3 text-brown-deep sm:left-8"
+          >
+            ←
+          </button>
+          <img
+            src={projectImages[active]}
+            alt={`${labels[active]} — Duralumin Methoxha`}
+            onClick={(event) => event.stopPropagation()}
+            className="max-h-[88vh] max-w-[88vw] object-contain"
+          />
+          <button
+            type="button"
+            aria-label={isAlbanian ? "Imazhi i ardhshëm" : "Next image"}
+            onClick={(event) => {
+              event.stopPropagation();
+              setActive((active + 1) % projectImages.length);
+            }}
+            className="absolute right-3 rounded-full bg-beige px-4 py-3 text-brown-deep sm:right-8"
+          >
+            →
+          </button>
+        </div>
+      )}
     </section>
   );
 }
