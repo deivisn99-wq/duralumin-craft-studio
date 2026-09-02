@@ -45,12 +45,19 @@ export const content = {
           d: "Profile alumini të klasit të lartë, me standarde evropiane.",
         },
         { t: "Korrektësi në Punë", d: "Afate të respektuara dhe komunikim i drejtpërdrejtë." },
-        { t: "Çmime Konkurruese", d: "Oferta transparente, pa kosto të fshehura." },
+        { t: "Çmime Konkurruese", d: "Oferta të detajuara dhe transparente, me çmime nga më konkurrueset në treg — pa kosto të fshehura." },
         { t: "Përvojë e Provuar", d: "Projekte rezidenciale dhe komerciale në Tiranë." },
       ],
       reviewsTitle: "Vlerësime nga Google",
       ratingBadge: "4.9 · 28 vlerësime në Google",
       reviewsCta: "Shiko të Gjitha Vlerësimet",
+      reviewsLabel: "VLERËSIME NGA GOOGLE",
+      reviewsRating: "4.9/5",
+      reviewsStarsAria: "4.9 nga 5 yje",
+      reviewsSupport: "28 vlerësime të verifikuara në Google",
+      reviewsGoogleReview: "Vlerësim në Google",
+      summary:
+        "Prej vitesh, klientët na zgjedhin për cilësinë e materialeve, korrektësinë në afate dhe çmimet transparente. Çdo projekt trajtohet me kujdes dhe precizion, nga konsultimi i parë deri te montimi final. Kjo është arsyeja pse mbi 150 klientë na kanë besuar deri tani.",
     },
     services: {
       label: "Shërbimet",
@@ -58,19 +65,31 @@ export const content = {
       items: [
         {
           t: "Dritare Alumini",
-          d: "Zgjidhje të menduara për dritare rezidenciale dhe komerciale.",
+          d: "Prodhojmë dritare alumini me izolim të lartë termik dhe akustik, të përshtatura për çdo hapësirë — nga apartamente deri te ambiente komerciale. Materiale me standarde evropiane dhe finiturë të qëndrueshme ndaj kushteve atmosferike.",
         },
-        { t: "Dyer Alumini", d: "Dyer hyrëse dhe ballkoni me dizajn modern e funksional." },
-        { t: "Vetrata", d: "Sipërfaqe të mëdha xhami për ambiente të ndriçuara." },
-        { t: "Fasada Alumini", d: "Zgjidhje alumini për fasada rezidenciale dhe komerciale." },
-        { t: "Punime PVC", d: "Punime PVC për nevoja të ndryshme të hapësirës suaj." },
+        {
+          t: "Dyer Alumini",
+          d: "Dyer hyrëse dhe ballkoni me profile të forta alumini, dizajn modern dhe siguri të shtuar. Kombinojmë funksionalitetin me estetikën për të përshtatur çdo stil arkitekture.",
+        },
+        {
+          t: "Vetrata",
+          d: "Sipërfaqe të mëdha xhami që sjellin dritë natyrale maksimale në ambient, pa kompromentuar izolimin termik. Ideale për fasada moderne, tarraca dhe hapësira me pamje panoramike.",
+        },
+        {
+          t: "Fasada Alumini",
+          d: "Zgjidhje komplete fasadash alumini për ndërtesa rezidenciale dhe komerciale — nga dizajni deri te montimi, me fokus te qëndueshmëria strukturore dhe pamja estetike afatgjatë.",
+        },
+        {
+          t: "Punime PVC",
+          d: "Alternativë ekonomike dhe efikase energjitikisht për dritare dhe dyer, me izolim të mirë dhe mirëmbajtje minimale. Përshtatet për projekte me buxhet të kontrolluar pa sakrifikuar cilësinë.",
+        },
         {
           t: "Grila të të gjitha llojeve",
-          d: "Grila praktike për privatësi, siguri dhe kontroll drite.",
+          d: "Grila funksionale për kontroll drite, privatësi dhe siguri shtesë — të disponueshme në variante manuale ose motorizuara, të përshtatshme për çdo hapësirë rezidenciale apo komerciale.",
         },
         {
           t: "Kangjella Inoksi",
-          d: "Kangjella të pastra dhe të qëndrueshme për ambiente moderne.",
+          d: "Kangjella inoksi me finish të pastër dhe rezistencë të lartë ndaj kushteve atmosferike — zgjidhje moderne për ballkone, shkallë dhe tarraca, pa nevojë për mirëmbajtje të shpeshtë.",
         },
       ],
     },
@@ -148,12 +167,19 @@ export const content = {
       pillars: [
         { t: "Material Quality", d: "High-grade aluminum profiles to European standards." },
         { t: "Reliability & Honesty", d: "Deadlines respected and straightforward communication." },
-        { t: "Competitive Pricing", d: "Transparent quotes with no hidden costs." },
+        { t: "Competitive Pricing", d: "Detailed, transparent quotes at the most competitive prices in the market — with no hidden costs." },
         { t: "Proven Experience", d: "Residential and commercial projects across Tiranë." },
       ],
       reviewsTitle: "Google Reviews",
       ratingBadge: "4.9 · 28 Google Reviews",
       reviewsCta: "See All Reviews",
+      reviewsLabel: "GOOGLE REVIEWS",
+      reviewsRating: "4.9/5",
+      reviewsStarsAria: "4.9 out of 5 stars",
+      reviewsSupport: "28 verified reviews on Google",
+      reviewsGoogleReview: "Google Review",
+      summary:
+        "For years, clients have chosen us for material quality, respected deadlines, and transparent pricing. Every project is handled with care and precision, from the first consultation to the final installation. That is why more than 150 clients have trusted us so far.",
     },
     services: {
       label: "Services",
@@ -161,17 +187,32 @@ export const content = {
       items: [
         {
           t: "Aluminum Windows",
-          d: "Thoughtful solutions for residential and commercial windows.",
+          d: "We fabricate aluminum windows with high thermal and acoustic insulation, tailored to any space — from apartments to commercial premises. European-standard materials and finishes that withstand weathering.",
         },
-        { t: "Aluminum Doors", d: "Entrance and balcony doors with modern, functional design." },
-        { t: "Glazing", d: "Large glass surfaces for bright, open interiors." },
-        { t: "Aluminum Façades", d: "Aluminum solutions for residential and commercial façades." },
-        { t: "PVC Works", d: "PVC work for a range of practical space requirements." },
+        {
+          t: "Aluminum Doors",
+          d: "Entrance and balcony doors built from strong aluminum profiles with modern design and added security. We blend functionality with aesthetics to suit any architectural style.",
+        },
+        {
+          t: "Glazing",
+          d: "Large glass surfaces that bring maximum natural light into the space without compromising thermal insulation. Ideal for modern façades, terraces, and panoramic-view areas.",
+        },
+        {
+          t: "Aluminum Façades",
+          d: "Complete aluminum façade solutions for residential and commercial buildings — from design to installation, focusing on structural durability and long-term visual appeal.",
+        },
+        {
+          t: "PVC Works",
+          d: "A cost-effective, energy-efficient alternative for windows and doors, with good insulation and minimal maintenance. Fits projects with a controlled budget without sacrificing quality.",
+        },
         {
           t: "All Types of Shutters",
-          d: "Practical shutters for privacy, security and light control.",
+          d: "Functional shutters for light control, privacy, and extra security — available in manual or motorized variants, suitable for both residential and commercial spaces.",
         },
-        { t: "Stainless Steel Railings", d: "Clean, durable railings for contemporary spaces." },
+        {
+          t: "Stainless Steel Railings",
+          d: "Stainless-steel railings with a clean finish and high weather resistance — a modern solution for balconies, staircases, and terraces that requires little upkeep.",
+        },
       ],
     },
     process: {
@@ -220,7 +261,7 @@ export const content = {
 export const reviews = [
   {
     name: "Alex Laska",
-    meta: "Local Guide",
+    meta: "Vlerësim në Google",
     stars: 5,
     text: {
       al: "Cilësi shumë e lartë e materialeve, punë e shkëlqyer dhe korrektësi në punën që bëjnë, me çmimet më të lira në treg.",

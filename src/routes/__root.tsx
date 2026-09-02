@@ -83,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Prodhim dhe montim i dritareve dhe dyerve prej alumini në Tiranë. Cilësi, korrektësi dhe çmime konkurruese.",
       },
-      { name: "author", content: "Duralumin Methoxha" },
+      { name: "author", content: "Duralumin Met'hoxha" },
       { property: "og:title", content: "Duralumin Methoxha — Punime Duralumini, Tiranë" },
       {
         property: "og:description",

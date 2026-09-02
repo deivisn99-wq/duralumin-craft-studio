@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import {
   AppWindow,
   ArrowUpRight,
@@ -14,6 +14,7 @@ import {
   Phone,
   ReceiptText,
   Ruler,
+  ShieldCheck,
   Star,
   Wrench,
 } from "lucide-react";
@@ -35,6 +36,14 @@ import {
 } from "@/lib/content";
 import heroImg from "@/assets/hero-facade.jpg";
 import workshopImg from "@/assets/workshop.jpg";
+// Placeholder stock imagery — one distinct photo per service card
+import svcWindows from "@/assets/svc-windows.jpg";
+import svcDoors from "@/assets/svc-doors.jpg";
+import svcGlazing from "@/assets/svc-glazing.jpg";
+import svcFacade from "@/assets/svc-facade.jpg";
+import svcPvc from "@/assets/svc-pvc.jpg";
+import svcShutters from "@/assets/svc-shutters.jpg";
+import svcRailings from "@/assets/svc-railings.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -55,10 +64,42 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+function GoogleLogo({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" aria-hidden role="img">
+      <path
+        fill="#4285F4"
+        d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"
+      />
+      <path
+        fill="#34A853"
+        d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.44v5.7C8.06 42.03 15.45 46 24 46z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.44C2.99 17.99 2.12 20.9 2.12 24s.87 6.01 2.32 8.18l7.25-5.7z"
+      />
+      <path
+        fill="#EA4335"
+        d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.45 2 8.06 5.97 4.44 12.12l7.25 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"
+      />
+    </svg>
+  );
+}
+
 const ease = [0.22, 1, 0.36, 1] as const;
-const servicesImages = [heroImg, workshopImg, heroImg, workshopImg, heroImg, workshopImg, heroImg];
+const servicesImages = [
+  svcWindows,
+  svcDoors,
+  svcGlazing,
+  svcFacade,
+  svcPvc,
+  svcShutters,
+  svcRailings,
+];
 const proofIcons = [Layers, Ruler, ReceiptText, Building2];
 const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench, Layers, Ruler];
+const processIcons = [MessageCircle, ReceiptText, Hammer, Wrench, ShieldCheck];
 
 function Index() {
   const [lang, setLang] = useState<Lang>("al");
@@ -192,9 +233,6 @@ function About({ lang }: { lang: Lang }) {
             loading="lazy"
             className="aspect-[4/5] w-full rounded-2xl object-cover"
           />
-          <span className="absolute -right-3 top-10 hidden -rotate-90 font-display text-sm italic text-brown/60 sm:block">
-            Precizion në çdo detaj.
-          </span>
         </Reveal>
         <div className="border-l border-brown/30 pl-7 sm:pl-10">
           <SectionHead label={t.label} title={t.title} size="lg" />
@@ -231,72 +269,199 @@ function About({ lang }: { lang: Lang }) {
   );
 }
 
-function Stars() {
+const reviewPickIndices = [0, 1, 3] as const;
+
+function GoldStars({ label }: { label: string }) {
   return (
-    <span className="mt-3 flex gap-1 text-brown" aria-label="5 nga 5 yje">
+    <span className="flex gap-1 text-amber-500" aria-label={label}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star key={i} className="size-4 fill-current" />
       ))}
     </span>
   );
 }
-/** Auto-rotating, non-interactive review carousel (cross-fade + slide, 2.5s, pauses on hover). */
-function ReviewCarousel({ lang }: { lang: Lang }) {
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  useEffect(() => {
+
+function ReviewsGrid({ lang }: { lang: Lang }) {
+  const t = content[lang].why;
+  return (
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {reviewPickIndices.map((idx, i) => {
+        const r = reviews[idx]!;
+        return (
+          <Reveal as="figure" key={r.name + i} delay={i * 90}>
+            <figure className="group/card flex h-full min-h-[340px] flex-col rounded-[1.5rem] border border-brown/10 bg-white p-8 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-brown/25 hover:shadow-[0_18px_40px_-18px_rgba(58,44,30,0.18)] sm:p-9">
+              <GoldStars label={t.reviewsStarsAria} />
+              <blockquote className="mt-10 grow font-sans text-xl leading-[1.55] text-brown-deep sm:text-2xl">
+                “{r.text[lang]}”
+              </blockquote>
+              <figcaption className="mt-10 flex items-center gap-4">
+                <span className="grid size-14 shrink-0 place-items-center rounded-full bg-brown font-display text-2xl text-beige">
+                  {r.name.trim().charAt(0).toUpperCase()}
+                </span>
+                <span className="grid gap-1">
+                  <span className="font-sans text-lg font-medium text-brown-deep">{r.name}</span>
+                  <span className="text-base text-brown/70">
+                    {r.meta || (lang === "al" ? "Vlerësim në Google" : "Google Review")}
+                  </span>
+                </span>
+              </figcaption>
+            </figure>
+          </Reveal>
+        );
+      })}
+    </div>
+  );
+}
+
+function PillarsDiagram({ lang }: { lang: Lang }) {
+  const t = content[lang].why;
+  const items = t.pillars;
+  const [active, setActive] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const startTimer = (from: number) => {
+    if (timerRef.current) clearTimeout(timerRef.current);
     const reduced =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced || paused || reviews.length < 2) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % reviews.length), 2500);
-    return () => clearInterval(id);
-  }, [paused]);
+    if (reduced) return;
+    timerRef.current = setTimeout(() => {
+      setActive((prev) => (prev + 1) % items.length);
+    }, 2500);
+  };
+
+  useEffect(() => {
+    startTimer(active);
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [active, items.length]);
+
+  const handleClick = (i: number) => {
+    setActive(i);
+  };
+
+  const current = items[active] ?? items[0]!;
 
   return (
-    <div
-      className="relative min-h-72"
-      aria-live="off"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      {reviews.map((r, i) => (
-        <figure
-          key={r.name + i}
-          aria-hidden={i !== index}
-          className={cn(
-            "relative flex min-h-72 flex-col overflow-hidden rounded-2xl border border-brown/15 bg-beige p-8 transition-all duration-700 ease-out sm:p-10",
-            i === index
-              ? "relative translate-y-0 opacity-100"
-              : "pointer-events-none absolute inset-0 translate-y-3 opacity-0",
-          )}
-        >
-          <Quote
-            className="pointer-events-none absolute -right-2 -top-3 size-28 text-brown/10"
-            strokeWidth={1}
-            aria-hidden
-          />
-          <span className="flex gap-1 text-brown" aria-label="5 nga 5 yje">
-            {Array.from({ length: 5 }).map((_, s) => (
-              <Star key={s} className="size-4 fill-current" />
-            ))}
-          </span>
-          <blockquote className="mt-6 grow text-base leading-8 text-foreground/80">
-            {r.text[lang]}
-          </blockquote>
-          <figcaption className="mt-8 flex items-center gap-4 border-t border-brown/15 pt-6">
-            <span className="grid size-12 shrink-0 place-items-center rounded-full bg-brown font-display text-lg text-beige">
-              {r.name.trim().charAt(0).toUpperCase()}
-            </span>
-            <span className="grid">
-              <span className="font-semibold text-brown-deep">{r.name}</span>
-              <span className="text-sm font-semibold text-foreground/60">
-                {r.meta || "Google reviewer"}
-              </span>
-            </span>
-          </figcaption>
-        </figure>
-      ))}
+    <div className="grid gap-14 lg:grid-cols-[.8fr_1.2fr] lg:gap-16">
+      {/* LEFT: static heading + fixed summary paragraph */}
+      <div>
+        <SectionHead label={t.label} title={t.title} />
+        <Reveal>
+          <p className="mt-6 max-w-md text-base leading-relaxed text-foreground/75 sm:text-lg">
+            {t.summary}
+          </p>
+        </Reveal>
+      </div>
+
+      {/* RIGHT: circle diagram + active text below it */}
+      <div>
+        {/* desktop horizontal row */}
+        <div className="relative hidden px-6 lg:block">
+          <div className="absolute left-6 right-6 top-10 h-px bg-brown/20" />
+          <div className="relative flex items-start justify-between">
+            {items.map((p, i) => {
+              const Icon = proofIcons[i] ?? Layers;
+              const on = i === active;
+              return (
+                <button
+                  key={p.t}
+                  type="button"
+                  onClick={() => handleClick(i)}
+                  aria-pressed={on}
+                  aria-label={p.t}
+                  className="flex cursor-pointer flex-col items-center gap-4 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-brown focus-visible:ring-offset-2 focus-visible:ring-offset-beige-deep"
+                >
+                  <div
+                    className={cn(
+                      "grid size-20 place-items-center rounded-full border transition-all duration-500 ease-out",
+                      on
+                        ? "scale-110 border-brown bg-brown shadow-[0_18px_40px_-14px_rgba(58,44,30,0.45)]"
+                        : "scale-100 border-brown/25 bg-surface",
+                    )}
+                  >
+                    <Icon
+                      className={cn(
+                        "size-8 transition-colors duration-500",
+                        on ? "text-beige" : "text-brown/40",
+                      )}
+                      strokeWidth={1.2}
+                    />
+                  </div>
+                  <span
+                    className={cn(
+                      "max-w-24 text-center text-xs font-semibold uppercase tracking-wider transition-colors duration-500",
+                      on ? "text-brown-deep" : "text-brown/40",
+                    )}
+                  >
+                    {p.t}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* mobile vertical stack */}
+        <div className="relative lg:hidden">
+          <div className="absolute bottom-8 left-7 top-8 w-px bg-brown/20" />
+          <ol className="relative grid gap-8">
+            {items.map((p, i) => {
+              const Icon = proofIcons[i] ?? Layers;
+              const on = i === active;
+              return (
+                <li
+                  key={p.t}
+                  className="relative flex items-center gap-5"
+                >
+                  <button
+                    type="button"
+                    onClick={() => handleClick(i)}
+                    aria-pressed={on}
+                    aria-label={p.t}
+                    className={cn(
+                      "grid size-14 shrink-0 cursor-pointer place-items-center rounded-full border transition-all duration-500 ease-out outline-none focus-visible:ring-2 focus-visible:ring-brown focus-visible:ring-offset-2 focus-visible:ring-offset-beige-deep",
+                      on
+                        ? "scale-110 border-brown bg-brown shadow-[0_12px_28px_-14px_rgba(58,44,30,0.45)]"
+                        : "scale-100 border-brown/25 bg-surface",
+                    )}
+                  >
+                    <Icon
+                      className={cn("size-6", on ? "text-beige" : "text-brown/40")}
+                      strokeWidth={1.2}
+                    />
+                  </button>
+                  <span
+                    className={cn(
+                      "text-xs font-semibold uppercase tracking-wider transition-colors duration-500",
+                      on ? "text-brown-deep" : "text-brown/40",
+                    )}
+                  >
+                    {p.t}
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+
+        {/* active item text — sits below the whole diagram */}
+        <div className="mt-12 min-h-24">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={current.t}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35, ease }}
+              className="max-w-xl text-lg leading-relaxed text-foreground/75 sm:text-xl"
+            >
+              {current.d}
+            </motion.p>
+          </AnimatePresence>
+        </div>
+      </div>
     </div>
   );
 }
@@ -306,49 +471,33 @@ function WhyUs({ lang }: { lang: Lang }) {
   return (
     <section id="why" className="bg-beige-deep py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <SectionHead label={t.label} title={t.title} />
-        <div className="mt-14 grid gap-4 md:grid-cols-2 lg:flex lg:items-stretch">
-          {t.pillars.map((p, i) => {
-            const Icon = proofIcons[i] ?? Layers;
-            return (
-              <Reveal as="article" key={p.t} delay={i * 80} className="lg:flex-1">
-                <div className="group/card flex h-full min-h-52 flex-col justify-between rounded-2xl border border-brown/15 bg-surface p-6 transition-all duration-200 ease-out hover:scale-105 hover:border-brown hover:bg-brown hover:shadow-[0_18px_40px_-18px_rgba(58,44,30,0.35)]">
-                  <Icon
-                    className="size-9 text-brown transition-colors duration-200 ease-out group-hover/card:text-beige"
-                    strokeWidth={1.2}
-                  />
-                  <div>
-                    <p className="font-display text-2xl text-brown-deep transition-colors duration-200 ease-out group-hover/card:text-beige">
-                      {p.t}
-                    </p>
-                    <p className="mt-2 text-sm leading-relaxed text-foreground/70 transition-colors duration-200 ease-out group-hover/card:text-beige/85">
-                      {i === 2 ? "Pa kosto të fshehura." : p.d}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
-        <div className="mt-20 grid gap-10 lg:grid-cols-[.65fr_1.35fr] lg:items-center">
-          <div>
-            <p className="label-caps text-brown/70">{t.reviewsTitle}</p>
-            <p className="mt-5 font-display text-7xl text-brown-deep">
-              <CountUp to={4.9} decimals={1} />
-              <span className="text-3xl">/5</span>
-            </p>
-            <Stars />
-            <p className="mt-4 text-sm text-foreground/70">28 vlerësime · Google Maps</p>
+        <PillarsDiagram lang={lang} />
+
+
+        <div className="mt-20">
+          <Reveal className="mx-auto flex max-w-xl flex-col items-center text-center">
+            <p className="label-caps text-brown/70">{t.reviewsLabel}</p>
+            <div className="mt-4 flex items-center gap-3">
+              <GoogleLogo className="size-9 shrink-0" />
+              <p className="font-display text-5xl text-brown-deep sm:text-6xl">{t.reviewsRating}</p>
+            </div>
+            <div className="mt-3">
+              <GoldStars label={t.reviewsStarsAria} />
+            </div>
+            <p className="mt-3 text-sm text-foreground/70">{t.reviewsSupport}</p>
             <a
               href={GOOGLE_REVIEWS_URL}
               target="_blank"
               rel="noreferrer"
-              className="mt-7 inline-flex items-center gap-2 rounded-full border border-brown px-5 py-3 text-sm font-semibold text-brown transition-colors hover:bg-brown hover:text-beige"
+              className="mt-6 inline-flex items-center gap-2 rounded-full border border-brown px-5 py-3 text-sm font-semibold text-brown transition-colors hover:bg-brown hover:text-beige"
+              aria-label={t.reviewsCta}
             >
-              Shiko të gjitha në Google Maps <ArrowUpRight className="size-4" />
+              {t.reviewsCta} <ArrowUpRight className="size-4" />
             </a>
+          </Reveal>
+          <div className="mt-14">
+            <ReviewsGrid lang={lang} />
           </div>
-          <ReviewCarousel lang={lang} />
         </div>
       </div>
     </section>
@@ -372,26 +521,32 @@ function Services({ lang }: { lang: Lang }) {
             Kërko ofertë <ChevronRight className="size-4" />
           </a>
         </div>
-        <div className="grid gap-4">
+        <div className="grid gap-5">
           {t.items.map((s, i) => {
             const Icon = serviceIcons[i] ?? Layers;
             return (
               <Reveal as="article" key={s.t} delay={i * 70}>
-                <div className="group grid overflow-hidden rounded-2xl border border-brown/15 bg-beige sm:grid-cols-[.75fr_1.25fr]">
+                <div className="group grid overflow-hidden rounded-2xl border border-brown/10 bg-beige shadow-[0_4px_18px_-4px_rgba(58,44,30,0.08)] sm:grid-cols-[.75fr_1.25fr]">
                   <img
                     src={servicesImages[i]}
-                    alt=""
+                    alt={s.t}
+                    width={1024}
+                    height={768}
                     loading="lazy"
                     className="h-52 w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:h-full"
                   />
-                  <div className="flex min-h-56 flex-col justify-between p-6 sm:p-8">
+                  <div className="flex min-h-56 flex-col justify-between gap-8 p-8 sm:p-10">
                     <div className="flex items-start justify-between">
-                      <span className="font-display text-4xl text-brown/30">0{i + 1}</span>
-                      <Icon className="size-7 text-brown" strokeWidth={1.2} />
+                      <span className="label-caps text-brown/40">0{i + 1}</span>
+                      <Icon className="size-6 text-brown" strokeWidth={1.2} />
                     </div>
                     <div>
-                      <h3 className="font-display text-2xl text-brown-deep">{s.t}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-foreground/70">{s.d}</p>
+                      <h3 className="font-display text-[1.65rem] font-semibold leading-tight text-brown-deep sm:text-[1.75rem]">
+                        {s.t}
+                      </h3>
+                      <p className="mt-3 text-[0.95rem] leading-[1.75] text-foreground/65">
+                        {s.d}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -481,25 +636,31 @@ function Process({ lang }: { lang: Lang }) {
           </p>
         </div>
         <div ref={ref} className="relative">
-          <div className="absolute bottom-0 left-4 top-0 w-px bg-brown/15">
+          <div className="absolute bottom-0 left-4 top-0 z-0 w-px bg-brown/15">
             <motion.div className="w-full origin-top bg-brown" style={{ height }} />
           </div>
-          <ol className="grid gap-4">
-            {t.steps.map((s, i) => (
-              <Reveal as="li" key={s.t}>
-                <div className="grid grid-cols-[2rem_1fr] gap-5 pb-10">
-                  <span className="relative z-10 grid size-8 place-items-center rounded-full border border-brown bg-beige font-display text-sm text-brown">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div>
-                    <h3 className="font-display text-2xl text-brown-deep">{s.t}</h3>
-                    <p className="mt-2 max-w-lg text-sm leading-relaxed text-foreground/70">
-                      {s.d}
-                    </p>
+          <ol className="relative grid gap-4">
+            {t.steps.map((s, i) => {
+              const Icon = processIcons[i] ?? MessageCircle;
+              return (
+                <li key={s.t}>
+                  <div className="grid grid-cols-[2rem_1fr] gap-5 pb-10">
+                    <span className="relative z-10 grid size-8 place-items-center rounded-full border border-brown bg-beige font-display text-sm text-brown">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <div className="flex items-center gap-3">
+                        <Icon className="size-6 shrink-0 text-brown" strokeWidth={1.2} />
+                        <h3 className="font-display text-2xl text-brown-deep">{s.t}</h3>
+                      </div>
+                      <p className="mt-2 max-w-lg text-sm leading-relaxed text-foreground/70">
+                        {s.d}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Reveal>
-            ))}
+                </li>
+              );
+            })}
           </ol>
         </div>
       </div>

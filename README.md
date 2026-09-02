@@ -14,7 +14,7 @@ Location: Rruga Teodor Keko 16, Tiranë, Albania
 
 Phone: +355 69 377 5502
 
-Hours: Opens 8 AM Mon (standard weekday hours — placeholder, confirm full schedule)
+Hours:Opens 8 AM Mon (standard weekday hours — placeholder, confirm full schedule)
 
 Existing domain: duraluminmethoxha.com
 
