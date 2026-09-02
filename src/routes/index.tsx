@@ -285,7 +285,7 @@ function ReviewsGrid({ lang }: { lang: Lang }) {
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {reviewPickIndices.map((idx, i) => {
-        const r = reviews[idx];
+        const r = reviews[idx]!;
         return (
           <Reveal as="figure" key={r.name + i} delay={i * 90}>
             <figure className="group/card flex h-full min-h-[340px] flex-col rounded-[1.5rem] border border-[#30444a] bg-[#142427] p-8 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#466067] hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)] sm:p-9">
