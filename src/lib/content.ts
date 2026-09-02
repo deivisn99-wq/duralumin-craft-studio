@@ -178,6 +178,8 @@ export const content = {
       reviewsStarsAria: "4.9 out of 5 stars",
       reviewsSupport: "28 verified reviews on Google",
       reviewsGoogleReview: "Google Review",
+      summary:
+        "For years, clients have chosen us for material quality, respected deadlines, and transparent pricing. Every project is handled with care and precision, from the first consultation to the final installation. That is why more than 150 clients have trusted us so far.",
     },
     services: {
       label: "Services",
