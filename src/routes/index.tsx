@@ -288,7 +288,7 @@ function ReviewsGrid({ lang }: { lang: Lang }) {
         const r = reviews[idx]!;
         return (
           <Reveal as="figure" key={r.name + i} delay={i * 90}>
-            <figure className="group/card flex h-full min-h-[340px] flex-col rounded-[1.5rem] border border-[#30444a] bg-[#142427] p-8 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#466067] hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)] sm:p-9">
+            <figure className="group/card flex h-full min-h-[340px] flex-col rounded-[1.5rem] border border-brown/10 bg-white p-8 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-brown/25 hover:shadow-[0_18px_40px_-18px_rgba(58,44,30,0.18)] sm:p-9">
               <GoldStars label={t.reviewsStarsAria} />
               <blockquote className="mt-10 grow font-sans text-xl leading-[1.55] text-[#edf4f2] sm:text-2xl">
                 “{r.text[lang]}”
