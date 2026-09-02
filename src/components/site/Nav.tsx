@@ -3,7 +3,7 @@ import { Menu, Phone, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { content, PHONE_TEL, type Lang } from "@/lib/content";
 
-const links = ["about", "why", "services", "process"] as const;
+const links = ["about", "why", "services", "projects", "process"] as const;
 
 export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   const t = (content[lang] ?? content.al).nav;

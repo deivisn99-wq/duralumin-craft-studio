@@ -1,6 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import {
   AppWindow,
   ArrowUpRight,
@@ -411,10 +417,7 @@ function PillarsDiagram({ lang }: { lang: Lang }) {
               const Icon = proofIcons[i] ?? Layers;
               const on = i === active;
               return (
-                <li
-                  key={p.t}
-                  className="relative flex items-center gap-5"
-                >
+                <li key={p.t} className="relative flex items-center gap-5">
                   <button
                     type="button"
                     onClick={() => handleClick(i)}
@@ -472,7 +475,6 @@ function WhyUs({ lang }: { lang: Lang }) {
     <section id="why" className="bg-beige-deep py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <PillarsDiagram lang={lang} />
-
 
         <div className="mt-20">
           <Reveal className="mx-auto flex max-w-xl flex-col items-center text-center">
@@ -544,9 +546,7 @@ function Services({ lang }: { lang: Lang }) {
                       <h3 className="font-display text-[1.65rem] font-semibold leading-tight text-brown-deep sm:text-[1.75rem]">
                         {s.t}
                       </h3>
-                      <p className="mt-3 text-[0.95rem] leading-[1.75] text-foreground/65">
-                        {s.d}
-                      </p>
+                      <p className="mt-3 text-[0.95rem] leading-[1.75] text-foreground/65">{s.d}</p>
                     </div>
                   </div>
                 </div>
