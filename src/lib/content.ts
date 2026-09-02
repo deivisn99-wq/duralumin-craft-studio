@@ -56,6 +56,8 @@ export const content = {
       reviewsStarsAria: "4.9 nga 5 yje",
       reviewsSupport: "28 vlerësime të verifikuara në Google",
       reviewsGoogleReview: "Vlerësim në Google",
+      summary:
+        "Prej vitesh, klientët na zgjedhin për cilësinë e materialeve, korrektësinë në afate dhe çmimet transparente. Çdo projekt trajtohet me kujdes dhe precizion, nga konsultimi i parë deri te montimi final. Kjo është arsyeja pse mbi 150 klientë na kanë besuar deri tani.",
     },
     services: {
       label: "Shërbimet",
@@ -176,6 +178,8 @@ export const content = {
       reviewsStarsAria: "4.9 out of 5 stars",
       reviewsSupport: "28 verified reviews on Google",
       reviewsGoogleReview: "Google Review",
+      summary:
+        "For years, clients have chosen us for material quality, respected deadlines, and transparent pricing. Every project is handled with care and precision, from the first consultation to the final installation. That is why more than 150 clients have trusted us so far.",
     },
     services: {
       label: "Services",

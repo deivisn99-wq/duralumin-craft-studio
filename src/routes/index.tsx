@@ -312,104 +312,150 @@ function ReviewsGrid({ lang }: { lang: Lang }) {
   );
 }
 
-function PillarsPinned({ lang }: { lang: Lang }) {
+function PillarsDiagram({ lang }: { lang: Lang }) {
   const t = content[lang].why;
   const items = t.pillars;
-  const wrapRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const { scrollYProgress } = useScroll({ target: wrapRef, offset: ["start start", "end end"] });
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const idx = Math.min(items.length - 1, Math.max(0, Math.floor(v * items.length)));
-    setActive(idx);
-  });
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const nodes = stepRefs.current.filter(Boolean) as HTMLDivElement[];
+    if (!nodes.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const idx = nodes.indexOf(entry.target as HTMLDivElement);
+          if (idx >= 0) setActive((prev) => (idx > prev ? idx : prev));
+        }
+      },
+      { threshold: 0.6, rootMargin: "0px 0px -25% 0px" },
+    );
+    nodes.forEach((n) => observer.observe(n));
+    return () => observer.disconnect();
+  }, [items.length]);
+
   const current = items[active] ?? items[0]!;
+
   return (
-    <div ref={wrapRef} className="relative hidden lg:block lg:h-[280vh]">
-      <div className="sticky top-0 flex min-h-screen items-center">
-        <div className="grid w-full items-center gap-16 lg:grid-cols-[.85fr_1.15fr]">
-          <div>
-            <SectionHead label={t.label} title={t.title} />
-            <div className="relative mt-8 min-h-40">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={current.t}
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.35, ease }}
+    <div className="grid gap-14 lg:grid-cols-[.8fr_1.2fr] lg:gap-16">
+      {/* LEFT: static heading + fixed summary paragraph */}
+      <div>
+        <SectionHead label={t.label} title={t.title} />
+        <Reveal>
+          <p className="mt-6 max-w-md text-base leading-relaxed text-foreground/75 sm:text-lg">
+            {t.summary}
+          </p>
+        </Reveal>
+      </div>
+
+      {/* RIGHT: circle diagram + active text below it */}
+      <div>
+        {/* desktop horizontal row */}
+        <div className="relative hidden px-6 lg:block">
+          <div className="absolute left-6 right-6 top-10 h-px bg-brown/20" />
+          <div className="relative flex items-start justify-between">
+            {items.map((p, i) => {
+              const Icon = proofIcons[i] ?? Layers;
+              const on = i === active;
+              return (
+                <div
+                  key={p.t}
+                  ref={(el) => {
+                    stepRefs.current[i] = el;
+                  }}
+                  className="flex flex-col items-center gap-4"
                 >
-                  <p className="font-display text-3xl text-brown-deep sm:text-4xl">{current.t}</p>
-                  <p className="mt-4 max-w-md text-base leading-relaxed text-foreground/70">
-                    {current.d}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-          <div className="relative px-6">
-            <div className="absolute left-6 right-6 top-1/2 h-px -translate-y-1/2 bg-brown/20" />
-            <div className="relative flex items-center justify-between">
-              {items.map((p, i) => {
-                const Icon = proofIcons[i] ?? Layers;
-                const on = i === active;
-                return (
-                  <div key={p.t} className="flex flex-col items-center gap-4">
-                    <motion.div
-                      animate={{ scale: on ? 1.2 : 1 }}
-                      transition={{ duration: 0.35, ease }}
+                  <div
+                    className={cn(
+                      "grid size-20 place-items-center rounded-full border transition-all duration-500 ease-out",
+                      on
+                        ? "scale-110 border-brown bg-brown shadow-[0_18px_40px_-14px_rgba(58,44,30,0.45)]"
+                        : "scale-100 border-brown/25 bg-surface",
+                    )}
+                  >
+                    <Icon
                       className={cn(
-                        "grid size-20 place-items-center rounded-full border transition-colors duration-300",
-                        on
-                          ? "border-brown bg-brown shadow-[0_18px_40px_-14px_rgba(58,44,30,0.45)]"
-                          : "border-brown/25 bg-surface",
+                        "size-8 transition-colors duration-500",
+                        on ? "text-beige" : "text-brown/40",
                       )}
-                    >
-                      <Icon
-                        className={cn("size-8", on ? "text-beige" : "text-brown/40")}
-                        strokeWidth={1.2}
-                      />
-                    </motion.div>
-                    <span
-                      className={cn(
-                        "max-w-24 text-center text-xs font-semibold uppercase tracking-wider transition-colors duration-300",
-                        on ? "text-brown-deep" : "text-brown/40",
-                      )}
-                    >
-                      {p.t}
-                    </span>
+                      strokeWidth={1.2}
+                    />
                   </div>
-                );
-              })}
-            </div>
+                  <span
+                    className={cn(
+                      "max-w-24 text-center text-xs font-semibold uppercase tracking-wider transition-colors duration-500",
+                      on ? "text-brown-deep" : "text-brown/40",
+                    )}
+                  >
+                    {p.t}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
 
-function PillarsMobile({ lang }: { lang: Lang }) {
-  const t = content[lang].why;
-  return (
-    <div className="lg:hidden">
-      <SectionHead label={t.label} title={t.title} />
-      <ol className="relative mt-10 grid gap-8">
-        <div className="absolute bottom-6 left-7 top-6 w-px bg-brown/20" />
-        {t.pillars.map((p, i) => {
-          const Icon = proofIcons[i] ?? Layers;
-          return (
-            <Reveal as="li" key={p.t} delay={i * 60} className="relative grid grid-cols-[3.5rem_1fr] gap-5">
-              <span className="grid size-14 place-items-center rounded-full border border-brown bg-brown shadow-[0_12px_28px_-14px_rgba(58,44,30,0.45)]">
-                <Icon className="size-6 text-beige" strokeWidth={1.2} />
-              </span>
-              <div>
-                <p className="font-display text-2xl text-brown-deep">{p.t}</p>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/70">{p.d}</p>
-              </div>
-            </Reveal>
-          );
-        })}
-      </ol>
+        {/* mobile vertical stack */}
+        <div className="relative lg:hidden">
+          <div className="absolute bottom-8 left-7 top-8 w-px bg-brown/20" />
+          <ol className="relative grid gap-8">
+            {items.map((p, i) => {
+              const Icon = proofIcons[i] ?? Layers;
+              const on = i === active;
+              return (
+                <li
+                  key={p.t}
+                  ref={(el) => {
+                    stepRefs.current[i] = el as unknown as HTMLDivElement | null;
+                  }}
+                  className="relative flex items-center gap-5"
+                >
+                  <span
+                    className={cn(
+                      "grid size-14 shrink-0 place-items-center rounded-full border transition-all duration-500 ease-out",
+                      on
+                        ? "scale-110 border-brown bg-brown shadow-[0_12px_28px_-14px_rgba(58,44,30,0.45)]"
+                        : "scale-100 border-brown/25 bg-surface",
+                    )}
+                  >
+                    <Icon
+                      className={cn("size-6", on ? "text-beige" : "text-brown/40")}
+                      strokeWidth={1.2}
+                    />
+                  </span>
+                  <span
+                    className={cn(
+                      "text-xs font-semibold uppercase tracking-wider transition-colors duration-500",
+                      on ? "text-brown-deep" : "text-brown/40",
+                    )}
+                  >
+                    {p.t}
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+
+        {/* active item text — sits below the whole diagram */}
+        <div className="mt-12 min-h-32 border-t border-brown/15 pt-8">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.t}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4, ease }}
+            >
+              <p className="font-display text-3xl text-brown-deep sm:text-4xl">{current.t}</p>
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-foreground/70">
+                {current.d}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
     </div>
   );
 }
@@ -419,8 +465,8 @@ function WhyUs({ lang }: { lang: Lang }) {
   return (
     <section id="why" className="bg-beige-deep py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <PillarsPinned lang={lang} />
-        <PillarsMobile lang={lang} />
+        <PillarsDiagram lang={lang} />
+
 
         <div className="mt-20">
           <Reveal className="mx-auto flex max-w-xl flex-col items-center text-center">
