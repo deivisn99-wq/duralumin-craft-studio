@@ -316,24 +316,29 @@ function PillarsDiagram({ lang }: { lang: Lang }) {
   const t = content[lang].why;
   const items = t.pillars;
   const [active, setActive] = useState(0);
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const startTimer = (from: number) => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    const reduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+    timerRef.current = setTimeout(() => {
+      setActive((prev) => (prev + 1) % items.length);
+    }, 2500);
+  };
 
   useEffect(() => {
-    const nodes = stepRefs.current.filter(Boolean) as HTMLDivElement[];
-    if (!nodes.length) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const idx = nodes.indexOf(entry.target as HTMLDivElement);
-          if (idx >= 0) setActive((prev) => (idx > prev ? idx : prev));
-        }
-      },
-      { threshold: 0.6, rootMargin: "0px 0px -25% 0px" },
-    );
-    nodes.forEach((n) => observer.observe(n));
-    return () => observer.disconnect();
-  }, [items.length]);
+    startTimer(active);
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [active, items.length]);
+
+  const handleClick = (i: number) => {
+    setActive(i);
+  };
 
   const current = items[active] ?? items[0]!;
 
@@ -359,12 +364,13 @@ function PillarsDiagram({ lang }: { lang: Lang }) {
               const Icon = proofIcons[i] ?? Layers;
               const on = i === active;
               return (
-                <div
+                <button
                   key={p.t}
-                  ref={(el) => {
-                    stepRefs.current[i] = el;
-                  }}
-                  className="flex flex-col items-center gap-4"
+                  type="button"
+                  onClick={() => handleClick(i)}
+                  aria-pressed={on}
+                  aria-label={p.t}
+                  className="flex cursor-pointer flex-col items-center gap-4 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-brown focus-visible:ring-offset-2 focus-visible:ring-offset-beige-deep"
                 >
                   <div
                     className={cn(
@@ -390,7 +396,7 @@ function PillarsDiagram({ lang }: { lang: Lang }) {
                   >
                     {p.t}
                   </span>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -406,14 +412,15 @@ function PillarsDiagram({ lang }: { lang: Lang }) {
               return (
                 <li
                   key={p.t}
-                  ref={(el) => {
-                    stepRefs.current[i] = el as unknown as HTMLDivElement | null;
-                  }}
                   className="relative flex items-center gap-5"
                 >
-                  <span
+                  <button
+                    type="button"
+                    onClick={() => handleClick(i)}
+                    aria-pressed={on}
+                    aria-label={p.t}
                     className={cn(
-                      "grid size-14 shrink-0 place-items-center rounded-full border transition-all duration-500 ease-out",
+                      "grid size-14 shrink-0 cursor-pointer place-items-center rounded-full border transition-all duration-500 ease-out outline-none focus-visible:ring-2 focus-visible:ring-brown focus-visible:ring-offset-2 focus-visible:ring-offset-beige-deep",
                       on
                         ? "scale-110 border-brown bg-brown shadow-[0_12px_28px_-14px_rgba(58,44,30,0.45)]"
                         : "scale-100 border-brown/25 bg-surface",
@@ -423,7 +430,7 @@ function PillarsDiagram({ lang }: { lang: Lang }) {
                       className={cn("size-6", on ? "text-beige" : "text-brown/40")}
                       strokeWidth={1.2}
                     />
-                  </span>
+                  </button>
                   <span
                     className={cn(
                       "text-xs font-semibold uppercase tracking-wider transition-colors duration-500",
@@ -439,20 +446,18 @@ function PillarsDiagram({ lang }: { lang: Lang }) {
         </div>
 
         {/* active item text — sits below the whole diagram */}
-        <div className="mt-12 min-h-32 border-t border-brown/15 pt-8">
+        <div className="mt-12 min-h-24">
           <AnimatePresence mode="wait">
-            <motion.div
+            <motion.p
               key={current.t}
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4, ease }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35, ease }}
+              className="max-w-xl text-lg leading-relaxed text-foreground/75 sm:text-xl"
             >
-              <p className="font-display text-3xl text-brown-deep sm:text-4xl">{current.t}</p>
-              <p className="mt-4 max-w-xl text-base leading-relaxed text-foreground/70">
-                {current.d}
-              </p>
-            </motion.div>
+              {current.d}
+            </motion.p>
           </AnimatePresence>
         </div>
       </div>
