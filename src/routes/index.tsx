@@ -111,6 +111,7 @@ function Index() {
         <About lang={lang} />
         <WhyUs lang={lang} />
         <Services lang={lang} />
+        <Projects lang={lang} />
         <Process lang={lang} />
         <Quote lang={lang} />
       </main>
@@ -121,7 +122,7 @@ function Index() {
 }
 
 function Hero({ lang }: { lang: Lang }) {
-  const t = content[lang].hero;
+  const t = (content[lang] ?? content.al).hero;
   const ref = useRef<HTMLElement>(null);
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 700], [0, 95]);
@@ -219,7 +220,7 @@ function SectionHead({
 }
 
 function About({ lang }: { lang: Lang }) {
-  const t = content[lang].about;
+  const t = (content[lang] ?? content.al).about;
   return (
     <section id="about" className="bg-surface py-24 sm:py-32">
       <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 lg:grid-cols-[1.1fr_.9fr] lg:gap-24 lg:px-8">
@@ -466,7 +467,7 @@ function PillarsDiagram({ lang }: { lang: Lang }) {
 }
 
 function WhyUs({ lang }: { lang: Lang }) {
-  const t = content[lang].why;
+  const t = (content[lang] ?? content.al).why;
   return (
     <section id="why" className="bg-beige-deep py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -504,7 +505,7 @@ function WhyUs({ lang }: { lang: Lang }) {
 }
 
 function Services({ lang }: { lang: Lang }) {
-  const t = content[lang].services;
+  const t = (content[lang] ?? content.al).services;
   return (
     <section id="services" className="bg-surface py-24 sm:py-32">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-[.7fr_1.3fr] lg:px-8">
@@ -558,8 +559,70 @@ function Services({ lang }: { lang: Lang }) {
   );
 }
 
+function Projects({ lang }: { lang: Lang }) {
+  const isAlbanian = lang === "al";
+  const projectImages = [heroImg, workshopImg, heroImg, workshopImg, heroImg, workshopImg];
+  const projectLabels = isAlbanian
+    ? [
+        "Rezidencë private",
+        "Punishte & detaje",
+        "Fasadë moderne",
+        "Hapësirë komerciale",
+        "Dritare alumini",
+        "Projekt në Tiranë",
+      ]
+    : [
+        "Private residence",
+        "Workshop details",
+        "Modern façade",
+        "Commercial space",
+        "Aluminum windows",
+        "Tirana project",
+      ];
+
+  return (
+    <section id="projects" className="bg-brown-deep py-24 text-beige sm:py-32">
+      <div className="mx-auto max-w-7xl px-5 lg:px-8">
+        <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
+          <SectionHead
+            label={isAlbanian ? "Projektet Tona" : "Our Projects"}
+            title={isAlbanian ? "Punë që flasin vetë" : "Work that speaks for itself"}
+            invert
+          />
+          <p className="max-w-sm text-sm leading-relaxed text-beige/65">
+            {isAlbanian
+              ? "Një përzgjedhje nga punimet dhe detajet që krijojmë çdo ditë."
+              : "A selection of the spaces, details, and finishes we create every day."}
+          </p>
+        </div>
+        <div className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5">
+          {projectImages.map((image, i) => (
+            <Reveal
+              key={`${projectLabels[i]}-${i}`}
+              delay={i * 70}
+              className={i === 1 || i === 4 ? "sm:translate-y-10" : ""}
+            >
+              <figure className="group relative overflow-hidden rounded-2xl bg-brown">
+                <img
+                  src={image}
+                  alt={`${projectLabels[i]} — Duralumin Methoxha`}
+                  loading="lazy"
+                  className="aspect-[3/5] w-full object-cover transition duration-700 ease-out group-hover:scale-105 group-hover:opacity-75"
+                />
+                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brown-deep/90 to-transparent px-4 pb-4 pt-12 text-sm font-medium text-beige sm:px-5 sm:pb-5">
+                  {projectLabels[i]}
+                </figcaption>
+              </figure>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Process({ lang }: { lang: Lang }) {
-  const t = content[lang].process;
+  const t = (content[lang] ?? content.al).process;
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start .7", "end .7"] });
   const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
@@ -606,7 +669,7 @@ function Process({ lang }: { lang: Lang }) {
 }
 
 function Quote({ lang }: { lang: Lang }) {
-  const t = content[lang].quote;
+  const t = (content[lang] ?? content.al).quote;
   return (
     <section id="quote" className="bg-brown py-24 text-beige sm:py-32">
       <div className="mx-auto grid max-w-7xl gap-14 px-5 lg:grid-cols-[.85fr_1.15fr] lg:px-8">
@@ -662,7 +725,7 @@ function MobileContactBar({ lang }: { lang: Lang }) {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
-  const t = content[lang].quote;
+  const t = (content[lang] ?? content.al).quote;
   return (
     <div
       className={cn(
@@ -691,7 +754,7 @@ function MobileContactBar({ lang }: { lang: Lang }) {
 }
 
 function Footer({ lang }: { lang: Lang }) {
-  const t = content[lang];
+  const t = content[lang] ?? content.al;
   return (
     <footer className="bg-beige px-5 py-14 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
