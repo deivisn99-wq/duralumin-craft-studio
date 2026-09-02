@@ -257,7 +257,7 @@ export const content = {
 export const reviews = [
   {
     name: "Alex Laska",
-    meta: "Local Guide",
+    meta: "Vlerësim në Google",
     stars: 5,
     text: {
       al: "Cilësi shumë e lartë e materialeve, punë e shkëlqyer dhe korrektësi në punën që bëjnë, me çmimet më të lira në treg.",
