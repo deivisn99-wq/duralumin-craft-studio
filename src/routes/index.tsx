@@ -122,7 +122,7 @@ function Index() {
 }
 
 function Hero({ lang }: { lang: Lang }) {
-  const t = content[lang].hero;
+  const t = (content[lang] ?? content.al).hero;
   const ref = useRef<HTMLElement>(null);
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 700], [0, 95]);
@@ -220,7 +220,7 @@ function SectionHead({
 }
 
 function About({ lang }: { lang: Lang }) {
-  const t = content[lang].about;
+  const t = (content[lang] ?? content.al).about;
   return (
     <section id="about" className="bg-surface py-24 sm:py-32">
       <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 lg:grid-cols-[1.1fr_.9fr] lg:gap-24 lg:px-8">
@@ -467,7 +467,7 @@ function PillarsDiagram({ lang }: { lang: Lang }) {
 }
 
 function WhyUs({ lang }: { lang: Lang }) {
-  const t = content[lang].why;
+  const t = (content[lang] ?? content.al).why;
   return (
     <section id="why" className="bg-beige-deep py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -505,7 +505,7 @@ function WhyUs({ lang }: { lang: Lang }) {
 }
 
 function Services({ lang }: { lang: Lang }) {
-  const t = content[lang].services;
+  const t = (content[lang] ?? content.al).services;
   return (
     <section id="services" className="bg-surface py-24 sm:py-32">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-[.7fr_1.3fr] lg:px-8">
@@ -622,7 +622,7 @@ function Projects({ lang }: { lang: Lang }) {
 }
 
 function Process({ lang }: { lang: Lang }) {
-  const t = content[lang].process;
+  const t = (content[lang] ?? content.al).process;
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start .7", "end .7"] });
   const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
@@ -669,7 +669,7 @@ function Process({ lang }: { lang: Lang }) {
 }
 
 function Quote({ lang }: { lang: Lang }) {
-  const t = content[lang].quote;
+  const t = (content[lang] ?? content.al).quote;
   return (
     <section id="quote" className="bg-brown py-24 text-beige sm:py-32">
       <div className="mx-auto grid max-w-7xl gap-14 px-5 lg:grid-cols-[.85fr_1.15fr] lg:px-8">
@@ -725,7 +725,7 @@ function MobileContactBar({ lang }: { lang: Lang }) {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
-  const t = content[lang].quote;
+  const t = (content[lang] ?? content.al).quote;
   return (
     <div
       className={cn(
@@ -754,7 +754,7 @@ function MobileContactBar({ lang }: { lang: Lang }) {
 }
 
 function Footer({ lang }: { lang: Lang }) {
-  const t = content[lang];
+  const t = content[lang] ?? content.al;
   return (
     <footer className="bg-beige px-5 py-14 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">

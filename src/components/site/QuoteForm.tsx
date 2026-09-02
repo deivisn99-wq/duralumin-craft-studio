@@ -2,7 +2,7 @@ import { useState } from "react";
 import { content, type Lang } from "@/lib/content";
 
 export function QuoteForm({ lang }: { lang: Lang }) {
-  const t = content[lang].quote;
+  const t = (content[lang] ?? content.al).quote;
   const [sent, setSent] = useState(false);
   return (
     <form

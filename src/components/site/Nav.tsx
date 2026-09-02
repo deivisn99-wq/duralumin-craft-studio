@@ -6,7 +6,7 @@ import { content, PHONE_TEL, type Lang } from "@/lib/content";
 const links = ["about", "why", "services", "process"] as const;
 
 export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
-  const t = content[lang].nav;
+  const t = (content[lang] ?? content.al).nav;
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("home");
