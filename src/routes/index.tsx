@@ -61,7 +61,9 @@ const svcPvc = photo(
 const svcShutters = photo(
   "08_Sherbime-06_Grila__IMG-20260902-WA0049-LRcr2u9tWmsMaOKM82Ec806IdzOa15.jpg",
 );
-const svcRailings = "@/assets/svc-railings.jpg";
+const svcRailings = photo(
+  "15_Projekte-06_Vetrate-komerciale__IMG-20260902-WA0107-ybCZwbiEylIzIhClMGTqEsAfep0eNG.jpg",
+);
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -552,14 +554,14 @@ function Services({ lang }: { lang: Lang }) {
             const Icon = serviceIcons[i] ?? Layers;
             return (
               <Reveal as="article" key={s.t} delay={i * 70}>
-                <div className="group grid overflow-hidden rounded-2xl border border-brown/10 bg-beige shadow-[0_4px_18px_-4px_rgba(58,44,30,0.08)] sm:grid-cols-[.75fr_1.25fr]">
+                <div className="group grid min-h-72 overflow-hidden rounded-2xl border border-brown/10 bg-beige shadow-[0_4px_18px_-4px_rgba(58,44,30,0.08)] sm:grid-cols-[.75fr_1.25fr]">
                   <img
                     src={servicesImages[i]}
                     alt={s.t}
                     width={1024}
                     height={768}
                     loading="lazy"
-                    className="h-52 w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:h-full"
+                    className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:h-64 lg:h-full lg:min-h-72"
                   />
                   <div className="flex min-h-56 flex-col justify-between gap-8 p-8 sm:p-10">
                     <div className="flex items-start justify-between">
