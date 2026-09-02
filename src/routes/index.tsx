@@ -283,21 +283,9 @@ function GoldStars({ label }: { label: string }) {
 function ReviewsGrid({ lang }: { lang: Lang }) {
   const t = content[lang].why;
   return (
-    <div className="rounded-[2rem] border border-[#30444a] bg-[#0b1719] p-6 sm:p-8 lg:p-10">
-      <div className="mb-8 flex items-center justify-between gap-4 text-[#edf4f2]">
-        <div className="flex items-center gap-4">
-          <span className="grid size-10 place-items-center rounded-full bg-[#dff1ec] text-xl text-[#142427]">2</span>
-          <span className="font-sans text-xl sm:text-2xl">
-            {lang === "al" ? "Tre komente njëherësh" : "Three reviews at once"}
-          </span>
-        </div>
-        <span className="hidden text-base text-[#a9bcba] sm:block">
-          {lang === "al" ? "Më shumë prova sociale" : "More social proof"}
-        </span>
-      </div>
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {reviewPickIndices.map((idx, i) => {
-        const r = reviews[idx];
+        const r = reviews[idx]!;
         return (
           <Reveal as="figure" key={r.name + i} delay={i * 90}>
             <figure className="group/card flex h-full min-h-[340px] flex-col rounded-[1.5rem] border border-[#30444a] bg-[#142427] p-8 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#466067] hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)] sm:p-9">
@@ -320,12 +308,6 @@ function ReviewsGrid({ lang }: { lang: Lang }) {
           </Reveal>
         );
       })}
-      </div>
-      <p className="mt-8 text-center text-base text-[#a9bcba]">
-        {lang === "al"
-          ? "Të treja janë vlerësime të verifikuara në Google."
-          : "All three are verified reviews on Google."}
-      </p>
     </div>
   );
 }
