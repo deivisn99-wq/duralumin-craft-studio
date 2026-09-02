@@ -290,16 +290,16 @@ function ReviewsGrid({ lang }: { lang: Lang }) {
           <Reveal as="figure" key={r.name + i} delay={i * 90}>
             <figure className="group/card flex h-full min-h-[340px] flex-col rounded-[1.5rem] border border-brown/10 bg-white p-8 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-brown/25 hover:shadow-[0_18px_40px_-18px_rgba(58,44,30,0.18)] sm:p-9">
               <GoldStars label={t.reviewsStarsAria} />
-              <blockquote className="mt-10 grow font-sans text-xl leading-[1.55] text-[#edf4f2] sm:text-2xl">
+              <blockquote className="mt-10 grow font-sans text-xl leading-[1.55] text-brown-deep sm:text-2xl">
                 “{r.text[lang]}”
               </blockquote>
               <figcaption className="mt-10 flex items-center gap-4">
-                <span className="grid size-14 shrink-0 place-items-center rounded-full bg-[#203d3b] font-display text-2xl text-[#cfe5df]">
+                <span className="grid size-14 shrink-0 place-items-center rounded-full bg-brown font-display text-2xl text-beige">
                   {r.name.trim().charAt(0).toUpperCase()}
                 </span>
                 <span className="grid gap-1">
-                  <span className="font-sans text-lg font-medium text-[#edf4f2]">{r.name}</span>
-                  <span className="text-base text-[#a9bcba]">
+                  <span className="font-sans text-lg font-medium text-brown-deep">{r.name}</span>
+                  <span className="text-base text-brown/70">
                     {r.meta || (lang === "al" ? "Vlerësim në Google" : "Google Review")}
                   </span>
                 </span>
