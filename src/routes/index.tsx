@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import {
   AppWindow,
   ArrowUpRight,
@@ -312,35 +312,116 @@ function ReviewsGrid({ lang }: { lang: Lang }) {
   );
 }
 
+function PillarsPinned({ lang }: { lang: Lang }) {
+  const t = content[lang].why;
+  const items = t.pillars;
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  const { scrollYProgress } = useScroll({ target: wrapRef, offset: ["start start", "end end"] });
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    const idx = Math.min(items.length - 1, Math.max(0, Math.floor(v * items.length)));
+    setActive(idx);
+  });
+  const current = items[active] ?? items[0]!;
+  return (
+    <div ref={wrapRef} className="relative hidden lg:block lg:h-[280vh]">
+      <div className="sticky top-0 flex min-h-screen items-center">
+        <div className="grid w-full items-center gap-16 lg:grid-cols-[.85fr_1.15fr]">
+          <div>
+            <SectionHead label={t.label} title={t.title} />
+            <div className="relative mt-8 min-h-40">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={current.t}
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.35, ease }}
+                >
+                  <p className="font-display text-3xl text-brown-deep sm:text-4xl">{current.t}</p>
+                  <p className="mt-4 max-w-md text-base leading-relaxed text-foreground/70">
+                    {current.d}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+          <div className="relative px-6">
+            <div className="absolute left-6 right-6 top-1/2 h-px -translate-y-1/2 bg-brown/20" />
+            <div className="relative flex items-center justify-between">
+              {items.map((p, i) => {
+                const Icon = proofIcons[i] ?? Layers;
+                const on = i === active;
+                return (
+                  <div key={p.t} className="flex flex-col items-center gap-4">
+                    <motion.div
+                      animate={{ scale: on ? 1.2 : 1 }}
+                      transition={{ duration: 0.35, ease }}
+                      className={cn(
+                        "grid size-20 place-items-center rounded-full border transition-colors duration-300",
+                        on
+                          ? "border-brown bg-brown shadow-[0_18px_40px_-14px_rgba(58,44,30,0.45)]"
+                          : "border-brown/25 bg-surface",
+                      )}
+                    >
+                      <Icon
+                        className={cn("size-8", on ? "text-beige" : "text-brown/40")}
+                        strokeWidth={1.2}
+                      />
+                    </motion.div>
+                    <span
+                      className={cn(
+                        "max-w-24 text-center text-xs font-semibold uppercase tracking-wider transition-colors duration-300",
+                        on ? "text-brown-deep" : "text-brown/40",
+                      )}
+                    >
+                      {p.t}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PillarsMobile({ lang }: { lang: Lang }) {
+  const t = content[lang].why;
+  return (
+    <div className="lg:hidden">
+      <SectionHead label={t.label} title={t.title} />
+      <ol className="relative mt-10 grid gap-8">
+        <div className="absolute bottom-6 left-7 top-6 w-px bg-brown/20" />
+        {t.pillars.map((p, i) => {
+          const Icon = proofIcons[i] ?? Layers;
+          return (
+            <Reveal as="li" key={p.t} delay={i * 60} className="relative grid grid-cols-[3.5rem_1fr] gap-5">
+              <span className="grid size-14 place-items-center rounded-full border border-brown bg-brown shadow-[0_12px_28px_-14px_rgba(58,44,30,0.45)]">
+                <Icon className="size-6 text-beige" strokeWidth={1.2} />
+              </span>
+              <div>
+                <p className="font-display text-2xl text-brown-deep">{p.t}</p>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/70">{p.d}</p>
+              </div>
+            </Reveal>
+          );
+        })}
+      </ol>
+    </div>
+  );
+}
+
 function WhyUs({ lang }: { lang: Lang }) {
   const t = content[lang].why;
   return (
     <section id="why" className="bg-beige-deep py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <SectionHead label={t.label} title={t.title} />
-        <div className="mt-14 grid gap-4 md:grid-cols-2 lg:flex lg:items-stretch">
-          {t.pillars.map((p, i) => {
-            const Icon = proofIcons[i] ?? Layers;
-            return (
-              <Reveal as="article" key={p.t} delay={i * 80} className="lg:flex-1">
-                <div className="group/card flex h-full min-h-52 flex-col justify-between rounded-2xl border border-brown/15 bg-surface p-6 transition-all duration-200 ease-out hover:scale-105 hover:border-brown hover:bg-brown hover:shadow-[0_18px_40px_-18px_rgba(58,44,30,0.35)]">
-                  <Icon
-                    className="size-9 text-brown transition-colors duration-200 ease-out group-hover/card:text-beige"
-                    strokeWidth={1.2}
-                  />
-                  <div>
-                    <p className="font-display text-2xl text-brown-deep transition-colors duration-200 ease-out group-hover/card:text-beige">
-                      {p.t}
-                    </p>
-                    <p className="mt-2 text-sm leading-relaxed text-foreground/70 transition-colors duration-200 ease-out group-hover/card:text-beige/85">
-                      {p.d}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
+        <PillarsPinned lang={lang} />
+        <PillarsMobile lang={lang} />
+
         <div className="mt-20">
           <Reveal className="mx-auto flex max-w-xl flex-col items-center text-center">
             <p className="label-caps text-brown/70">{t.reviewsLabel}</p>
