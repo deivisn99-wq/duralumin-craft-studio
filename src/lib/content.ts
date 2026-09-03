@@ -17,7 +17,7 @@ export const content = {
       about: "Rreth Nesh",
       why: "Pse Ne",
       services: "Shërbimet",
-      projects: "Projektet Tona",
+      projects: "Punët Tona",
       process: "Procesi",
       quote: "Kërko Ofertë",
       call: "Telefono Tani",
@@ -69,7 +69,7 @@ export const content = {
       items: [
         {
           t: "Dritare Alumini",
-          d: "Prodhojmë dritare alumini me izolim të lartë termik dhe akustik, të përshtatura për çdo hapësirë — nga apartamente deri te ambiente komerciale. Materiale me standarde evropiane dhe finiturë të qëndrueshme ndaj kushteve atmosferike.",
+          d: "Prodhojmë dritare alumini me izolim të lartë termik dhe akustik, të përshtatura për çdo hapësirë, nga apartamente deri te ambiente komerciale. Materiale me standarde evropiane dhe finiturë të qëndrueshme ndaj kushteve atmosferike.",
         },
         {
           t: "Dyer Alumini",
@@ -81,7 +81,7 @@ export const content = {
         },
         {
           t: "Fasada Alumini",
-          d: "Zgjidhje komplete fasadash alumini për ndërtesa rezidenciale dhe komerciale — nga dizajni deri te montimi, me fokus te qëndueshmëria strukturore dhe pamja estetike afatgjatë.",
+          d: "Zgjidhje komplete fasadash alumini për ndërtesa rezidenciale dhe komerciale, nga dizajni deri te montimi, me fokus te qëndueshmëria strukturore dhe pamja estetike afatgjatë.",
         },
         {
           t: "Punime PVC",
@@ -93,7 +93,7 @@ export const content = {
         },
         {
           t: "Kangjella Inoksi",
-          d: "Kangjella inoksi me finish të pastër dhe rezistencë të lartë ndaj kushteve atmosferike — zgjidhje moderne për ballkone, shkallë dhe tarraca, pa nevojë për mirëmbajtje të shpeshtë.",
+          d: "Kangjella inoksi me finish të pastër dhe rezistencë të lartë ndaj kushteve atmosferike, zgjidhje moderne për ballkone, shkallë dhe tarraca, pa nevojë për mirëmbajtje të shpeshtë.",
         },
       ],
     },
@@ -120,7 +120,7 @@ export const content = {
     quote: {
       label: "Kërko Ofertë",
       title: "Gati për Dritaret Tuaja të Reja?",
-      sub: "Na tregoni për projektin tuaj — ju kthejmë përgjigje brenda 24 orësh.",
+      sub: "Na tregoni për projektin tuaj , ju kthejmë përgjigje brenda 24 orësh.",
       name: "Emri",
       phone: "Telefoni",
       email: "Email (opsionale)",

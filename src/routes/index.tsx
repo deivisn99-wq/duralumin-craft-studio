@@ -202,7 +202,7 @@ function Hero({ lang }: { lang: Lang }) {
           transition={{ delay: 0.42, duration: 0.7, ease }}
         >
           {
-            "Prodhim dhe montim profesional i dritareve dhe dyerve prej alumini në Tiranë — cilësi e lartë, korrektësi në punë dhe oferta transparente."
+            "Prodhim dhe montim profesional i dritareve dhe dyerve prej alumini në Tiranë, cilësi e lartë, korrektësi në punë dhe oferta transparente."
           }
         </motion.p>
         <motion.div

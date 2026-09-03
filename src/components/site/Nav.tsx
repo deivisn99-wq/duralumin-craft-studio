@@ -44,7 +44,7 @@ export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void 
           href="#home"
           className="relative z-10 shrink-0 font-display text-lg leading-tight sm:text-xl"
         >
-          Duralumin Methoxha
+          Duralumin Ermal Met'hoxha
         </a>
         <div className="flex items-center gap-3">
           <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary navigation">
