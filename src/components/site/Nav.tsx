@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, Phone, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { content, PHONE_TEL, type Lang } from "@/lib/content";
+import { content, WHATSAPP, type Lang } from "@/lib/content";
 
 const links = ["about", "why", "services", "projects", "process"] as const;
 
@@ -44,7 +44,7 @@ export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void 
           href="#home"
           className="relative z-10 shrink-0 font-display text-lg leading-tight sm:text-xl"
         >
-          Duralumin Methoxha
+          Duralumin Ermal Met'hoxha
         </a>
         <div className="flex items-center gap-3">
           <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary navigation">
@@ -80,7 +80,9 @@ export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void 
             ))}
           </div>
           <a
-            href={PHONE_TEL}
+            href={WHATSAPP}
+            target="_blank"
+            rel="noreferrer"
             className="hidden items-center gap-2 rounded-full bg-brown px-4 py-2.5 text-sm font-semibold text-beige transition-transform duration-200 ease-out hover:scale-105 sm:inline-flex"
           >
             <Phone className="size-4" />
