@@ -13,21 +13,27 @@ import {
   ArrowUpRight,
   Building2,
   ChevronRight,
+  DoorClosed,
   DoorOpen,
   Hammer,
   Layers,
   MapPin,
+  Maximize2,
   MessageCircle,
   Phone,
   ReceiptText,
   Ruler,
+  Shield,
   ShieldCheck,
+  Sliders,
   Star,
+  Sun,
   Wrench,
 } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
 import { QuoteForm } from "@/components/site/QuoteForm";
 import { Reveal } from "@/components/Reveal";
+import { Badge } from "@/components/ui/badge";
 import { CountUp } from "@/components/CountUp";
 import { cn } from "@/lib/utils";
 import {
