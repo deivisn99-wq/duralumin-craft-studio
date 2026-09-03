@@ -619,8 +619,10 @@ function Services({ lang }: { lang: Lang }) {
                 className="md:even:translate-y-8"
               >
                 <motion.div
-                  initial={false}
-                  whileHover={{ y: -14, scale: 1.03 }}
+                  initial="rest"
+                  animate="rest"
+                  whileHover="hover"
+                  variants={{ rest: { y: 0, scale: 1 }, hover: { y: -14, scale: 1.03 } }}
                   transition={{ type: "spring", stiffness: 420, damping: 22 }}
                   className="group flex h-full flex-col gap-5 rounded-3xl border border-brown/10 bg-beige p-5 shadow-[0_4px_18px_-4px_rgba(58,44,30,0.08)] transition-shadow duration-300 hover:shadow-[0_20px_40px_rgba(197,160,89,0.25)] sm:p-6"
                 >
