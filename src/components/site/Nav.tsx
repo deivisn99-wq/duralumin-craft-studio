@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, Phone, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { content, PHONE_TEL, type Lang } from "@/lib/content";
+import { content, WHATSAPP, type Lang } from "@/lib/content";
 
 const links = ["about", "why", "services", "projects", "process"] as const;
 
@@ -80,7 +80,9 @@ export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void 
             ))}
           </div>
           <a
-            href={PHONE_TEL}
+            href={WHATSAPP}
+            target="_blank"
+            rel="noreferrer"
             className="hidden items-center gap-2 rounded-full bg-brown px-4 py-2.5 text-sm font-semibold text-beige transition-transform duration-200 ease-out hover:scale-105 sm:inline-flex"
           >
             <Phone className="size-4" />

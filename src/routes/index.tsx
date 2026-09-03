@@ -496,35 +496,85 @@ function PillarsDiagram({ lang }: { lang: Lang }) {
 
 function WhyUs({ lang }: { lang: Lang }) {
   const t = (content[lang] ?? content.al).why;
+  const features =
+    lang === "al"
+      ? [
+          [
+            ShieldCheck,
+            "Materiale Premium & Izolim",
+            "Përdorim vetëm profile alumini të certifikuara me izolim të lartë termik dhe akustik, të mbrojtura ndaj çdo kushti atmosferik.",
+          ],
+          [
+            Ruler,
+            "Korrektësi & Çmime Transparentë",
+            "Pa kosto të fshehura. Çdo ofertë detajohet me shkrim dhe realizohet me rigorozitet brenda afatit të dakordësuar.",
+          ],
+          [
+            Wrench,
+            "10+ Vjet Përvojë & Garanci",
+            "Montim profesional me precizion milimetrik dhe shërbim të dedikuar mirëmbajtjeje pas instalimit.",
+          ],
+        ]
+      : [
+          [
+            ShieldCheck,
+            "Premium Materials & Insulation",
+            "Certified aluminum profiles with superior thermal and acoustic insulation, protected against every weather condition.",
+          ],
+          [
+            Ruler,
+            "Accuracy & Transparent Pricing",
+            "No hidden costs. Every quote is detailed in writing and completed rigorously within the agreed deadline.",
+          ],
+          [
+            Wrench,
+            "10+ Years & Warranty",
+            "Professional installation with millimeter precision, dedicated maintenance service, and official warranty.",
+          ],
+        ];
   return (
-    <section id="why" className="bg-beige-deep py-24 sm:py-32">
+    <section id="why" className="bg-brown-deep py-24 text-beige sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <PillarsDiagram lang={lang} />
-
-        <div className="mt-20">
-          <Reveal className="mx-auto flex max-w-xl flex-col items-center text-center">
-            <p className="label-caps text-brown/70">{t.reviewsLabel}</p>
-            <div className="mt-4 flex items-center gap-3">
-              <GoogleLogo className="size-9 shrink-0" />
-              <p className="font-display text-5xl text-brown-deep sm:text-6xl">{t.reviewsRating}</p>
+        <Reveal className="mx-auto max-w-3xl text-center">
+          <p className="label-caps text-beige-deep">PSE NE</p>
+          <h2 className="mt-4 font-display text-4xl text-beige sm:text-6xl">
+            Standarte Evropiane, Precizion Shqiptar
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-beige/65 sm:text-lg">
+            Çdo dritare dhe derë ndërtohet me profil premium alumini, izolim termik superior dhe
+            garanci të plotë për çdo projekt.
+          </p>
+        </Reveal>
+        <div className="mt-14 grid gap-5 md:grid-cols-3">
+          {features.map(([Icon, title, body], i) => (
+            <Reveal key={title as string} delay={i * 90}>
+              <article className="h-full rounded-2xl border border-beige/10 bg-beige/5 p-8 transition-colors duration-300 hover:border-beige-deep/50">
+                <Icon className="size-8 text-beige-deep" strokeWidth={1.3} />
+                <h3 className="mt-8 font-display text-2xl text-beige">{title as string}</h3>
+                <p className="mt-4 text-sm leading-relaxed text-beige/60">{body as string}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+        <div className="mt-12 grid gap-8 border-t border-beige/10 pt-8 text-center sm:grid-cols-3">
+          {[
+            ["150+", lang === "al" ? "Projekte të Përfunduara" : "Completed Projects"],
+            [
+              "4.9 ★★★★★",
+              lang === "al" ? "Vlerësime të Verifikuara në Google" : "Verified Google Reviews",
+            ],
+            [
+              "100%",
+              lang === "al"
+                ? "Garanci & Mbështetje Pas Montimit"
+                : "Warranty & Post-install Support",
+            ],
+          ].map(([value, label]) => (
+            <div key={value}>
+              <strong className="font-display text-3xl text-beige-deep">{value}</strong>
+              <p className="mt-2 text-sm text-beige/55">{label}</p>
             </div>
-            <div className="mt-3">
-              <GoldStars label={t.reviewsStarsAria} />
-            </div>
-            <p className="mt-3 text-sm text-foreground/70">{t.reviewsSupport}</p>
-            <a
-              href={GOOGLE_REVIEWS_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-brown px-5 py-3 text-sm font-semibold text-brown transition-colors hover:bg-brown hover:text-beige"
-              aria-label={t.reviewsCta}
-            >
-              {t.reviewsCta} <ArrowUpRight className="size-4" />
-            </a>
-          </Reveal>
-          <div className="mt-14">
-            <ReviewsGrid lang={lang} />
-          </div>
+          ))}
         </div>
       </div>
     </section>
@@ -604,6 +654,11 @@ function Projects({ lang }: { lang: Lang }) {
         "Commercial glazing",
       ];
   const [active, setActive] = useState<number | null>(null);
+  const [category, setCategory] = useState("Të gjitha");
+  const categories = isAlbanian
+    ? ["Të gjitha", "Dritare", "Dyer", "Vetrata", "Kangjella"]
+    : ["All", "Windows", "Doors", "Glazing", "Railings"];
+  const projectCategories = ["Dyer", "Dyer", "Kangjella", "Kangjella", "Dyer", "Vetrata"];
   useEffect(() => {
     if (active === null) return;
     const onKeyDown = (event: KeyboardEvent) => {
@@ -638,32 +693,66 @@ function Projects({ lang }: { lang: Lang }) {
               : "A selection of our completed work."}
           </p>
         </div>
-        <div className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5">
-          {projectImages.map((image, i) => (
-            <Reveal
-              key={labels[i]}
-              delay={i * 70}
-              className={i === 1 || i === 4 ? "sm:translate-y-10" : ""}
+        <div className="mt-10 flex flex-wrap gap-2">
+          {categories.map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() => setCategory(item)}
+              className={cn(
+                "rounded-full border px-4 py-2 text-xs font-semibold transition-colors",
+                category === item
+                  ? "border-beige bg-beige text-brown-deep"
+                  : "border-beige/25 text-beige/70 hover:border-beige/60",
+              )}
             >
-              <button
-                type="button"
-                onClick={() => setActive(i)}
-                className="group relative block w-full overflow-hidden rounded-2xl bg-brown text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beige"
-              >
-                <img
-                  src={image}
-                  alt={`${labels[i]} — Duralumin Methoxha`}
-                  loading="lazy"
-                  width={900}
-                  height={1200}
-                  className="aspect-[3/5] w-full object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-75"
-                />
-                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brown-deep/90 to-transparent px-4 pb-4 pt-12 text-sm font-medium text-beige sm:px-5 sm:pb-5">
-                  {labels[i]}
-                </span>
-              </button>
-            </Reveal>
+              {item}
+            </button>
           ))}
+        </div>
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5">
+          {projectImages
+            .map((image, i) => ({ image, i }))
+            .filter(
+              ({ i }) =>
+                category === categories[0] ||
+                projectCategories[i] ===
+                  (isAlbanian
+                    ? category
+                    : (
+                        {
+                          Windows: "Dritare",
+                          Doors: "Dyer",
+                          Glazing: "Vetrata",
+                          Railings: "Kangjella",
+                        } as Record<string, string>
+                      )[category]),
+            )
+            .map(({ image, i }) => (
+              <Reveal
+                key={labels[i]}
+                delay={i * 70}
+                className={i === 1 || i === 4 ? "sm:translate-y-10" : ""}
+              >
+                <button
+                  type="button"
+                  onClick={() => setActive(i)}
+                  className="group relative block w-full overflow-hidden rounded-2xl bg-brown text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beige"
+                >
+                  <img
+                    src={image}
+                    alt={`${labels[i]} — Duralumin Methoxha`}
+                    loading="lazy"
+                    width={900}
+                    height={1200}
+                    className="aspect-[4/5] w-full rounded-xl object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-75"
+                  />
+                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brown-deep/90 to-transparent px-4 pb-4 pt-12 text-sm font-medium text-beige sm:px-5 sm:pb-5">
+                    {labels[i]}
+                  </span>
+                </button>
+              </Reveal>
+            ))}
         </div>
       </div>
       {active !== null && (
