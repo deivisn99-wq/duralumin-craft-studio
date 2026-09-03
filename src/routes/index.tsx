@@ -772,7 +772,10 @@ function Projects({ lang }: { lang: Lang }) {
                     loading="lazy"
                     width={900}
                     height={1200}
-                    className="aspect-[4/5] w-full rounded-xl object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-75"
+                    className={cn(
+                      "aspect-[4/5] w-full rounded-xl object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-75",
+                      i === 4 && "object-[center_70%]",
+                    )}
                   />
                   <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brown-deep/90 to-transparent px-4 pb-4 pt-12 text-sm font-medium text-beige sm:px-5 sm:pb-5">
                     {labels[i]}
