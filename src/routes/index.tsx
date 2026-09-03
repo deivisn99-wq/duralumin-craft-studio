@@ -61,9 +61,8 @@ const svcPvc = photo(
 const svcShutters = photo(
   "08_Sherbime-06_Grila__IMG-20260902-WA0049-LRcr2u9tWmsMaOKM82Ec806IdzOa15.jpg",
 );
-const svcRailings = photo(
-  "15_Projekte-06_Vetrate-komerciale__IMG-20260902-WA0107-ybCZwbiEylIzIhClMGTqEsAfep0eNG.jpg",
-);
+const svcRailings =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/10_Projekte-01_Dyer-me-hark-kafe__IMG-20260902-WA0112%20%281%29-YACm9jXXoHP3RGCG1fQbjIkL3mPK1c.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -121,7 +120,7 @@ const proofIcons = [Layers, Ruler, ReceiptText, Building2];
 const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench, Layers, Ruler];
 const processIcons = [MessageCircle, ReceiptText, Hammer, Wrench, ShieldCheck];
 const projectImages = [
-  photo("10_Projekte-01_Dyer-me-hark-kafe__IMG-20260902-WA0112-UTZR8dwI1FfJEFvo178rx2ZDPnJNnR.jpg"),
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/16_Rezerve_Kabine-dushi__IMG-20260902-WA0090-w1tDPBvrBLaUNMJBtWx2kmuoCvmPfI.jpg",
   photo(
     "11_Projekte-02_Dyer-me-hark-te-bardha__IMG-20260902-WA0078-feyvAulYoVWNvr8ATQORWplXJ78yRQ.jpg",
   ),
@@ -589,7 +588,7 @@ function Projects({ lang }: { lang: Lang }) {
   const isAlbanian = lang === "al";
   const labels = isAlbanian
     ? [
-        "Dyer me hark",
+        "Kabina dushi",
         "Dyer të brendshme me hark",
         "Grila të bardha",
         "Grila me efekt druri",
@@ -597,7 +596,7 @@ function Projects({ lang }: { lang: Lang }) {
         "Vetratë komerciale",
       ]
     : [
-        "Arched door",
+        "Shower cabin",
         "Arched interior doors",
         "White shutters",
         "Wood-effect shutters",
