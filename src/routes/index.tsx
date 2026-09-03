@@ -611,14 +611,18 @@ function Services({ lang }: { lang: Lang }) {
             return (
               <Reveal as="article" key={s.t} delay={i * 70}>
                 <div className="group grid min-h-72 overflow-hidden rounded-2xl border border-brown/10 bg-beige shadow-[0_4px_18px_-4px_rgba(58,44,30,0.08)] sm:grid-cols-[.75fr_1.25fr]">
-                  <img
-                    src={servicesImages[i]}
-                    alt={s.t}
-                    width={1024}
-                    height={768}
-                    loading="lazy"
-                    className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:h-64 lg:h-full lg:min-h-72"
-                  />
+                  {/* Placeholder photo — wrapper keeps the image filling the full card height */}
+                  <div className="relative h-56 w-full overflow-hidden sm:h-64 lg:h-auto lg:self-stretch">
+                    <img
+                      src={servicesImages[i]}
+                      alt={s.t}
+                      width={1024}
+                      height={768}
+                      loading="lazy"
+                      className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+
                   <div className="flex min-h-56 flex-col justify-between gap-8 p-8 sm:p-10">
                     <div className="flex items-start justify-between">
                       <span className="label-caps text-brown/40">0{i + 1}</span>
