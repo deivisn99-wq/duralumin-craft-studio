@@ -61,9 +61,8 @@ const svcPvc = photo(
 const svcShutters = photo(
   "08_Sherbime-06_Grila__IMG-20260902-WA0049-LRcr2u9tWmsMaOKM82Ec806IdzOa15.jpg",
 );
-const svcRailings = photo(
-  "15_Projekte-06_Vetrate-komerciale__IMG-20260902-WA0107-ybCZwbiEylIzIhClMGTqEsAfep0eNG.jpg",
-);
+const svcRailings =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/10_Projekte-01_Dyer-me-hark-kafe__IMG-20260902-WA0112%20%281%29-YACm9jXXoHP3RGCG1fQbjIkL3mPK1c.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
