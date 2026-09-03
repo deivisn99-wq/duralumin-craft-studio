@@ -130,6 +130,9 @@ const projectImages = [
   photo(
     "15_Projekte-06_Vetrate-komerciale__IMG-20260902-WA0107-ybCZwbiEylIzIhClMGTqEsAfep0eNG.jpg",
   ),
+  svcWindows,
+  svcDoors,
+  svcGlazing,
 ];
 
 function Index() {
@@ -644,6 +647,9 @@ function Projects({ lang }: { lang: Lang }) {
         "Grila me efekt druri",
         "Derë me grila",
         "Vetratë komerciale",
+        "Dritare alumini",
+        "Dyer alumini",
+        "Vetrata",
       ]
     : [
         "Shower cabin",
@@ -652,13 +658,26 @@ function Projects({ lang }: { lang: Lang }) {
         "Wood-effect shutters",
         "Door with shutters",
         "Commercial glazing",
+        "Aluminum windows",
+        "Aluminum doors",
+        "Glass walls",
       ];
   const [active, setActive] = useState<number | null>(null);
   const [category, setCategory] = useState("Të gjitha");
   const categories = isAlbanian
     ? ["Të gjitha", "Dritare", "Dyer", "Vetrata", "Kangjella"]
     : ["All", "Windows", "Doors", "Glazing", "Railings"];
-  const projectCategories = ["Dyer", "Dyer", "Kangjella", "Kangjella", "Dyer", "Vetrata"];
+  const projectCategories = [
+    "Dyer",
+    "Dyer",
+    "Kangjella",
+    "Kangjella",
+    "Dyer",
+    "Vetrata",
+    "Dritare",
+    "Dyer",
+    "Vetrata",
+  ];
   useEffect(() => {
     if (active === null) return;
     const onKeyDown = (event: KeyboardEvent) => {
