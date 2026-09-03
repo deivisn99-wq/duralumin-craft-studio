@@ -13,21 +13,27 @@ import {
   ArrowUpRight,
   Building2,
   ChevronRight,
+  DoorClosed,
   DoorOpen,
   Hammer,
   Layers,
   MapPin,
+  Maximize2,
   MessageCircle,
   Phone,
   ReceiptText,
   Ruler,
+  Shield,
   ShieldCheck,
+  Sliders,
   Star,
+  Sun,
   Wrench,
 } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
 import { QuoteForm } from "@/components/site/QuoteForm";
 import { Reveal } from "@/components/Reveal";
+import { Badge } from "@/components/ui/badge";
 import { CountUp } from "@/components/CountUp";
 import { cn } from "@/lib/utils";
 import {
@@ -118,6 +124,16 @@ const servicesImages = [
   svcRailings,
 ];
 const proofIcons = [Layers, Ruler, ReceiptText, Building2];
+// 5 featured services rendered on the right side of the Services section.
+// Images remain the existing placeholder stock photos.
+const featuredServices = [
+  { index: 0, icon: Maximize2, image: svcWindows },
+  { index: 1, icon: DoorClosed, image: svcDoors },
+  { index: 2, icon: Sun, image: svcGlazing },
+  { index: 5, icon: Sliders, image: svcShutters },
+  { index: 6, icon: Shield, image: svcRailings },
+] as const;
+const serviceBadges = ["Izolim Termik", "Profil Evropian", "Montim me Garanci"];
 const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench, Layers, Ruler];
 const processIcons = [MessageCircle, ReceiptText, Hammer, Wrench, ShieldCheck];
 const projectImages = [
@@ -605,37 +621,82 @@ function Services({ lang }: { lang: Lang }) {
             Kërko ofertë <ChevronRight className="size-4" />
           </a>
         </div>
-        <div className="grid gap-5">
-          {t.items.map((s, i) => {
-            const Icon = serviceIcons[i] ?? Layers;
+        <div className="grid gap-6 md:grid-cols-2">
+          {featuredServices.map((f, i) => {
+            const item = t.items[f.index] ?? t.items[0]!;
+            const Icon = f.icon;
             return (
-              <Reveal as="article" key={s.t} delay={i * 70}>
-                <div className="group grid min-h-72 overflow-hidden rounded-2xl border border-brown/10 bg-beige shadow-[0_4px_18px_-4px_rgba(58,44,30,0.08)] sm:grid-cols-[.75fr_1.25fr]">
-                  <img
-                    src={servicesImages[i]}
-                    alt={s.t}
-                    width={1024}
-                    height={768}
-                    loading="lazy"
-                    className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:h-64 lg:h-full lg:min-h-72"
-                  />
-                  <div className="flex min-h-56 flex-col justify-between gap-8 p-8 sm:p-10">
-                    <div className="flex items-start justify-between">
-                      <span className="label-caps text-brown/40">0{i + 1}</span>
-                      <Icon className="size-6 text-brown" strokeWidth={1.2} />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-[1.65rem] font-semibold leading-tight text-brown-deep sm:text-[1.75rem]">
-                        {s.t}
-                      </h3>
-                      <p className="mt-3 text-[0.95rem] leading-[1.75] text-foreground/65">{s.d}</p>
-                    </div>
+              <motion.article
+                key={f.index}
+                initial={{ opacity: 0, x: 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.6, ease, delay: i * 0.12 }}
+                className="md:even:translate-y-8"
+              >
+                <motion.div
+                  initial="rest"
+                  animate="rest"
+                  whileHover="hover"
+                  variants={{ rest: { y: 0, scale: 1 }, hover: { y: -14, scale: 1.03 } }}
+                  transition={{ type: "spring", stiffness: 420, damping: 22 }}
+                  className="group flex h-full flex-col gap-5 rounded-3xl border border-brown/10 bg-beige p-5 shadow-[0_4px_18px_-4px_rgba(58,44,30,0.08)] transition-shadow duration-300 hover:shadow-[0_20px_40px_rgba(197,160,89,0.25)] sm:p-6"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-sm text-[#C5A059]">0{i + 1}</span>
+                    <Icon className="size-5 text-brown/70" strokeWidth={1.4} />
                   </div>
-                </div>
-              </Reveal>
+
+                  <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-border/50">
+                    <img
+                      src={f.image}
+                      alt={item.t}
+                      width={1024}
+                      height={640}
+                      loading="lazy"
+                      className="size-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                    />
+                  </div>
+
+                  <div>
+                    <h3 className="font-display text-2xl font-semibold leading-tight text-brown-deep transition-colors group-hover:text-[#C5A059]">
+                      {item.t}
+                    </h3>
+                    <p className="mt-2 line-clamp-4 text-[0.9rem] leading-[1.7] text-foreground/65">
+                      {item.d}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {serviceBadges.map((b) => (
+                      <Badge
+                        key={b}
+                        variant="outline"
+                        className="rounded-full border-brown/15 bg-brown/[0.04] px-3 py-1 text-[0.7rem] font-medium tracking-wide text-brown/75"
+                      >
+                        {b}
+                      </Badge>
+                    ))}
+                  </div>
+
+                  <a
+                    href="#quote"
+                    className="mt-auto flex items-center justify-between gap-4 border-t border-brown/10 pt-4 text-sm font-semibold text-brown-deep"
+                  >
+                    Kërko Ofertë
+                    <motion.span
+                      variants={{ rest: { rotate: 0, scale: 1 }, hover: { rotate: 45, scale: 1.25 } }}
+                      className="grid size-9 place-items-center rounded-full bg-brown text-beige"
+                    >
+                      <ArrowUpRight className="size-4" />
+                    </motion.span>
+                  </a>
+                </motion.div>
+              </motion.article>
             );
           })}
         </div>
+
       </div>
     </section>
   );
