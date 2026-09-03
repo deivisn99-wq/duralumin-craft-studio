@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import type { ElementType } from "react";
 import {
   AnimatePresence,
   motion,
@@ -202,7 +203,7 @@ function Hero({ lang }: { lang: Lang }) {
           transition={{ delay: 0.42, duration: 0.7, ease }}
         >
           {
-            "Prodhim dhe montim profesional i dritareve dhe dyerve prej alumini në Tiranë — cilësi e lartë, korrektësi në punë dhe oferta transparente."
+            "Prodhim dhe montim profesional i dritareve dhe dyerve prej alumini në Tiranë, cilësi e lartë, korrektësi në punë dhe oferta transparente."
           }
         </motion.p>
         <motion.div
@@ -549,15 +550,18 @@ function WhyUs({ lang }: { lang: Lang }) {
           </p>
         </Reveal>
         <div className="mt-14 grid gap-5 md:grid-cols-3">
-          {features.map(([Icon, title, body], i) => (
+          {features.map(([Icon, title, body], i) => {
+            const FeatureIcon = Icon as ElementType;
+            return (
             <Reveal key={title as string} delay={i * 90}>
               <article className="h-full rounded-2xl border border-beige/10 bg-beige/5 p-8 transition-colors duration-300 hover:border-beige-deep/50">
-                <Icon className="size-8 text-beige-deep" strokeWidth={1.3} />
+                <FeatureIcon className="size-8 text-beige-deep" strokeWidth={1.3} />
                 <h3 className="mt-8 font-display text-2xl text-beige">{title as string}</h3>
                 <p className="mt-4 text-sm leading-relaxed text-beige/60">{body as string}</p>
               </article>
             </Reveal>
-          ))}
+            );
+          })}
         </div>
         <div className="mt-12 grid gap-8 border-t border-beige/10 pt-8 text-center sm:grid-cols-3">
           {[
