@@ -118,6 +118,16 @@ const servicesImages = [
   svcRailings,
 ];
 const proofIcons = [Layers, Ruler, ReceiptText, Building2];
+// 5 featured services rendered on the right side of the Services section.
+// Images remain the existing placeholder stock photos.
+const featuredServices = [
+  { index: 0, icon: Maximize2, image: svcWindows },
+  { index: 1, icon: DoorClosed, image: svcDoors },
+  { index: 2, icon: Sun, image: svcGlazing },
+  { index: 5, icon: Sliders, image: svcShutters },
+  { index: 6, icon: Shield, image: svcRailings },
+] as const;
+const serviceBadges = ["Izolim Termik", "Profil Evropian", "Montim me Garanci"];
 const serviceIcons = [AppWindow, DoorOpen, Building2, Hammer, Wrench, Layers, Ruler];
 const processIcons = [MessageCircle, ReceiptText, Hammer, Wrench, ShieldCheck];
 const projectImages = [
