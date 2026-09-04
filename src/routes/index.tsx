@@ -16,8 +16,10 @@ import {
   DoorOpen,
   Hammer,
   Layers,
+  Mail,
   MapPin,
   MessageCircle,
+  Instagram,
   Phone,
   ReceiptText,
   Ruler,
@@ -32,8 +34,12 @@ import { CountUp } from "@/components/CountUp";
 import { cn } from "@/lib/utils";
 import {
   ADDRESS,
+  EMAIL,
+  EMAIL_MAILTO,
   GOOGLE_REVIEWS_URL,
+  INSTAGRAM,
   MAP_EMBED,
+  MAP_URL,
   PHONE_DISPLAY,
   PHONE_TEL,
   WHATSAPP,
@@ -172,14 +178,14 @@ function Index() {
         target="_blank"
         rel="noreferrer"
         aria-label="Na kontaktoni në WhatsApp"
-        className="group fixed bottom-24 right-5 z-40 grid size-14 place-items-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105 md:bottom-6 md:right-6"
+        className="group fixed bottom-24 right-5 z-50 grid size-14 place-items-center overflow-hidden rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105 md:bottom-6 md:right-6"
       >
         <MessageCircle className="size-6" />
         <span className="pointer-events-none absolute right-16 whitespace-nowrap rounded-full bg-brown-deep px-3 py-1.5 text-xs font-semibold text-beige opacity-0 transition-opacity group-hover:opacity-100">
           Na shkruani në WhatsApp
         </span>
         <span
-          className="absolute -right-1 -top-1 size-3 animate-ping rounded-full bg-[#25D366]"
+          className="pointer-events-none absolute inset-0 rounded-full bg-emerald-500 opacity-25 animate-ping"
           aria-hidden="true"
         />
       </a>
@@ -294,7 +300,7 @@ function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
             <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </button>
           <a
-            href="#why"
+            href="#projects"
             className="inline-flex items-center justify-center rounded-full border border-beige/60 px-7 py-4 text-sm font-semibold text-beige transition-colors hover:bg-beige/10"
           >
             {t.cta2}
@@ -627,35 +633,80 @@ function WhyUs({ lang }: { lang: Lang }) {
           {features.map(([Icon, title, body], i) => {
             const FeatureIcon = Icon as ElementType;
             return (
-            <Reveal key={title as string} delay={i * 90}>
-              <article className="h-full rounded-2xl border border-beige/10 bg-beige/5 p-8 transition-colors duration-300 hover:border-beige-deep/50">
-                <FeatureIcon className="size-8 text-beige-deep" strokeWidth={1.3} />
-                <h3 className="mt-8 font-display text-2xl text-beige">{title as string}</h3>
-                <p className="mt-4 text-sm leading-relaxed text-beige/60">{body as string}</p>
-              </article>
-            </Reveal>
+              <Reveal key={title as string} delay={i * 90}>
+                <article className="h-full rounded-2xl border border-beige/10 bg-beige/5 p-8 transition-colors duration-300 hover:border-beige-deep/50">
+                  <FeatureIcon className="size-8 text-beige-deep" strokeWidth={1.3} />
+                  <h3 className="mt-8 font-display text-2xl text-beige">{title as string}</h3>
+                  <p className="mt-4 text-sm leading-relaxed text-beige/60">{body as string}</p>
+                </article>
+              </Reveal>
             );
           })}
         </div>
-        <div className="mt-12 grid gap-8 border-t border-beige/10 pt-8 text-center sm:grid-cols-3">
-          {[
-            ["150+", lang === "al" ? "Projekte të Përfunduara" : "Completed Projects"],
-            [
-              "4.9 ★★★★★",
-              lang === "al" ? "Vlerësime të Verifikuara në Google" : "Verified Google Reviews",
-            ],
-            [
-              "100%",
-              lang === "al"
-                ? "Garanci & Mbështetje Pas Montimit"
-                : "Warranty & Post-install Support",
-            ],
-          ].map(([value, label]) => (
-            <div key={value}>
-              <strong className="font-display text-3xl text-beige-deep">{value}</strong>
-              <p className="mt-2 text-sm text-beige/55">{label}</p>
+        <div className="mt-16 text-center">
+          <p className="font-mono text-xs uppercase tracking-widest text-[#C5A059]">
+            RISHIKIME TË VERIFIKUARA
+          </p>
+          <h3 className="mt-3 font-display text-3xl text-beige sm:text-5xl">
+            4.9/5.0 Yje në Google (28+ Vlerësime)
+          </h3>
+          <div
+            className="mt-4 flex justify-center gap-1 text-[#C5A059]"
+            aria-label="5 yje në Google"
+          >
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} className="size-4 fill-current" aria-hidden="true" />
+            ))}
+          </div>
+          <div className="review-marquee-wrap mt-10 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <div className="review-marquee flex w-max gap-5 hover:[animation-play-state:paused]">
+              {[...Array(2)].flatMap((_, copy) =>
+                [
+                  [
+                    "Cilësi shumë e lartë e materialeve, punë e shkëlqyer dhe korrektësi në punë.",
+                    "Alex Laska",
+                  ],
+                  [
+                    "Punë shumë cilësore. Besueshmëri dhe korrektësi në çdo shërbim.",
+                    "Alberina Morina",
+                  ],
+                  ["Vlerësim me 5 yje në Google! Montim i saktë dhe profesional.", "Erik Halilaj"],
+                ].map(([quote, author], i) => (
+                  <article
+                    key={`${copy}-${i}`}
+                    className="min-w-[320px] max-w-sm rounded-2xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur-sm"
+                  >
+                    <div className="flex gap-1 text-[#C5A059]" aria-label="5 yje">
+                      {Array.from({ length: 5 }).map((_, starIndex) => (
+                        <Star
+                          key={starIndex}
+                          className="size-3.5 fill-current"
+                          aria-hidden="true"
+                        />
+                      ))}
+                    </div>
+                    <blockquote className="mt-5 text-base leading-relaxed text-beige/80">
+                      “{quote}”
+                    </blockquote>
+                    <div className="mt-5 flex items-center justify-between gap-3">
+                      <strong className="text-sm text-beige">{author}</strong>
+                      <span className="rounded-full border border-beige/15 px-2.5 py-1 text-[10px] text-beige/60">
+                        Google Verified
+                      </span>
+                    </div>
+                  </article>
+                )),
+              )}
             </div>
-          ))}
+          </div>
+          <a
+            href={GOOGLE_REVIEWS_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-8 inline-flex items-center gap-2 rounded-full border border-beige/30 px-5 py-3 text-sm font-semibold text-beige transition-colors hover:bg-beige hover:text-brown-deep"
+          >
+            Shiko të gjitha rishikimet në Google →
+          </a>
         </div>
       </div>
     </section>
@@ -831,15 +882,11 @@ function Projects({ lang }: { lang: Lang }) {
                       )[category]),
             )
             .map(({ image, i }) => (
-              <Reveal
-                key={labels[i]}
-                delay={i * 70}
-                className={i === 1 || i === 4 ? "sm:translate-y-10" : ""}
-              >
+              <Reveal key={labels[i]} delay={i * 70} className="">
                 <button
                   type="button"
                   onClick={() => setActive(i)}
-                  className="group relative block w-full overflow-hidden rounded-2xl bg-brown text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beige"
+                  className="group relative block aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/10 bg-brown text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beige"
                 >
                   <img
                     src={image}
@@ -848,7 +895,7 @@ function Projects({ lang }: { lang: Lang }) {
                     width={900}
                     height={1200}
                     className={cn(
-                      "aspect-[4/5] w-full rounded-xl object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-75",
+                      "size-full object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-75",
                       i === 4 && "object-[center_70%]",
                     )}
                   />
@@ -966,23 +1013,47 @@ function Quote({ lang }: { lang: Lang }) {
           <SectionHead label={t.label} title={t.title} invert />
           <p className="mt-6 max-w-md leading-relaxed text-beige/75">{t.sub}</p>
           <div className="mt-12 grid gap-4 text-sm">
-            <a href={PHONE_TEL} className="flex items-center gap-3 hover:text-beige-deep">
+            <a
+              href={PHONE_TEL}
+              className="flex items-center gap-3 transition-colors hover:text-beige-deep"
+            >
               <Phone className="size-5" />
               {PHONE_DISPLAY}
             </a>
             <a
+              href={EMAIL_MAILTO}
+              className="flex items-center gap-3 transition-colors hover:text-beige-deep"
+            >
+              <Mail className="size-5" />
+              {EMAIL}
+            </a>
+            <a
               href={WHATSAPP}
               target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-3 hover:text-beige-deep"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 transition-colors hover:text-beige-deep"
             >
               <MessageCircle className="size-5" />
-              WhatsApp
+              WhatsApp Direct Chat
             </a>
-            <p className="flex items-start gap-3">
-              <MapPin className="mt-0.5 size-5" />
+            <a
+              href={MAP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-3 transition-colors hover:text-beige-deep"
+            >
+              <MapPin className="mt-0.5 size-5 shrink-0" />
               {ADDRESS}
-            </p>
+            </a>
+            <a
+              href={INSTAGRAM}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 transition-colors hover:text-beige-deep"
+            >
+              <Instagram className="size-5" />
+              @duralumin_methoxha
+            </a>
           </div>
         </div>
         <Reveal className="rounded-2xl border border-beige/20 bg-brown-deep/30 p-6 sm:p-9">
@@ -1049,14 +1120,28 @@ function Footer({ lang }: { lang: Lang }) {
       <div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
           <p className="font-display text-2xl text-brown">Duralumin Methoxha</p>
-          <p className="mt-4 flex gap-2 text-sm text-foreground/70">
+          <a
+            href={MAP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 flex gap-2 text-sm text-foreground/70 transition-colors hover:text-brown"
+          >
             <MapPin className="size-4 shrink-0 text-brown" />
             {ADDRESS}
-          </p>
-          <a href={PHONE_TEL} className="mt-2 block text-sm text-foreground/70">
+          </a>
+          <a
+            href={PHONE_TEL}
+            className="mt-2 block text-sm text-foreground/70 transition-colors hover:text-brown"
+          >
             {PHONE_DISPLAY}
           </a>
-          <p className="mt-2 text-sm text-muted-foreground">{t.footer.hours}</p>
+          <a
+            href={EMAIL_MAILTO}
+            className="mt-2 block text-sm text-foreground/70 transition-colors hover:text-brown"
+          >
+            {EMAIL}
+          </a>
+          <p className="mt-2 text-sm text-muted-foreground">E Hënë – E Shtunë: 08:00–18:00</p>
         </div>
         <div>
           <p className="label-caps text-brown/70">{t.footer.quick}</p>
@@ -1074,12 +1159,39 @@ function Footer({ lang }: { lang: Lang }) {
         </div>
         <div>
           <p className="label-caps text-brown/70">Kontakt</p>
-          <iframe
-            title="Harta e lokacionit"
-            src={MAP_EMBED}
-            loading="lazy"
-            className="mt-4 h-32 w-full rounded-xl border border-brown/15"
-          />
+          <a
+            href={MAP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 block overflow-hidden rounded-xl border border-brown/15"
+          >
+            <iframe
+              title="Harta e lokacionit"
+              src={MAP_EMBED}
+              loading="lazy"
+              className="pointer-events-none h-32 w-full"
+            />
+          </a>
+          <div className="mt-4 flex gap-2">
+            <a
+              href={INSTAGRAM}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="rounded-full bg-black/10 p-2 text-brown transition-all hover:bg-[#C5A059] hover:text-white"
+            >
+              <Instagram className="size-4" />
+            </a>
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+              className="rounded-full bg-black/10 p-2 text-brown transition-all hover:bg-[#C5A059] hover:text-white"
+            >
+              <MessageCircle className="size-4" />
+            </a>
+          </div>
         </div>
       </div>
       <div className="mx-auto mt-12 max-w-7xl border-t border-brown/15 pt-6 text-xs text-muted-foreground">

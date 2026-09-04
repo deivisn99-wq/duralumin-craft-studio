@@ -2,7 +2,12 @@ export type Lang = "al" | "en";
 
 export const PHONE_DISPLAY = "+355 69 377 5502";
 export const PHONE_TEL = "tel:+355693775502";
+export const EMAIL = "ermalmethoxha0@gmail.com";
+export const EMAIL_MAILTO = `mailto:${EMAIL}`;
 export const WHATSAPP = "https://wa.me/355693775502";
+export const INSTAGRAM = "https://www.instagram.com/duralumin_methoxha";
+export const MAP_URL =
+  "https://www.google.com/maps/place/Punime+Duralumini+%E2%80%A2+Ermal+Met%E2%80%99hoxha/@41.3360381,19.7735566,17z/data=!4m6!3m5!1s0x1350314d530f7243:0xb2ee267eb7cc233a!8m2!3d41.3360381!4d19.7761315!16s%2Fg%2F11fmgzfznd?entry=ttu&g_ep=EgoyMDI2MDkwMS4wIKXMDSoASAFQAw%3D%3D";
 /* PLACEHOLDER — replace with the real Google Business Profile / Place URL */
 export const GOOGLE_REVIEWS_URL =
   "https://www.google.com/maps/search/?api=1&query=Duralumin+Methoxha+Rruga+Teodor+Keko+16+Tirane";
