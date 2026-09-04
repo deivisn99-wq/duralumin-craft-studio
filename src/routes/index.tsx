@@ -642,7 +642,7 @@ function WhyUs({ lang }: { lang: Lang }) {
             RISHIKIME TË VERIFIKUARA
           </p>
           <h3 className="mt-3 font-display text-3xl text-beige sm:text-5xl">
-            4.9/ 5.0 Yje në Google
+            4.9/5.0 Yje në Google (28+ Vlerësime)
           </h3>
           <div
             className="mt-4 flex justify-center gap-1 text-[#C5A059]"
