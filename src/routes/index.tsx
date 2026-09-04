@@ -138,25 +138,98 @@ const projectImages = [
 
 function Index() {
   const [lang, setLang] = useState<Lang>("al");
+  const [quoteOpen, setQuoteOpen] = useState(false);
+  useEffect(() => {
+    if (!quoteOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setQuoteOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [quoteOpen]);
+  const openQuote = () => setQuoteOpen(true);
   return (
     <div className="min-h-screen overflow-x-clip bg-beige">
-      <Nav lang={lang} setLang={setLang} />
+      <Nav lang={lang} setLang={setLang} onQuote={openQuote} />
       <main>
-        <Hero lang={lang} />
+        <Hero lang={lang} onQuote={openQuote} />
         <About lang={lang} />
         <WhyUs lang={lang} />
-        <Services lang={lang} />
+        <Services lang={lang} onQuote={openQuote} />
         <Projects lang={lang} />
         <Process lang={lang} />
         <Quote lang={lang} />
       </main>
       <Footer lang={lang} />
-      <MobileContactBar lang={lang} />
+      <MobileContactBar lang={lang} onQuote={openQuote} />
+      <a
+        href={WHATSAPP}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Na kontaktoni në WhatsApp"
+        className="group fixed bottom-24 right-5 z-40 grid size-14 place-items-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105 md:bottom-6 md:right-6"
+      >
+        <MessageCircle className="size-6" />
+        <span className="pointer-events-none absolute right-16 whitespace-nowrap rounded-full bg-brown-deep px-3 py-1.5 text-xs font-semibold text-beige opacity-0 transition-opacity group-hover:opacity-100">
+          Na shkruani në WhatsApp
+        </span>
+        <span
+          className="absolute -right-1 -top-1 size-3 animate-ping rounded-full bg-[#25D366]"
+          aria-hidden="true"
+        />
+      </a>
+      <AnimatePresence>
+        {quoteOpen && (
+          <motion.div
+            className="fixed inset-0 z-[60] grid place-items-center bg-brown-deep/75 p-4 backdrop-blur-sm"
+            role="presentation"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) setQuoteOpen(false);
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="quote-modal-title"
+              className="relative max-h-[90svh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-brown p-6 text-beige shadow-2xl sm:p-9"
+              initial={{ y: 20, scale: 0.98 }}
+              animate={{ y: 0, scale: 1 }}
+              exit={{ y: 20, scale: 0.98 }}
+            >
+              <button
+                type="button"
+                onClick={() => setQuoteOpen(false)}
+                aria-label="Mbyll formularin e ofertës"
+                className="absolute right-4 top-4 rounded-full p-2 text-beige/70 hover:bg-beige/10 hover:text-beige"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+              <h2 id="quote-modal-title" className="pr-10 font-display text-3xl">
+                {(content[lang] ?? content.al).quote.title}
+              </h2>
+              <p className="mt-2 text-sm text-beige/70">
+                {(content[lang] ?? content.al).quote.sub}
+              </p>
+              <div className="mt-7">
+                <QuoteForm lang={lang} />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-function Hero({ lang }: { lang: Lang }) {
+function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
   const t = (content[lang] ?? content.al).hero;
   const ref = useRef<HTMLElement>(null);
   const { scrollY } = useScroll();
@@ -212,13 +285,14 @@ function Hero({ lang }: { lang: Lang }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55, duration: 0.7, ease }}
         >
-          <a
-            href="#quote"
+          <button
+            type="button"
+            onClick={onQuote}
             className="group inline-flex items-center justify-center gap-2 rounded-full bg-beige px-7 py-4 text-sm font-semibold text-brown-deep transition-transform hover:-translate-y-0.5"
           >
             {t.cta1}
             <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-          </a>
+          </button>
           <a
             href="#why"
             className="inline-flex items-center justify-center rounded-full border border-beige/60 px-7 py-4 text-sm font-semibold text-beige transition-colors hover:bg-beige/10"
@@ -588,7 +662,7 @@ function WhyUs({ lang }: { lang: Lang }) {
   );
 }
 
-function Services({ lang }: { lang: Lang }) {
+function Services({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
   const t = (content[lang] ?? content.al).services;
   return (
     <section id="services" className="bg-surface py-24 sm:py-32">
@@ -598,12 +672,13 @@ function Services({ lang }: { lang: Lang }) {
           <p className="mt-6 max-w-sm text-base leading-relaxed text-foreground/75">
             Zgjidhje të menduara për hapësira që zgjasin.
           </p>
-          <a
-            href="#quote"
+          <button
+            type="button"
+            onClick={onQuote}
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-brown px-6 py-3.5 text-sm font-semibold text-beige"
           >
             Kërko ofertë <ChevronRight className="size-4" />
-          </a>
+          </button>
         </div>
         <div className="grid gap-5">
           {t.items.map((s, i) => {
@@ -918,7 +993,7 @@ function Quote({ lang }: { lang: Lang }) {
   );
 }
 
-function MobileContactBar({ lang }: { lang: Lang }) {
+function MobileContactBar({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const hero = document.getElementById("home");
