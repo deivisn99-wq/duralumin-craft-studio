@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 import { Menu, Phone, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { content, WHATSAPP, type Lang } from "@/lib/content";
+import { content, type Lang } from "@/lib/content";
 
 const links = ["about", "why", "services", "projects", "process"] as const;
 
-export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
+export function Nav({
+  lang,
+  setLang,
+  onQuote,
+}: {
+  lang: Lang;
+  setLang: (l: Lang) => void;
+  onQuote: () => void;
+}) {
   const t = (content[lang] ?? content.al).nav;
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -79,15 +87,14 @@ export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void 
               </button>
             ))}
           </div>
-          <a
-            href={WHATSAPP}
-            target="_blank"
-            rel="noreferrer"
+          <button
+            type="button"
+            onClick={onQuote}
             className="hidden items-center gap-2 rounded-full bg-brown px-4 py-2.5 text-sm font-semibold text-beige transition-transform duration-200 ease-out hover:scale-105 sm:inline-flex"
           >
             <Phone className="size-4" />
             {t.quote}
-          </a>
+          </button>
           <button
             type="button"
             aria-label={t.menu}
@@ -117,6 +124,16 @@ export function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void 
               {t[key]}
             </a>
           ))}
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              onQuote();
+            }}
+            className="mt-2 rounded-xl bg-brown px-3 py-3 text-left text-sm font-semibold text-beige"
+          >
+            {t.quote}
+          </button>
         </nav>
       )}
     </header>
