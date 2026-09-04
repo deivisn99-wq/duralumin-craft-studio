@@ -294,7 +294,7 @@ function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
             <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </button>
           <a
-            href="#why"
+            href="#projects"
             className="inline-flex items-center justify-center rounded-full border border-beige/60 px-7 py-4 text-sm font-semibold text-beige transition-colors hover:bg-beige/10"
           >
             {t.cta2}
@@ -627,13 +627,13 @@ function WhyUs({ lang }: { lang: Lang }) {
           {features.map(([Icon, title, body], i) => {
             const FeatureIcon = Icon as ElementType;
             return (
-            <Reveal key={title as string} delay={i * 90}>
-              <article className="h-full rounded-2xl border border-beige/10 bg-beige/5 p-8 transition-colors duration-300 hover:border-beige-deep/50">
-                <FeatureIcon className="size-8 text-beige-deep" strokeWidth={1.3} />
-                <h3 className="mt-8 font-display text-2xl text-beige">{title as string}</h3>
-                <p className="mt-4 text-sm leading-relaxed text-beige/60">{body as string}</p>
-              </article>
-            </Reveal>
+              <Reveal key={title as string} delay={i * 90}>
+                <article className="h-full rounded-2xl border border-beige/10 bg-beige/5 p-8 transition-colors duration-300 hover:border-beige-deep/50">
+                  <FeatureIcon className="size-8 text-beige-deep" strokeWidth={1.3} />
+                  <h3 className="mt-8 font-display text-2xl text-beige">{title as string}</h3>
+                  <p className="mt-4 text-sm leading-relaxed text-beige/60">{body as string}</p>
+                </article>
+              </Reveal>
             );
           })}
         </div>
