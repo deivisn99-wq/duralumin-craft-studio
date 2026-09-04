@@ -2,7 +2,11 @@ export type Lang = "al" | "en";
 
 export const PHONE_DISPLAY = "+355 69 377 5502";
 export const PHONE_TEL = "tel:+355693775502";
+export const EMAIL = "ermalmethoxha0@gmail.com";
+export const EMAIL_MAILTO = `mailto:${EMAIL}`;
 export const WHATSAPP = "https://wa.me/355693775502";
+export const INSTAGRAM = "https://www.instagram.com/duralumin_methoxha";
+export const MAP_URL = "https://maps.google.com/?q=Rruga+Teodor+Keko+16,+Tiranë";
 /* PLACEHOLDER — replace with the real Google Business Profile / Place URL */
 export const GOOGLE_REVIEWS_URL =
   "https://www.google.com/maps/search/?api=1&query=Duralumin+Methoxha+Rruga+Teodor+Keko+16+Tirane";

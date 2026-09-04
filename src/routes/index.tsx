@@ -16,8 +16,10 @@ import {
   DoorOpen,
   Hammer,
   Layers,
+  Mail,
   MapPin,
   MessageCircle,
+  Instagram,
   Phone,
   ReceiptText,
   Ruler,
@@ -32,8 +34,12 @@ import { CountUp } from "@/components/CountUp";
 import { cn } from "@/lib/utils";
 import {
   ADDRESS,
+  EMAIL,
+  EMAIL_MAILTO,
   GOOGLE_REVIEWS_URL,
+  INSTAGRAM,
   MAP_EMBED,
+  MAP_URL,
   PHONE_DISPLAY,
   PHONE_TEL,
   WHATSAPP,
@@ -1007,23 +1013,47 @@ function Quote({ lang }: { lang: Lang }) {
           <SectionHead label={t.label} title={t.title} invert />
           <p className="mt-6 max-w-md leading-relaxed text-beige/75">{t.sub}</p>
           <div className="mt-12 grid gap-4 text-sm">
-            <a href={PHONE_TEL} className="flex items-center gap-3 hover:text-beige-deep">
+            <a
+              href={PHONE_TEL}
+              className="flex items-center gap-3 transition-colors hover:text-beige-deep"
+            >
               <Phone className="size-5" />
               {PHONE_DISPLAY}
             </a>
             <a
+              href={EMAIL_MAILTO}
+              className="flex items-center gap-3 transition-colors hover:text-beige-deep"
+            >
+              <Mail className="size-5" />
+              {EMAIL}
+            </a>
+            <a
               href={WHATSAPP}
               target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-3 hover:text-beige-deep"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 transition-colors hover:text-beige-deep"
             >
               <MessageCircle className="size-5" />
-              WhatsApp
+              WhatsApp Direct Chat
             </a>
-            <p className="flex items-start gap-3">
-              <MapPin className="mt-0.5 size-5" />
+            <a
+              href={MAP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-3 transition-colors hover:text-beige-deep"
+            >
+              <MapPin className="mt-0.5 size-5 shrink-0" />
               {ADDRESS}
-            </p>
+            </a>
+            <a
+              href={INSTAGRAM}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 transition-colors hover:text-beige-deep"
+            >
+              <Instagram className="size-5" />
+              @duralumin_methoxha
+            </a>
           </div>
         </div>
         <Reveal className="rounded-2xl border border-beige/20 bg-brown-deep/30 p-6 sm:p-9">
@@ -1090,14 +1120,28 @@ function Footer({ lang }: { lang: Lang }) {
       <div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
           <p className="font-display text-2xl text-brown">Duralumin Methoxha</p>
-          <p className="mt-4 flex gap-2 text-sm text-foreground/70">
+          <a
+            href={MAP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 flex gap-2 text-sm text-foreground/70 transition-colors hover:text-brown"
+          >
             <MapPin className="size-4 shrink-0 text-brown" />
             {ADDRESS}
-          </p>
-          <a href={PHONE_TEL} className="mt-2 block text-sm text-foreground/70">
+          </a>
+          <a
+            href={PHONE_TEL}
+            className="mt-2 block text-sm text-foreground/70 transition-colors hover:text-brown"
+          >
             {PHONE_DISPLAY}
           </a>
-          <p className="mt-2 text-sm text-muted-foreground">{t.footer.hours}</p>
+          <a
+            href={EMAIL_MAILTO}
+            className="mt-2 block text-sm text-foreground/70 transition-colors hover:text-brown"
+          >
+            {EMAIL}
+          </a>
+          <p className="mt-2 text-sm text-muted-foreground">E Hënë – E Shtunë: 08:00–18:00</p>
         </div>
         <div>
           <p className="label-caps text-brown/70">{t.footer.quick}</p>
@@ -1115,12 +1159,39 @@ function Footer({ lang }: { lang: Lang }) {
         </div>
         <div>
           <p className="label-caps text-brown/70">Kontakt</p>
-          <iframe
-            title="Harta e lokacionit"
-            src={MAP_EMBED}
-            loading="lazy"
-            className="mt-4 h-32 w-full rounded-xl border border-brown/15"
-          />
+          <a
+            href={MAP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 block overflow-hidden rounded-xl border border-brown/15"
+          >
+            <iframe
+              title="Harta e lokacionit"
+              src={MAP_EMBED}
+              loading="lazy"
+              className="pointer-events-none h-32 w-full"
+            />
+          </a>
+          <div className="mt-4 flex gap-2">
+            <a
+              href={INSTAGRAM}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="rounded-full bg-black/10 p-2 text-brown transition-all hover:bg-[#C5A059] hover:text-white"
+            >
+              <Instagram className="size-4" />
+            </a>
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+              className="rounded-full bg-black/10 p-2 text-brown transition-all hover:bg-[#C5A059] hover:text-white"
+            >
+              <MessageCircle className="size-4" />
+            </a>
+          </div>
         </div>
       </div>
       <div className="mx-auto mt-12 max-w-7xl border-t border-brown/15 pt-6 text-xs text-muted-foreground">
