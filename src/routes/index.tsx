@@ -31,6 +31,7 @@ import { Nav } from "@/components/site/Nav";
 import { QuoteForm } from "@/components/site/QuoteForm";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
+import heroStraightenedCleanFloor from "@/assets/hero-straightened-clean-floor.jpg";
 import { cn } from "@/lib/utils";
 import {
   ADDRESS,
@@ -48,7 +49,7 @@ import {
   type Lang,
 } from "@/lib/content";
 const photo = (id: string) => `https://hebbkx1anhila5yf.public.blob.vercel-storage.com/${id}`;
-const heroImg = photo("01_Hero__IMG-20260902-WA0008-KG2LJR7iz2sElCWZbyNyhdZE8w1bu7.jpg");
+const heroImg = heroStraightenedCleanFloor;
 const workshopImg = photo("02_Rreth-Nesh__IMG-20260902-WA0066-hhfwbYeeVSCO4BPBd5ds4JeJsgjQKq.jpg");
 const svcWindows = photo(
   "03_Sherbime-01_Dritare-Alumini__IMG-20260902-WA0096-HeJ18lnX8aBKLFR3T0yeWdC6ivbsFq.jpg",
