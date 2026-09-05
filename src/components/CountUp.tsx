@@ -64,8 +64,14 @@ export function CountUp({
 
   return (
     <span ref={ref} className={className}>
-      {value.toFixed(decimals)}
-      {suffix}
+      <span aria-hidden="true">
+        {value.toFixed(decimals)}
+        {suffix}
+      </span>
+      <span className="sr-only">
+        {to.toFixed(decimals)}
+        {suffix}
+      </span>
     </span>
   );
 }
