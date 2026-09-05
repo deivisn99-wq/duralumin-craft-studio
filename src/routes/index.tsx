@@ -1043,7 +1043,7 @@ function Quote({ lang }: { lang: Lang }) {
               className="flex items-start gap-3 transition-colors hover:text-beige-deep"
             >
               <MapPin className="mt-0.5 size-5 shrink-0" />
-              {ADDRESS}
+              Adresa jonë
             </a>
             <a
               href={INSTAGRAM}
@@ -1127,7 +1127,7 @@ function Footer({ lang }: { lang: Lang }) {
             className="mt-4 flex gap-2 text-sm text-foreground/70 transition-colors hover:text-brown"
           >
             <MapPin className="size-4 shrink-0 text-brown" />
-            {ADDRESS}
+            Adresa jonë
           </a>
           <a
             href={PHONE_TEL}
