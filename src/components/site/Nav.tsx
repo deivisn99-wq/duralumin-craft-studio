@@ -48,15 +48,21 @@ export function Nav({
           : "border-transparent bg-transparent text-beige",
       )}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
+      <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-3 py-3 sm:flex sm:items-center sm:justify-between sm:gap-4 sm:px-5 sm:py-4 lg:px-8">
         <a
           href="#home"
-          className="relative z-10 flex shrink-0 items-center gap-2 font-display text-sm leading-tight sm:gap-2.5 sm:text-xl"
+          className="relative z-10 flex min-w-0 items-center gap-2 overflow-hidden font-display text-sm leading-tight sm:gap-2.5 sm:text-lg"
         >
-          <img src="/favicon-192.png" alt="" width="40" height="40" className="size-9 sm:size-10" />
-          <span>Duralumin Met’hoxha</span>
+          <img
+            src="/favicon-192.png"
+            alt=""
+            width="40"
+            height="40"
+            className="size-9 shrink-0 sm:size-10"
+          />
+          <span className="truncate">Duralumin Met’hoxha</span>
         </a>
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <nav className="hidden items-center gap-7 lg:flex" aria-label={common.primaryNavigation}>
             {links.map((key) => (
               <a
@@ -70,7 +76,7 @@ export function Nav({
           </nav>
           <div
             className={cn(
-              "flex rounded-full border p-0.5 text-[10px] font-bold tracking-widest transition-transform duration-200 ease-out hover:scale-105",
+              "flex rounded-full border p-0.5 text-[9px] font-bold tracking-widest transition-transform duration-200 ease-out hover:scale-105 sm:text-[10px]",
               scrolled ? "border-brown/25" : "border-beige/50",
             )}
           >
@@ -81,7 +87,7 @@ export function Nav({
                 aria-pressed={lang === l}
                 onClick={() => setLang(l)}
                 className={cn(
-                  "rounded-full px-2 py-1 uppercase",
+                  "rounded-full px-1.5 py-0.5 uppercase sm:px-2 sm:py-1",
                   lang === l ? "bg-brown text-beige" : scrolled ? "text-brown/70" : "text-beige/80",
                 )}
               >
@@ -103,7 +109,7 @@ export function Nav({
             aria-expanded={open}
             onClick={() => setOpen(!open)}
             className={cn(
-              "relative z-10 grid size-10 place-items-center rounded-full border lg:hidden",
+              "relative z-10 grid size-9 place-items-center rounded-full border sm:size-10 lg:hidden",
               scrolled ? "border-brown/25 text-brown" : "border-beige/50 text-beige",
             )}
           >
