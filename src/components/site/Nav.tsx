@@ -15,6 +15,7 @@ export function Nav({
   onQuote: () => void;
 }) {
   const t = (content[lang] ?? content.al).nav;
+  const common = (content[lang] ?? content.al).common;
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("home");
@@ -55,7 +56,7 @@ export function Nav({
           Duralumin Ermal Met'hoxha
         </a>
         <div className="flex items-center gap-3">
-          <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary navigation">
+          <nav className="hidden items-center gap-7 lg:flex" aria-label={common.primaryNavigation}>
             {links.map((key) => (
               <a
                 key={key}
@@ -112,7 +113,7 @@ export function Nav({
       {open && (
         <nav
           className="absolute inset-x-0 top-full grid gap-1 border-t border-brown/10 bg-beige px-5 pb-5 pt-3 text-brown shadow-lg lg:hidden"
-          aria-label="Mobile navigation"
+          aria-label={common.mobileNavigation}
         >
           {links.map((key) => (
             <a

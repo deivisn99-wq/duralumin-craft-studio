@@ -16,8 +16,10 @@ import {
   DoorOpen,
   Hammer,
   Layers,
+  Mail,
   MapPin,
   MessageCircle,
+  Instagram,
   Phone,
   ReceiptText,
   Ruler,
@@ -29,11 +31,16 @@ import { Nav } from "@/components/site/Nav";
 import { QuoteForm } from "@/components/site/QuoteForm";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
+import heroStraightenedCleanFloor from "@/assets/hero-straightened-clean-floor.jpg";
 import { cn } from "@/lib/utils";
 import {
   ADDRESS,
+  EMAIL,
+  EMAIL_MAILTO,
   GOOGLE_REVIEWS_URL,
+  INSTAGRAM,
   MAP_EMBED,
+  MAP_URL,
   PHONE_DISPLAY,
   PHONE_TEL,
   WHATSAPP,
@@ -42,7 +49,7 @@ import {
   type Lang,
 } from "@/lib/content";
 const photo = (id: string) => `https://hebbkx1anhila5yf.public.blob.vercel-storage.com/${id}`;
-const heroImg = photo("01_Hero__IMG-20260902-WA0008-KG2LJR7iz2sElCWZbyNyhdZE8w1bu7.jpg");
+const heroImg = heroStraightenedCleanFloor;
 const workshopImg = photo("02_Rreth-Nesh__IMG-20260902-WA0066-hhfwbYeeVSCO4BPBd5ds4JeJsgjQKq.jpg");
 const svcWindows = photo(
   "03_Sherbime-01_Dritare-Alumini__IMG-20260902-WA0096-HeJ18lnX8aBKLFR3T0yeWdC6ivbsFq.jpg",
@@ -68,13 +75,16 @@ const svcRailings =
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Duralumin Methoxha — Dritare & Dyer Alumini në Tiranë" },
+      { title: "Duralumin Methoxha — Dritare dhe dyer alumini në Tiranë" },
       {
         name: "description",
         content:
-          "Prodhim dhe montim dritareve e dyerve prej alumini në Tiranë. Cilësi e lartë, korrektësi dhe çmime konkurruese. 4.9★ në Google.",
+          "Prodhim dhe montim i dritareve dhe dyerve prej alumini në Tiranë. Cilësi e lartë, korrektësi dhe çmime transparente. 4.9★ në Google.",
       },
-      { property: "og:title", content: "Duralumin Methoxha — Dritare & Dyer Alumini në Tiranë" },
+      {
+        property: "og:title",
+        content: "Duralumin Methoxha — Dritare dhe dyer alumini në Tiranë",
+      },
       {
         property: "og:description",
         content: "Dritare, dyer, fasada dhe montim profesional në Tiranë.",
@@ -135,10 +145,35 @@ const projectImages = [
   svcDoors,
   svcGlazing,
 ];
+const projectCategoryKeys = ["all", "windows", "doors", "glazing", "railings"] as const;
+type ProjectCategory = (typeof projectCategoryKeys)[number];
+const projectCategories: Exclude<ProjectCategory, "all">[] = [
+  "doors",
+  "doors",
+  "railings",
+  "railings",
+  "doors",
+  "glazing",
+  "windows",
+  "doors",
+  "glazing",
+];
 
 function Index() {
   const [lang, setLang] = useState<Lang>("al");
   const [quoteOpen, setQuoteOpen] = useState(false);
+  const t = content[lang] ?? content.al;
+
+  useEffect(() => {
+    document.documentElement.lang = lang === "al" ? "sq" : "en";
+    document.title =
+      lang === "al"
+        ? "Duralumin Methoxha — Dritare dhe dyer alumini në Tiranë"
+        : "Duralumin Methoxha — Aluminum Windows and Doors in Tirana";
+    const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    if (description) description.content = t.hero.sub;
+  }, [lang, t.hero.sub]);
+
   useEffect(() => {
     if (!quoteOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
@@ -171,15 +206,15 @@ function Index() {
         href={WHATSAPP}
         target="_blank"
         rel="noreferrer"
-        aria-label="Na kontaktoni në WhatsApp"
-        className="group fixed bottom-24 right-5 z-40 grid size-14 place-items-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105 md:bottom-6 md:right-6"
+        aria-label={t.common.whatsappAria}
+        className="group fixed bottom-24 right-5 z-50 grid size-14 place-items-center overflow-hidden rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105 md:bottom-6 md:right-6"
       >
         <MessageCircle className="size-6" />
         <span className="pointer-events-none absolute right-16 whitespace-nowrap rounded-full bg-brown-deep px-3 py-1.5 text-xs font-semibold text-beige opacity-0 transition-opacity group-hover:opacity-100">
-          Na shkruani në WhatsApp
+          {t.common.whatsappTooltip}
         </span>
         <span
-          className="absolute -right-1 -top-1 size-3 animate-ping rounded-full bg-[#25D366]"
+          className="pointer-events-none absolute inset-0 rounded-full bg-emerald-500 opacity-25 animate-ping"
           aria-hidden="true"
         />
       </a>
@@ -207,7 +242,7 @@ function Index() {
               <button
                 type="button"
                 onClick={() => setQuoteOpen(false)}
-                aria-label="Mbyll formularin e ofertës"
+                aria-label={t.common.closeQuote}
                 className="absolute right-4 top-4 rounded-full p-2 text-beige/70 hover:bg-beige/10 hover:text-beige"
               >
                 <span aria-hidden="true">×</span>
@@ -242,7 +277,7 @@ function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
     >
       <motion.img
         src={heroImg}
-        alt="Fasadë moderne me dritare alumini në Tiranë"
+        alt={t.imageAlt}
         width={1920}
         height={1280}
         className="absolute inset-0 -z-10 h-[115%] w-full object-cover object-[center_58%] sm:object-center"
@@ -275,9 +310,7 @@ function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.42, duration: 0.7, ease }}
         >
-          {
-            "Prodhim dhe montim profesional i dritareve dhe dyerve prej alumini në Tiranë, cilësi e lartë, korrektësi në punë dhe oferta transparente."
-          }
+          {t.sub}
         </motion.p>
         <motion.div
           className="mt-9 flex flex-col gap-3 sm:flex-row"
@@ -336,7 +369,7 @@ function About({ lang }: { lang: Lang }) {
         <Reveal className="relative">
           <img
             src={workshopImg}
-            alt="Mjeshtri duke matur një kornizë alumini në punishte"
+            alt={t.imageAlt}
             width={1280}
             height={1280}
             loading="lazy"
@@ -350,9 +383,9 @@ function About({ lang }: { lang: Lang }) {
           </Reveal>
           <div className="mt-12 grid gap-8 sm:grid-cols-3">
             {[
-              { to: 4.9, decimals: 1, suffix: "", label: "Vlerësim në Google", star: true },
-              { to: 10, decimals: 0, suffix: "+", label: "Vjet Në Treg", star: false },
-              { to: 150, decimals: 0, suffix: "+", label: "Klientë të Kënaqur", star: false },
+              { to: 4.9, decimals: 1, suffix: "", label: t.stats[0], star: true },
+              { to: 10, decimals: 0, suffix: "+", label: t.stats[1], star: false },
+              { to: 150, decimals: 0, suffix: "+", label: t.stats[2], star: false },
             ].map((s, i) => (
               <Reveal key={s.label} delay={i * 90}>
                 <div className="border-t border-brown/20 pt-5">
@@ -409,9 +442,7 @@ function ReviewsGrid({ lang }: { lang: Lang }) {
                 </span>
                 <span className="grid gap-1">
                   <span className="font-sans text-lg font-medium text-brown-deep">{r.name}</span>
-                  <span className="text-base text-brown/70">
-                    {r.meta || (lang === "al" ? "Vlerësim në Google" : "Google Review")}
-                  </span>
+                  <span className="text-base text-brown/70">{r.meta || t.reviewsGoogleReview}</span>
                 </span>
               </figcaption>
             </figure>
@@ -574,88 +605,88 @@ function PillarsDiagram({ lang }: { lang: Lang }) {
 
 function WhyUs({ lang }: { lang: Lang }) {
   const t = (content[lang] ?? content.al).why;
-  const features =
-    lang === "al"
-      ? [
-          [
-            ShieldCheck,
-            "Materiale Premium & Izolim",
-            "Përdorim vetëm profile alumini të certifikuara me izolim të lartë termik dhe akustik, të mbrojtura ndaj çdo kushti atmosferik.",
-          ],
-          [
-            Ruler,
-            "Korrektësi & Çmime Transparentë",
-            "Pa kosto të fshehura. Çdo ofertë detajohet me shkrim dhe realizohet me rigorozitet brenda afatit të dakordësuar.",
-          ],
-          [
-            Wrench,
-            "10+ Vjet Përvojë & Garanci",
-            "Montim profesional me precizion milimetrik dhe shërbim të dedikuar mirëmbajtjeje pas instalimit.",
-          ],
-        ]
-      : [
-          [
-            ShieldCheck,
-            "Premium Materials & Insulation",
-            "Certified aluminum profiles with superior thermal and acoustic insulation, protected against every weather condition.",
-          ],
-          [
-            Ruler,
-            "Accuracy & Transparent Pricing",
-            "No hidden costs. Every quote is detailed in writing and completed rigorously within the agreed deadline.",
-          ],
-          [
-            Wrench,
-            "10+ Years & Warranty",
-            "Professional installation with millimeter precision, dedicated maintenance service, and official warranty.",
-          ],
-        ];
+  const featureIcons = [ShieldCheck, Ruler, Wrench];
   return (
     <section id="why" className="bg-brown-deep py-24 text-beige sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <p className="label-caps text-beige-deep">PSE NE</p>
-          <h2 className="mt-4 font-display text-4xl text-beige sm:text-6xl">
-            Standarte Evropiane, Precizion Shqiptar
-          </h2>
+          <p className="label-caps text-beige-deep">{t.label}</p>
+          <h2 className="mt-4 font-display text-4xl text-beige sm:text-6xl">{t.headerTitle}</h2>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-beige/65 sm:text-lg">
-            Çdo dritare dhe derë ndërtohet me profil premium alumini, izolim termik superior dhe
-            garanci të plotë për çdo projekt.
+            {t.intro}
           </p>
         </Reveal>
         <div className="mt-14 grid gap-5 md:grid-cols-3">
-          {features.map(([Icon, title, body], i) => {
-            const FeatureIcon = Icon as ElementType;
+          {t.features.map((feature, i) => {
+            const FeatureIcon = (featureIcons[i] ?? ShieldCheck) as ElementType;
             return (
-              <Reveal key={title as string} delay={i * 90}>
+              <Reveal key={feature.t} delay={i * 90}>
                 <article className="h-full rounded-2xl border border-beige/10 bg-beige/5 p-8 transition-colors duration-300 hover:border-beige-deep/50">
                   <FeatureIcon className="size-8 text-beige-deep" strokeWidth={1.3} />
-                  <h3 className="mt-8 font-display text-2xl text-beige">{title as string}</h3>
-                  <p className="mt-4 text-sm leading-relaxed text-beige/60">{body as string}</p>
+                  <h3 className="mt-8 font-display text-2xl text-beige">{feature.t}</h3>
+                  <p className="mt-4 text-sm leading-relaxed text-beige/60">{feature.d}</p>
                 </article>
               </Reveal>
             );
           })}
         </div>
-        <div className="mt-12 grid gap-8 border-t border-beige/10 pt-8 text-center sm:grid-cols-3">
-          {[
-            ["150+", lang === "al" ? "Projekte të Përfunduara" : "Completed Projects"],
-            [
-              "4.9 ★★★★★",
-              lang === "al" ? "Vlerësime të Verifikuara në Google" : "Verified Google Reviews",
-            ],
-            [
-              "100%",
-              lang === "al"
-                ? "Garanci & Mbështetje Pas Montimit"
-                : "Warranty & Post-install Support",
-            ],
-          ].map(([value, label]) => (
-            <div key={value}>
-              <strong className="font-display text-3xl text-beige-deep">{value}</strong>
-              <p className="mt-2 text-sm text-beige/55">{label}</p>
+        <div className="mt-16 text-center">
+          <p className="font-mono text-xs uppercase tracking-widest text-[#C5A059]">
+            {t.reviewsLabel}
+          </p>
+          <h3 className="mt-3 font-display text-3xl text-beige sm:text-5xl">
+            {t.reviewsRating} · {t.reviewsSupport}
+          </h3>
+          <div
+            className="mt-4 flex justify-center gap-1 text-[#C5A059]"
+            aria-label={t.reviewsStarsAria}
+          >
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} className="size-4 fill-current" aria-hidden="true" />
+            ))}
+          </div>
+          <div className="review-marquee-wrap mt-10 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <div className="review-marquee flex w-max gap-5 hover:[animation-play-state:paused]">
+              {[...Array(2)].flatMap((_, copy) =>
+                reviewPickIndices.map((reviewIndex, i) => {
+                  const review = reviews[reviewIndex]!;
+                  return (
+                    <article
+                      key={`${copy}-${i}`}
+                      className="min-w-[320px] max-w-sm rounded-2xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur-sm"
+                    >
+                      <div className="flex gap-1 text-[#C5A059]" aria-label={t.fiveStarsAria}>
+                        {Array.from({ length: 5 }).map((_, starIndex) => (
+                          <Star
+                            key={starIndex}
+                            className="size-3.5 fill-current"
+                            aria-hidden="true"
+                          />
+                        ))}
+                      </div>
+                      <blockquote className="mt-5 text-base leading-relaxed text-beige/80">
+                        “{review.text[lang]}”
+                      </blockquote>
+                      <div className="mt-5 flex items-center justify-between gap-3">
+                        <strong className="text-sm text-beige">{review.name}</strong>
+                        <span className="rounded-full border border-beige/15 px-2.5 py-1 text-[10px] text-beige/60">
+                          {t.reviewsGoogleReview}
+                        </span>
+                      </div>
+                    </article>
+                  );
+                }),
+              )}
             </div>
-          ))}
+          </div>
+          <a
+            href={GOOGLE_REVIEWS_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-8 inline-flex items-center gap-2 rounded-full border border-beige/30 px-5 py-3 text-sm font-semibold text-beige transition-colors hover:bg-beige hover:text-brown-deep"
+          >
+            {t.reviewsCta} →
+          </a>
         </div>
       </div>
     </section>
@@ -669,15 +700,13 @@ function Services({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
       <div className="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-[.7fr_1.3fr] lg:px-8">
         <div className="lg:sticky lg:top-28 lg:h-fit">
           <SectionHead label={t.label} title={t.title} />
-          <p className="mt-6 max-w-sm text-base leading-relaxed text-foreground/75">
-            Zgjidhje të menduara për hapësira që zgjasin.
-          </p>
+          <p className="mt-6 max-w-sm text-base leading-relaxed text-foreground/75">{t.sub}</p>
           <button
             type="button"
             onClick={onQuote}
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-brown px-6 py-3.5 text-sm font-semibold text-beige"
           >
-            Kërko ofertë <ChevronRight className="size-4" />
+            {t.cta} <ChevronRight className="size-4" />
           </button>
         </div>
         <div className="grid gap-5">
@@ -721,46 +750,9 @@ function Services({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
 }
 
 function Projects({ lang }: { lang: Lang }) {
-  const isAlbanian = lang === "al";
-  const labels = isAlbanian
-    ? [
-        "Kabina dushi",
-        "Dyer të brendshme me hark",
-        "Grila të bardha",
-        "Grila me efekt druri",
-        "Derë me grila",
-        "Vetratë komerciale",
-        "Dritare alumini",
-        "Dyer alumini",
-        "Vetrata",
-      ]
-    : [
-        "Shower cabin",
-        "Arched interior doors",
-        "White shutters",
-        "Wood-effect shutters",
-        "Door with shutters",
-        "Commercial glazing",
-        "Aluminum windows",
-        "Aluminum doors",
-        "Glass walls",
-      ];
+  const t = content[lang].projects;
   const [active, setActive] = useState<number | null>(null);
-  const [category, setCategory] = useState("Të gjitha");
-  const categories = isAlbanian
-    ? ["Të gjitha", "Dritare", "Dyer", "Vetrata", "Kangjella"]
-    : ["All", "Windows", "Doors", "Glazing", "Railings"];
-  const projectCategories = [
-    "Dyer",
-    "Dyer",
-    "Kangjella",
-    "Kangjella",
-    "Dyer",
-    "Vetrata",
-    "Dritare",
-    "Dyer",
-    "Vetrata",
-  ];
+  const [category, setCategory] = useState<ProjectCategory>("all");
   useEffect(() => {
     if (active === null) return;
     const onKeyDown = (event: KeyboardEvent) => {
@@ -784,76 +776,50 @@ function Projects({ lang }: { lang: Lang }) {
     <section id="projects" className="bg-brown-deep py-24 text-beige sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
-          <SectionHead
-            label={isAlbanian ? "Projektet Tona" : "Our Projects"}
-            title={isAlbanian ? "Punë që flasin vetë" : "Work that speaks for itself"}
-            invert
-          />
-          <p className="max-w-sm text-sm leading-relaxed text-beige/65">
-            {isAlbanian
-              ? "Një përzgjedhje nga punimet tona të përfunduara."
-              : "A selection of our completed work."}
-          </p>
+          <SectionHead label={t.label} title={t.title} invert />
+          <p className="max-w-sm text-sm leading-relaxed text-beige/65">{t.sub}</p>
         </div>
         <div className="mt-10 flex flex-wrap gap-2">
-          {categories.map((item) => (
+          {projectCategoryKeys.map((key, index) => (
             <button
-              key={item}
+              key={key}
               type="button"
-              onClick={() => setCategory(item)}
+              onClick={() => setCategory(key)}
               className={cn(
                 "rounded-full border px-4 py-2 text-xs font-semibold transition-colors",
-                category === item
+                category === key
                   ? "border-beige bg-beige text-brown-deep"
                   : "border-beige/25 text-beige/70 hover:border-beige/60",
               )}
             >
-              {item}
+              {t.categories[index]}
             </button>
           ))}
         </div>
         <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5">
           {projectImages
             .map((image, i) => ({ image, i }))
-            .filter(
-              ({ i }) =>
-                category === categories[0] ||
-                projectCategories[i] ===
-                  (isAlbanian
-                    ? category
-                    : (
-                        {
-                          Windows: "Dritare",
-                          Doors: "Dyer",
-                          Glazing: "Vetrata",
-                          Railings: "Kangjella",
-                        } as Record<string, string>
-                      )[category]),
-            )
+            .filter(({ i }) => category === "all" || projectCategories[i] === category)
             .map(({ image, i }) => (
-              <Reveal
-                key={labels[i]}
-                delay={i * 70}
-                className={i === 1 || i === 4 ? "sm:translate-y-10" : ""}
-              >
+              <Reveal key={t.labels[i]} delay={i * 70} className="">
                 <button
                   type="button"
                   onClick={() => setActive(i)}
-                  className="group relative block w-full overflow-hidden rounded-2xl bg-brown text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beige"
+                  className="group relative block aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/10 bg-brown text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beige"
                 >
                   <img
                     src={image}
-                    alt={`${labels[i]} — Duralumin Methoxha`}
+                    alt={`${t.labels[i]} — Duralumin Methoxha`}
                     loading="lazy"
                     width={900}
                     height={1200}
                     className={cn(
-                      "aspect-[4/5] w-full rounded-xl object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-75",
+                      "size-full object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-75",
                       i === 4 && "object-[center_70%]",
                     )}
                   />
                   <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brown-deep/90 to-transparent px-4 pb-4 pt-12 text-sm font-medium text-beige sm:px-5 sm:pb-5">
-                    {labels[i]}
+                    {t.labels[i]}
                   </span>
                 </button>
               </Reveal>
@@ -864,21 +830,21 @@ function Projects({ lang }: { lang: Lang }) {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={labels[active]}
+          aria-label={t.labels[active]}
           className="fixed inset-0 z-50 grid place-items-center bg-brown-deep/95 p-4 sm:p-8"
           onClick={() => setActive(null)}
         >
           <button
             type="button"
-            aria-label={isAlbanian ? "Mbyll" : "Close"}
+            aria-label={t.close}
             onClick={() => setActive(null)}
             className="absolute right-5 top-5 rounded-full border border-beige/40 px-4 py-2 text-sm text-beige"
           >
-            {isAlbanian ? "Mbyll" : "Close"}
+            {t.close}
           </button>
           <button
             type="button"
-            aria-label={isAlbanian ? "Imazhi i mëparshëm" : "Previous image"}
+            aria-label={t.previous}
             onClick={(event) => {
               event.stopPropagation();
               setActive((active - 1 + projectImages.length) % projectImages.length);
@@ -889,13 +855,13 @@ function Projects({ lang }: { lang: Lang }) {
           </button>
           <img
             src={projectImages[active]}
-            alt={`${labels[active]} — Duralumin Methoxha`}
+            alt={`${t.labels[active]} — Duralumin Methoxha`}
             onClick={(event) => event.stopPropagation()}
             className="max-h-[88vh] max-w-[88vw] object-contain"
           />
           <button
             type="button"
-            aria-label={isAlbanian ? "Imazhi i ardhshëm" : "Next image"}
+            aria-label={t.next}
             onClick={(event) => {
               event.stopPropagation();
               setActive((active + 1) % projectImages.length);
@@ -920,9 +886,7 @@ function Process({ lang }: { lang: Lang }) {
       <div className="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-[.7fr_1.3fr] lg:px-8">
         <div className="lg:sticky lg:top-28 lg:h-fit">
           <SectionHead label={t.label} title={t.title} />
-          <p className="mt-6 max-w-sm leading-relaxed text-foreground/70">
-            Nga ideja e parë deri te montimi, çdo hap është i qartë.
-          </p>
+          <p className="mt-6 max-w-sm leading-relaxed text-foreground/70">{t.intro}</p>
         </div>
         <div ref={ref} className="relative">
           <div className="absolute bottom-0 left-4 top-0 z-0 w-px bg-brown/15">
@@ -966,23 +930,47 @@ function Quote({ lang }: { lang: Lang }) {
           <SectionHead label={t.label} title={t.title} invert />
           <p className="mt-6 max-w-md leading-relaxed text-beige/75">{t.sub}</p>
           <div className="mt-12 grid gap-4 text-sm">
-            <a href={PHONE_TEL} className="flex items-center gap-3 hover:text-beige-deep">
+            <a
+              href={PHONE_TEL}
+              className="flex items-center gap-3 transition-colors hover:text-beige-deep"
+            >
               <Phone className="size-5" />
               {PHONE_DISPLAY}
             </a>
             <a
+              href={EMAIL_MAILTO}
+              className="flex items-center gap-3 transition-colors hover:text-beige-deep"
+            >
+              <Mail className="size-5" />
+              {EMAIL}
+            </a>
+            <a
               href={WHATSAPP}
               target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-3 hover:text-beige-deep"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 transition-colors hover:text-beige-deep"
             >
               <MessageCircle className="size-5" />
-              WhatsApp
+              {t.whatsapp}
             </a>
-            <p className="flex items-start gap-3">
-              <MapPin className="mt-0.5 size-5" />
-              {ADDRESS}
-            </p>
+            <a
+              href={MAP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-3 transition-colors hover:text-beige-deep"
+            >
+              <MapPin className="mt-0.5 size-5 shrink-0" />
+              {t.address}
+            </a>
+            <a
+              href={INSTAGRAM}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 transition-colors hover:text-beige-deep"
+            >
+              <Instagram className="size-5" />
+              @duralumin_methoxha
+            </a>
           </div>
         </div>
         <Reveal className="rounded-2xl border border-beige/20 bg-brown-deep/30 p-6 sm:p-9">
@@ -1049,19 +1037,33 @@ function Footer({ lang }: { lang: Lang }) {
       <div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
           <p className="font-display text-2xl text-brown">Duralumin Methoxha</p>
-          <p className="mt-4 flex gap-2 text-sm text-foreground/70">
+          <a
+            href={MAP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 flex gap-2 text-sm text-foreground/70 transition-colors hover:text-brown"
+          >
             <MapPin className="size-4 shrink-0 text-brown" />
-            {ADDRESS}
-          </p>
-          <a href={PHONE_TEL} className="mt-2 block text-sm text-foreground/70">
+            {t.footer.address}
+          </a>
+          <a
+            href={PHONE_TEL}
+            className="mt-2 block text-sm text-foreground/70 transition-colors hover:text-brown"
+          >
             {PHONE_DISPLAY}
+          </a>
+          <a
+            href={EMAIL_MAILTO}
+            className="mt-2 block text-sm text-foreground/70 transition-colors hover:text-brown"
+          >
+            {EMAIL}
           </a>
           <p className="mt-2 text-sm text-muted-foreground">{t.footer.hours}</p>
         </div>
         <div>
           <p className="label-caps text-brown/70">{t.footer.quick}</p>
           <div className="mt-4 grid gap-2 text-sm">
-            {["Shërbimet", "Pse Ne", "Procesi", "Kontakt"].map((x, i) => (
+            {[t.nav.services, t.nav.why, t.nav.process, t.footer.contact].map((x, i) => (
               <a
                 key={x}
                 href={["#services", "#why", "#process", "#quote"][i]}
@@ -1073,13 +1075,40 @@ function Footer({ lang }: { lang: Lang }) {
           </div>
         </div>
         <div>
-          <p className="label-caps text-brown/70">Kontakt</p>
-          <iframe
-            title="Harta e lokacionit"
-            src={MAP_EMBED}
-            loading="lazy"
-            className="mt-4 h-32 w-full rounded-xl border border-brown/15"
-          />
+          <p className="label-caps text-brown/70">{t.footer.contact}</p>
+          <a
+            href={MAP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 block overflow-hidden rounded-xl border border-brown/15"
+          >
+            <iframe
+              title={t.footer.mapTitle}
+              src={MAP_EMBED}
+              loading="lazy"
+              className="pointer-events-none h-32 w-full"
+            />
+          </a>
+          <div className="mt-4 flex gap-2">
+            <a
+              href={INSTAGRAM}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="rounded-full bg-black/10 p-2 text-brown transition-all hover:bg-[#C5A059] hover:text-white"
+            >
+              <Instagram className="size-4" />
+            </a>
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+              className="rounded-full bg-black/10 p-2 text-brown transition-all hover:bg-[#C5A059] hover:text-white"
+            >
+              <MessageCircle className="size-4" />
+            </a>
+          </div>
         </div>
       </div>
       <div className="mx-auto mt-12 max-w-7xl border-t border-brown/15 pt-6 text-xs text-muted-foreground">
