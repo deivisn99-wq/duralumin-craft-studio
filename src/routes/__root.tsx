@@ -77,17 +77,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Duralumin Methoxha — Punime Duralumini, Tiranë" },
+      { title: "Duralumini Met'hoxha — Punime Duralumini, Tiranë" },
       {
         name: "description",
         content:
           "Prodhim dhe montim i dritareve dhe dyerve prej alumini në Tiranë. Cilësi, korrektësi dhe çmime konkurruese.",
       },
-      { name: "author", content: "Duralumin Met'hoxha" },
-      { property: "og:title", content: "Duralumin Methoxha — Punime Duralumini, Tiranë" },
+      { name: "author", content: "Duralumini Met'hoxha" },
+      { property: "og:title", content: "Duralumini Met'hoxha — Punime Duralumini, Tiranë" },
       {
         property: "og:description",
-        content: "Dritare, dyer dhe fasada alumini në Tiranë — Ermal Met'hoxha.",
+        content: "Dritare, dyer dhe fasada alumini në Tiranë — Met'hoxha.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
