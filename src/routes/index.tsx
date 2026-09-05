@@ -18,6 +18,7 @@ import {
   Layers,
   Mail,
   MapPin,
+  MessageCircle,
   Instagram,
   Phone,
   ReceiptText,
