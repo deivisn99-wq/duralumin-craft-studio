@@ -11,6 +11,14 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import {
+  SEO_DESCRIPTION,
+  SEO_TITLE,
+  SITE_NAME,
+  SITE_URL,
+  SOCIAL_IMAGE_URL,
+  STRUCTURED_DATA,
+} from "../lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -77,20 +85,38 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Duralumin Methoxha — Punime Duralumini, Tiranë" },
+      { title: SEO_TITLE },
       {
         name: "description",
-        content:
-          "Prodhim dhe montim i dritareve dhe dyerve prej alumini në Tiranë. Cilësi, korrektësi dhe çmime konkurruese.",
+        content: SEO_DESCRIPTION,
       },
-      { name: "author", content: "Duralumin Met'hoxha" },
-      { property: "og:title", content: "Duralumin Methoxha — Punime Duralumini, Tiranë" },
+      { name: "author", content: SITE_NAME },
+      {
+        name: "robots",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
+      { name: "googlebot", content: "index, follow, max-image-preview:large" },
+      { name: "theme-color", content: "#40291f" },
+      { property: "og:title", content: SEO_TITLE },
       {
         property: "og:description",
-        content: "Dritare, dyer dhe fasada alumini në Tiranë — Ermal Met'hoxha.",
+        content: SEO_DESCRIPTION,
       },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: SITE_NAME },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:locale", content: "sq_AL" },
+      { property: "og:image", content: SOCIAL_IMAGE_URL },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      {
+        property: "og:image:alt",
+        content: "Duralumin Met’hoxha — dritare dhe dyer alumini në Tiranë",
+      },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: SEO_TITLE },
+      { name: "twitter:description", content: SEO_DESCRIPTION },
+      { name: "twitter:image", content: SOCIAL_IMAGE_URL },
     ],
     links: [
       {
@@ -103,7 +129,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "canonical", href: SITE_URL },
+      { rel: "icon", href: "/favicon-192.png", type: "image/png", sizes: "192x192" },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "manifest", href: "/site.webmanifest" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(STRUCTURED_DATA),
+      },
     ],
   }),
 

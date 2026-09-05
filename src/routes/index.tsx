@@ -33,6 +33,7 @@ import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
 import heroStraightenedCleanFloor from "@/assets/hero-straightened-clean-floor.jpg";
 import { cn } from "@/lib/utils";
+import { SEO_DESCRIPTION, SEO_TITLE } from "@/lib/seo";
 import {
   ADDRESS,
   EMAIL,
@@ -73,24 +74,6 @@ const svcRailings =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/10_Projekte-01_Dyer-me-hark-kafe__IMG-20260902-WA0112%20%281%29-YACm9jXXoHP3RGCG1fQbjIkL3mPK1c.jpg";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Duralumin Methoxha — Dritare dhe dyer alumini në Tiranë" },
-      {
-        name: "description",
-        content:
-          "Prodhim dhe montim i dritareve dhe dyerve prej alumini në Tiranë. Cilësi e lartë, korrektësi dhe çmime transparente. 4.9★ në Google.",
-      },
-      {
-        property: "og:title",
-        content: "Duralumin Methoxha — Dritare dhe dyer alumini në Tiranë",
-      },
-      {
-        property: "og:description",
-        content: "Dritare, dyer, fasada dhe montim profesional në Tiranë.",
-      },
-    ],
-  }),
   component: Index,
 });
 
@@ -167,12 +150,15 @@ function Index() {
   useEffect(() => {
     document.documentElement.lang = lang === "al" ? "sq" : "en";
     document.title =
-      lang === "al"
-        ? "Duralumin Methoxha — Dritare dhe dyer alumini në Tiranë"
-        : "Duralumin Methoxha — Aluminum Windows and Doors in Tirana";
+      lang === "al" ? SEO_TITLE : "Duralumin Met’hoxha — Aluminum Windows and Doors in Tirana";
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (description) description.content = t.hero.sub;
-  }, [lang, t.hero.sub]);
+    if (description) {
+      description.content =
+        lang === "al"
+          ? SEO_DESCRIPTION
+          : "Professional manufacturing and installation of aluminum windows, doors, glazing and façades in Tirana. Request a free quote from Duralumin Met’hoxha.";
+    }
+  }, [lang]);
 
   useEffect(() => {
     if (!quoteOpen) return;
@@ -809,7 +795,7 @@ function Projects({ lang }: { lang: Lang }) {
                 >
                   <img
                     src={image}
-                    alt={`${t.labels[i]} — Duralumin Methoxha`}
+                    alt={`${t.labels[i]} — Duralumin Met’hoxha`}
                     loading="lazy"
                     width={900}
                     height={1200}
@@ -855,7 +841,7 @@ function Projects({ lang }: { lang: Lang }) {
           </button>
           <img
             src={projectImages[active]}
-            alt={`${t.labels[active]} — Duralumin Methoxha`}
+            alt={`${t.labels[active]} — Duralumin Met’hoxha`}
             onClick={(event) => event.stopPropagation()}
             className="max-h-[88vh] max-w-[88vw] object-contain"
           />
@@ -1036,7 +1022,10 @@ function Footer({ lang }: { lang: Lang }) {
     <footer className="bg-beige px-5 py-14 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
-          <p className="font-display text-2xl text-brown">Duralumin Methoxha</p>
+          <div className="flex items-center gap-3">
+            <img src="/favicon-192.png" alt="" width="48" height="48" className="size-12" />
+            <p className="font-display text-2xl text-brown">Duralumin Met’hoxha</p>
+          </div>
           <a
             href={MAP_URL}
             target="_blank"
@@ -1112,7 +1101,7 @@ function Footer({ lang }: { lang: Lang }) {
         </div>
       </div>
       <div className="mx-auto mt-12 max-w-7xl border-t border-brown/15 pt-6 text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Duralumin Methoxha. {t.footer.rights}
+        © {new Date().getFullYear()} Duralumin Met’hoxha. {t.footer.rights}
       </div>
     </footer>
   );

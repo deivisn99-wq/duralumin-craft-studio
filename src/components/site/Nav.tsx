@@ -51,9 +51,10 @@ export function Nav({
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
         <a
           href="#home"
-          className="relative z-10 shrink-0 font-display text-lg leading-tight sm:text-xl"
+          className="relative z-10 flex shrink-0 items-center gap-2 font-display text-sm leading-tight sm:gap-2.5 sm:text-xl"
         >
-          Duralumin Ermal Met'hoxha
+          <img src="/favicon-192.png" alt="" width="40" height="40" className="size-9 sm:size-10" />
+          <span>Duralumin Met’hoxha</span>
         </a>
         <div className="flex items-center gap-3">
           <nav className="hidden items-center gap-7 lg:flex" aria-label={common.primaryNavigation}>
