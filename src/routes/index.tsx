@@ -201,7 +201,6 @@ function Index() {
         <Quote lang={lang} />
       </main>
       <Footer lang={lang} />
-      <MobileContactBar lang={lang} onQuote={openQuote} />
       <a
         href={WHATSAPP}
         target="_blank"
@@ -981,54 +980,6 @@ function Quote({ lang }: { lang: Lang }) {
   );
 }
 
-function MobileContactBar({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const hero = document.getElementById("home");
-    const quote = document.getElementById("quote");
-    const footer = document.querySelector("footer");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const hidden = entries.some((entry) => entry.isIntersecting);
-        setVisible(window.scrollY > (hero?.clientHeight ?? 500) - 80 && !hidden);
-      },
-      { threshold: 0.08 },
-    );
-    [quote, footer].forEach((el) => el && observer.observe(el));
-    const onScroll = () => setVisible(window.scrollY > (hero?.clientHeight ?? 500) - 80);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
-  const t = (content[lang] ?? content.al).quote;
-  return (
-    <div
-      className={cn(
-        "fixed inset-x-4 bottom-4 z-40 grid grid-cols-2 gap-2 rounded-full bg-brown p-2 text-beige shadow-lift transition-all duration-300 md:hidden",
-        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-20 opacity-0",
-      )}
-    >
-      <a
-        href={PHONE_TEL}
-        className="flex items-center justify-center gap-2 rounded-full bg-beige px-4 py-3 text-sm font-semibold text-brown"
-      >
-        <Phone className="size-4" />
-        {t.callLabel}
-      </a>
-      <a
-        href={WHATSAPP}
-        target="_blank"
-        rel="noreferrer"
-        className="flex items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-semibold"
-      >
-        <MessageCircle className="size-4" />
-        WhatsApp
-      </a>
-    </div>
-  );
-}
 
 function Footer({ lang }: { lang: Lang }) {
   const t = content[lang] ?? content.al;
