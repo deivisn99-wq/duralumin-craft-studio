@@ -4,11 +4,30 @@ import { content, type Lang } from "@/lib/content";
 export function QuoteForm({ lang }: { lang: Lang }) {
   const t = (content[lang] ?? content.al).quote;
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(false);
   return (
     <form
-      onSubmit={(e) => {
+      action="https://formspree.io/f/mnpqbwqa"
+      method="POST"
+      onSubmit={async (e) => {
         e.preventDefault();
-        setSent(true);
+        setSubmitting(true);
+        setError(false);
+        try {
+          const response = await fetch("https://formspree.io/f/mnpqbwqa", {
+            method: "POST",
+            headers: { Accept: "application/json" },
+            body: new FormData(e.currentTarget),
+          });
+          if (!response.ok) throw new Error("Form submission failed");
+          setSent(true);
+          e.currentTarget.reset();
+        } catch {
+          setError(true);
+        } finally {
+          setSubmitting(false);
+        }
       }}
       className="grid gap-5 sm:grid-cols-2"
     >
@@ -41,13 +60,19 @@ export function QuoteForm({ lang }: { lang: Lang }) {
       <div className="sm:col-span-2">
         <button
           type="submit"
-          className="w-full rounded-full bg-beige px-6 py-4 text-sm font-bold text-brown-deep transition-transform hover:-translate-y-0.5"
+          disabled={submitting}
+          className="w-full rounded-full disabled:cursor-not-allowed disabled:opacity-60 bg-beige px-6 py-4 text-sm font-bold text-brown-deep transition-transform hover:-translate-y-0.5"
         >
-          {t.submit}
+          {submitting ? "Duke dërguar..." : t.submit}
         </button>
         {sent && (
           <p className="mt-3 text-sm text-beige-deep" role="status">
             {t.success}
+          </p>
+        )}
+        {error && (
+          <p className="mt-3 text-sm text-red-200" role="alert">
+            Diçka shkoi keq. Ju lutemi provoni përsëri.
           </p>
         )}
       </div>

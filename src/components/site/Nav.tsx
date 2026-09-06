@@ -51,14 +51,14 @@ export function Nav({
       <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-3 py-3 sm:flex sm:items-center sm:justify-between sm:gap-4 sm:px-5 sm:py-4 lg:px-8">
         <a
           href="#home"
-          className="relative z-10 flex min-w-0 items-center gap-2 overflow-hidden font-display text-sm leading-tight sm:gap-2.5 sm:text-lg"
+          className="relative z-10 flex min-w-0 max-w-[calc(100vw-7.5rem)] items-center gap-1.5 overflow-hidden font-display text-xs leading-tight sm:max-w-none sm:gap-2.5 sm:text-lg"
         >
           <img
             src="/favicon-192.png"
             alt=""
             width="40"
             height="40"
-            className="size-9 shrink-0 sm:size-10"
+            className="size-8 shrink-0 sm:size-10"
           />
           <span className="truncate">Duralumin Met’hoxha</span>
         </a>
