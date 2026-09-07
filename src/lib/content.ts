@@ -27,6 +27,7 @@ export const content = {
     nav: {
       home: "Ballina",
       about: "Rreth nesh",
+      international: "Ndërkombëtarisht",
       why: "Pse ne",
       services: "Shërbimet",
       projects: "Punët tona",
@@ -39,6 +40,7 @@ export const content = {
       imageAlt: "Fasadë moderne me dritare alumini në Tiranë",
       title: "Dritare alumini me precizion, të ndërtuara për të zgjatur.",
       sub: "Prodhojmë dhe montojmë dritare dhe dyer alumini në Tiranë, me cilësi të lartë, korrektësi dhe çmime transparente.",
+      international: "Punojmë ndërkombëtarisht.",
       cta1: "Kërko ofertë falas",
       cta2: "Shiko punët tona",
       trust: "★ 4.9/5 · 28 vlerësime në Google",
@@ -230,6 +232,7 @@ export const content = {
     nav: {
       home: "Home",
       about: "About",
+      international: "International",
       why: "Why Us",
       services: "Services",
       projects: "Our Projects",
@@ -242,6 +245,7 @@ export const content = {
       imageAlt: "Modern façade with aluminum windows in Tirana",
       title: "Precision Aluminum Windows. Built to Last.",
       sub: "We manufacture and install aluminum windows and doors in Tirana, combining quality materials, dependable workmanship, and transparent pricing.",
+      international: "We work internationally.",
       cta1: "Get a Free Quote",
       cta2: "See Our Work",
       trust: "★ 4.9/5 · 28 Google reviews",

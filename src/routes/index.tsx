@@ -181,10 +181,10 @@ function Index() {
       <main>
         <Hero lang={lang} onQuote={openQuote} />
         <About lang={lang} />
+        <EuropeExperience lang={lang} />
         <WhyUs lang={lang} />
         <Services lang={lang} onQuote={openQuote} />
         <Projects lang={lang} />
-        <EuropeExperience lang={lang} />
         <Process lang={lang} />
         <Quote lang={lang} />
       </main>
@@ -298,6 +298,15 @@ function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
           transition={{ delay: 0.42, duration: 0.7, ease }}
         >
           {t.sub}
+        </motion.p>
+        <motion.p
+          className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-beige sm:text-base"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.7, ease }}
+        >
+          <Globe2 className="size-4 text-beige-deep" aria-hidden />
+          {t.international}
         </motion.p>
         <motion.div
           className="mt-9 flex flex-col gap-3 sm:flex-row"
@@ -868,7 +877,10 @@ function EuropeExperience({ lang }: { lang: Lang }) {
   const projectIcons = [Building2, AppWindow, Layers];
 
   return (
-    <section id="europe" className="relative isolate overflow-hidden bg-beige-deep py-24 sm:py-32">
+    <section
+      id="international"
+      className="relative isolate overflow-hidden bg-beige-deep py-24 sm:py-32"
+    >
       <div
         aria-hidden="true"
         className="absolute -left-32 top-12 -z-10 size-80 rounded-full border border-brown/10"
