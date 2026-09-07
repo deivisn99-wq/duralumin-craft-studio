@@ -3,7 +3,7 @@ import { Menu, Phone, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { content, type Lang } from "@/lib/content";
 
-const links = ["about", "why", "services", "projects", "process"] as const;
+const links = ["about", "international", "why", "services", "projects", "process"] as const;
 
 export function Nav({
   lang,
