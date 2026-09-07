@@ -14,6 +14,7 @@ import {
   Building2,
   ChevronRight,
   DoorOpen,
+  Globe2,
   Hammer,
   Layers,
   Mail,
@@ -183,6 +184,7 @@ function Index() {
         <WhyUs lang={lang} />
         <Services lang={lang} onQuote={openQuote} />
         <Projects lang={lang} />
+        <EuropeExperience lang={lang} />
         <Process lang={lang} />
         <Quote lang={lang} />
       </main>
@@ -857,6 +859,95 @@ function Projects({ lang }: { lang: Lang }) {
           </button>
         </div>
       )}
+    </section>
+  );
+}
+
+function EuropeExperience({ lang }: { lang: Lang }) {
+  const t = (content[lang] ?? content.al).international;
+  const projectIcons = [Building2, AppWindow, Layers];
+
+  return (
+    <section id="europe" className="relative isolate overflow-hidden bg-beige-deep py-24 sm:py-32">
+      <div
+        aria-hidden="true"
+        className="absolute -left-32 top-12 -z-10 size-80 rounded-full border border-brown/10"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute -left-16 top-28 -z-10 size-52 rounded-full border border-brown/10"
+      />
+
+      <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 lg:grid-cols-[.9fr_1.1fr] lg:gap-20 lg:px-8">
+        <div>
+          <SectionHead label={t.label} title={t.title} size="lg" />
+          <Reveal delay={80}>
+            <p className="mt-7 max-w-xl border-l-2 border-brown pl-5 text-lg font-semibold leading-relaxed text-brown-deep sm:text-xl">
+              {t.highlight}
+            </p>
+          </Reveal>
+          <Reveal delay={140}>
+            <p className="mt-6 max-w-xl leading-relaxed text-foreground/70">{t.body}</p>
+          </Reveal>
+          <Reveal delay={200}>
+            <a
+              href="#quote"
+              className="group mt-9 inline-flex items-center justify-center gap-2 rounded-full bg-brown px-7 py-4 text-sm font-semibold text-beige transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brown focus-visible:ring-offset-2 focus-visible:ring-offset-beige-deep"
+            >
+              {t.cta}
+              <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </a>
+          </Reveal>
+        </div>
+
+        <Reveal delay={100} className="relative">
+          <div className="relative overflow-hidden rounded-[2rem] bg-brown-deep p-6 text-beige shadow-[0_28px_70px_-32px_rgba(43,29,20,0.65)] sm:p-9 lg:p-11">
+            <Globe2
+              aria-hidden="true"
+              className="absolute -right-20 top-0 size-80 text-beige/10"
+              strokeWidth={0.65}
+            />
+            <div className="relative">
+              <div className="inline-flex items-center gap-2 rounded-full border border-beige/20 bg-beige/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-beige-deep">
+                <MapPin className="size-4" aria-hidden="true" />
+                {t.availability}
+              </div>
+
+              <p className="label-caps mt-12 text-beige/55">{t.countriesLabel}</p>
+              <ul className="mt-5 flex flex-wrap gap-3" aria-label={t.countriesLabel}>
+                {t.countries.map((country) => (
+                  <li
+                    key={country}
+                    className="rounded-full border border-beige/25 bg-beige/10 px-4 py-2.5 text-sm font-semibold text-beige"
+                  >
+                    {country}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-10 border-t border-beige/15 pt-8">
+                <p className="label-caps text-beige/55">{t.typesLabel}</p>
+                <ul className="mt-5 grid gap-3 sm:grid-cols-3">
+                  {t.types.map((type, index) => {
+                    const Icon = projectIcons[index] ?? Building2;
+                    return (
+                      <li
+                        key={type}
+                        className="flex items-center gap-3 rounded-2xl border border-beige/15 bg-beige/5 p-4"
+                      >
+                        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-beige text-brown-deep">
+                          <Icon className="size-4" strokeWidth={1.5} aria-hidden="true" />
+                        </span>
+                        <span className="text-sm font-medium leading-tight">{type}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
     </section>
   );
 }

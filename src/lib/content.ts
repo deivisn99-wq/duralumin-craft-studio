@@ -152,6 +152,19 @@ export const content = {
       previous: "Imazhi i mëparshëm",
       next: "Imazhi i ardhshëm",
     },
+    international: {
+      label: "Eksperiencë ndërkombëtare",
+      title: "Punime në të gjithë Europën",
+      highlight:
+        "Punojmë ndërkombëtarisht, me projekte të realizuara në Francë, Gjermani, Holandë, Belgjikë dhe Itali, dhe jemi të gatshëm për punime në të gjithë Europën.",
+      body: "Eksperienca jonë shkon përtej kufijve. Kemi realizuar punime për ndërtesa, vila dhe komplekse banimi, duke sjellë cilësi, përpikëri dhe standarde europiane në çdo projekt.",
+      countriesLabel: "Projekte të realizuara në",
+      countries: ["Francë", "Gjermani", "Holandë", "Belgjikë", "Itali"],
+      typesLabel: "Eksperiencë në",
+      types: ["Ndërtesa", "Vila", "Komplekse banimi"],
+      availability: "Të gatshëm për projekte kudo në Europë",
+      cta: "Diskutoni projektin tuaj",
+    },
     process: {
       label: "Procesi",
       title: "Si punojmë",
@@ -338,6 +351,19 @@ export const content = {
       close: "Close",
       previous: "Previous image",
       next: "Next image",
+    },
+    international: {
+      label: "International experience",
+      title: "Projects throughout Europe",
+      highlight:
+        "We work internationally, with completed projects in France, Germany, the Netherlands, Belgium, and Italy, and we are available for projects throughout Europe.",
+      body: "Our experience extends beyond borders. We have completed work for buildings, villas, and residential complexes, bringing quality, precision, and European standards to every project.",
+      countriesLabel: "Completed projects in",
+      countries: ["France", "Germany", "The Netherlands", "Belgium", "Italy"],
+      typesLabel: "Experience across",
+      types: ["Buildings", "Villas", "Residential complexes"],
+      availability: "Available for projects throughout Europe",
+      cta: "Discuss your project",
     },
     process: {
       label: "Process",
