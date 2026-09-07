@@ -5,6 +5,7 @@ import {
   AnimatePresence,
   motion,
   useMotionValueEvent,
+  useReducedMotion,
   useScroll,
   useTransform,
 } from "framer-motion";
@@ -254,6 +255,7 @@ function Index() {
 function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
   const t = (content[lang] ?? content.al).hero;
   const ref = useRef<HTMLElement>(null);
+  const shouldReduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 700], [0, 95]);
   return (
@@ -268,51 +270,71 @@ function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
         width={1920}
         height={1280}
         className="absolute inset-0 -z-10 h-[115%] w-full object-cover object-[center_58%] sm:object-center"
-        initial={{ scale: 1.05 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 1.5, ease }}
+        initial={shouldReduceMotion ? false : { opacity: 0, scale: 1.04 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: shouldReduceMotion ? 0 : 1.2, ease }}
         style={{ y }}
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-brown-deep/95 via-brown-deep/60 to-brown-deep/15" />
       <div className="mx-auto w-full max-w-7xl px-5 pb-16 pt-36 sm:pb-24 lg:px-8">
         <motion.p
           className="label-caps text-beige-deep"
-          initial={{ opacity: 0, y: 18 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.7, ease }}
+          transition={{
+            delay: shouldReduceMotion ? 0 : 0.2,
+            duration: shouldReduceMotion ? 0 : 0.7,
+            ease,
+          }}
         >
           {t.eyebrow}
         </motion.p>
         <motion.h1
           className="mt-5 max-w-3xl font-display text-4xl text-beige sm:text-5xl lg:text-7xl"
-          initial={{ opacity: 0, y: 28 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8, ease }}
+          transition={{
+            delay: shouldReduceMotion ? 0 : 0.3,
+            duration: shouldReduceMotion ? 0 : 0.8,
+            ease,
+          }}
         >
           {t.title}
         </motion.h1>
         <motion.p
           className="mt-6 max-w-xl text-base leading-relaxed text-beige/85 sm:text-lg"
-          initial={{ opacity: 0, y: 20 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.42, duration: 0.7, ease }}
+          transition={{
+            delay: shouldReduceMotion ? 0 : 0.42,
+            duration: shouldReduceMotion ? 0 : 0.7,
+            ease,
+          }}
         >
           {t.sub}
         </motion.p>
         <motion.p
           className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-beige sm:text-base"
-          initial={{ opacity: 0, y: 16 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.7, ease }}
+          transition={{
+            delay: shouldReduceMotion ? 0 : 0.5,
+            duration: shouldReduceMotion ? 0 : 0.7,
+            ease,
+          }}
         >
           <Globe2 className="size-4 text-beige-deep" aria-hidden />
           {t.international}
         </motion.p>
         <motion.div
           className="mt-9 flex flex-col gap-3 sm:flex-row"
-          initial={{ opacity: 0, y: 18 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55, duration: 0.7, ease }}
+          transition={{
+            delay: shouldReduceMotion ? 0 : 0.55,
+            duration: shouldReduceMotion ? 0 : 0.7,
+            ease,
+          }}
         >
           <button
             type="button"
