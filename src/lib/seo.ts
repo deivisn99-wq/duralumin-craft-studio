@@ -38,8 +38,8 @@ export const STRUCTURED_DATA = {
       },
       geo: {
         "@type": "GeoCoordinates",
-        latitude: 41.3360381,
-        longitude: 19.7761315,
+        latitude: 41.334629,
+        longitude: 19.777,
       },
       areaServed: {
         "@type": "City",
