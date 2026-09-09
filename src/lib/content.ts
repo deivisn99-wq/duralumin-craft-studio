@@ -6,13 +6,10 @@ export const EMAIL = "ermalmethoxha0@gmail.com";
 export const EMAIL_MAILTO = `mailto:${EMAIL}`;
 export const WHATSAPP = "https://wa.me/355693775502";
 export const INSTAGRAM = "https://www.instagram.com/duralumin_methoxha";
-export const MAP_URL =
-  "https://www.google.com/maps/place/Punime+Duralumini+%E2%80%A2+Ermal+Met%E2%80%99hoxha/@41.3360381,19.7735566,17z/data=!4m6!3m5!1s0x1350314d530f7243:0xb2ee267eb7cc233a!8m2!3d41.3360381!4d19.7761315!16s%2Fg%2F11fmgzfznd?entry=ttu&g_ep=EgoyMDI2MDkwMS4wIKXMDSoASAFQAw%3D%3D";
+export const MAP_URL = "https://maps.google.com/?q=41.334629,19.777000";
 /* PLACEHOLDER — replace with the real Google Business Profile / Place URL */
-export const GOOGLE_REVIEWS_URL =
-  "https://www.google.com/maps/search/?api=1&query=Duralumin+Methoxha+Rruga+Teodor+Keko+16+Tirane";
-export const MAP_EMBED =
-  "https://www.google.com/maps?q=Rruga+Teodor+Keko+16,+Tirane,+Albania&output=embed";
+export const GOOGLE_REVIEWS_URL = MAP_URL;
+export const MAP_EMBED = "https://www.google.com/maps?q=41.334629,19.777000&output=embed";
 export const ADDRESS = "Rruga Teodor Keko 16, Tiranë, Albania";
 
 export const content = {
@@ -158,7 +155,7 @@ export const content = {
       label: "Eksperiencë ndërkombëtare",
       title: "Punime në të gjithë Europën",
       highlight:
-        "Punojmë ndërkombëtarisht, me projekte të realizuara në Francë, Gjermani, Holandë, Belgjikë dhe Itali, dhe jemi të gatshëm për punime në të gjithë Europën.",
+        "Punojm�� ndërkombëtarisht, me projekte të realizuara në Francë, Gjermani, Holandë, Belgjikë dhe Itali, dhe jemi të gatshëm për punime në të gjithë Europën.",
       body: "Eksperienca jonë shkon përtej kufijve. Kemi realizuar punime për ndërtesa, vila dhe komplekse banimi, duke sjellë cilësi, përpikëri dhe standarde europiane në çdo projekt.",
       countriesLabel: "Projekte të realizuara në",
       countries: ["Francë", "Gjermani", "Holandë", "Belgjikë", "Itali"],
