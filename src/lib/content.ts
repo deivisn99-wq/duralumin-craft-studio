@@ -210,7 +210,7 @@ export const content = {
     },
     footer: {
       tagline: "Punime duralumini · Ermal Met'hoxha",
-      hours: "E hënë – e shtunë: 08:00–18:00 · E diel: mbyllur",
+      hours: "E hënë – e shtunë: 08:00–18:00.  E diel: mbyllur",
       quick: "Lidhje të shpejta",
       contact: "Kontakt",
       address: "Adresa jonë",
