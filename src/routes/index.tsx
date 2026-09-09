@@ -270,20 +270,20 @@ function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
         width={1920}
         height={1280}
         className="absolute inset-0 -z-10 h-[115%] w-full object-cover object-[center_58%] sm:object-center"
-        initial={shouldReduceMotion ? false : { opacity: 0.35, scale: 1.08 }}
+        initial={shouldReduceMotion ? false : { opacity: 0, scale: 1.04 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: shouldReduceMotion ? 0 : 2, ease }}
+        transition={{ duration: shouldReduceMotion ? 0 : 1.2, ease }}
         style={{ y }}
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-brown-deep/95 via-brown-deep/60 to-brown-deep/15" />
       <div className="mx-auto w-full max-w-7xl px-5 pb-16 pt-36 sm:pb-24 lg:px-8">
         <motion.p
           className="label-caps text-beige-deep"
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            delay: shouldReduceMotion ? 0 : 0.25,
-            duration: shouldReduceMotion ? 0 : 0.65,
+            delay: shouldReduceMotion ? 0 : 0.2,
+            duration: shouldReduceMotion ? 0 : 0.7,
             ease,
           }}
         >
@@ -291,11 +291,11 @@ function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
         </motion.p>
         <motion.h1
           className="mt-5 max-w-3xl font-display text-4xl text-beige sm:text-5xl lg:text-7xl"
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 40 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            delay: shouldReduceMotion ? 0 : 0.5,
-            duration: shouldReduceMotion ? 0 : 0.85,
+            delay: shouldReduceMotion ? 0 : 0.3,
+            duration: shouldReduceMotion ? 0 : 0.8,
             ease,
           }}
         >
@@ -303,11 +303,11 @@ function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
         </motion.h1>
         <motion.p
           className="mt-6 max-w-xl text-base leading-relaxed text-beige/85 sm:text-lg"
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 28 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            delay: shouldReduceMotion ? 0 : 0.8,
-            duration: shouldReduceMotion ? 0 : 0.75,
+            delay: shouldReduceMotion ? 0 : 0.42,
+            duration: shouldReduceMotion ? 0 : 0.7,
             ease,
           }}
         >
@@ -315,10 +315,10 @@ function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
         </motion.p>
         <motion.p
           className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-beige sm:text-base"
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            delay: shouldReduceMotion ? 0 : 1,
+            delay: shouldReduceMotion ? 0 : 0.5,
             duration: shouldReduceMotion ? 0 : 0.7,
             ease,
           }}
@@ -328,11 +328,11 @@ function Hero({ lang, onQuote }: { lang: Lang; onQuote: () => void }) {
         </motion.p>
         <motion.div
           className="mt-9 flex flex-col gap-3 sm:flex-row"
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 28 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            delay: shouldReduceMotion ? 0 : 1.2,
-            duration: shouldReduceMotion ? 0 : 0.75,
+            delay: shouldReduceMotion ? 0 : 0.55,
+            duration: shouldReduceMotion ? 0 : 0.7,
             ease,
           }}
         >
